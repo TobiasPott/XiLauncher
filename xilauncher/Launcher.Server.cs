@@ -1,6 +1,6 @@
 ﻿namespace xilauncher
 {
-    internal partial class Launcher
+    public partial class Launcher
     {
         public bool LaunchServer()
         {

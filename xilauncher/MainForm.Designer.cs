@@ -32,27 +32,26 @@
             tsStatusLabel = new ToolStripStatusLabel();
             tabLauncher = new TabControl();
             tabLaunch = new TabPage();
-            panel1 = new Panel();
-            buttonLaunchDatabase = new Button();
-            buttonQuitLauncher = new Button();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            xiUserControl2 = new xilauncher.Controls.XiUserControl();
             buttonLaunchGame = new Button();
             buttonLaunchEnvironment = new Button();
+            buttonLaunchDatabase = new Button();
+            buttonQuitLauncher = new Button();
             tabMonitor = new TabPage();
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
             statusStrip.SuspendLayout();
             tabLauncher.SuspendLayout();
             tabLaunch.SuspendLayout();
-            panel1.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // statusStrip
             // 
             statusStrip.ImageScalingSize = new Size(24, 24);
             statusStrip.Items.AddRange(new ToolStripItem[] { tsStatusLabel });
-            statusStrip.Location = new Point(0, 482);
+            statusStrip.Location = new Point(0, 604);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(628, 32);
+            statusStrip.Size = new Size(993, 32);
             statusStrip.TabIndex = 2;
             statusStrip.Text = "statusStrip1";
             // 
@@ -65,77 +64,59 @@
             // tabLauncher
             // 
             tabLauncher.Controls.Add(tabLaunch);
-            tabLauncher.Controls.Add(tabMonitor);
             tabLauncher.Dock = DockStyle.Fill;
             tabLauncher.Location = new Point(0, 0);
             tabLauncher.Name = "tabLauncher";
             tabLauncher.SelectedIndex = 0;
-            tabLauncher.Size = new Size(628, 482);
+            tabLauncher.Size = new Size(993, 604);
             tabLauncher.TabIndex = 3;
             // 
             // tabLaunch
             // 
-            tabLaunch.Controls.Add(panel1);
+            tabLaunch.Controls.Add(flowLayoutPanel1);
             tabLaunch.Location = new Point(4, 34);
             tabLaunch.Name = "tabLaunch";
             tabLaunch.Padding = new Padding(3);
-            tabLaunch.Size = new Size(620, 444);
+            tabLaunch.Size = new Size(985, 566);
             tabLaunch.TabIndex = 0;
             tabLaunch.Text = "Launch";
             tabLaunch.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // flowLayoutPanel1
             // 
-            panel1.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(buttonLaunchDatabase);
-            panel1.Controls.Add(buttonQuitLauncher);
-            panel1.Controls.Add(buttonLaunchGame);
-            panel1.Controls.Add(buttonLaunchEnvironment);
-            panel1.Location = new Point(8, 6);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(604, 432);
-            panel1.TabIndex = 9;
+            flowLayoutPanel1.Anchor = AnchorStyles.Top;
+            flowLayoutPanel1.AutoSize = true;
+            flowLayoutPanel1.Controls.Add(xiUserControl2);
+            flowLayoutPanel1.Controls.Add(buttonLaunchGame);
+            flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
+            flowLayoutPanel1.Controls.Add(buttonLaunchDatabase);
+            flowLayoutPanel1.Controls.Add(buttonQuitLauncher);
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(290, 3);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(370, 563);
+            flowLayoutPanel1.TabIndex = 0;
             // 
-            // buttonLaunchDatabase
+            // xiUserControl2
             // 
-            buttonLaunchDatabase.Anchor = AnchorStyles.Top;
-            buttonLaunchDatabase.Cursor = Cursors.Hand;
-            buttonLaunchDatabase.FlatStyle = FlatStyle.Flat;
-            buttonLaunchDatabase.Image = Properties.Resources.clear_x32;
-            buttonLaunchDatabase.ImageAlign = ContentAlignment.MiddleRight;
-            buttonLaunchDatabase.Location = new Point(174, 214);
-            buttonLaunchDatabase.Name = "buttonLaunchDatabase";
-            buttonLaunchDatabase.Padding = new Padding(0, 0, 10, 0);
-            buttonLaunchDatabase.Size = new Size(256, 64);
-            buttonLaunchDatabase.TabIndex = 12;
-            buttonLaunchDatabase.Text = "Launch Database";
-            buttonLaunchDatabase.UseVisualStyleBackColor = true;
-            buttonLaunchDatabase.Click += ButtonLaunchDatabase_Click;
-            // 
-            // buttonQuitLauncher
-            // 
-            buttonQuitLauncher.Anchor = AnchorStyles.Top;
-            buttonQuitLauncher.Cursor = Cursors.Hand;
-            buttonQuitLauncher.FlatStyle = FlatStyle.Flat;
-            buttonQuitLauncher.Location = new Point(174, 338);
-            buttonQuitLauncher.Name = "buttonQuitLauncher";
-            buttonQuitLauncher.Size = new Size(256, 64);
-            buttonQuitLauncher.TabIndex = 11;
-            buttonQuitLauncher.Text = "Quit";
-            buttonQuitLauncher.UseVisualStyleBackColor = true;
-            buttonQuitLauncher.Click += ButtonQuitLauncher_Click;
+            xiUserControl2.Anchor = AnchorStyles.Top;
+            xiUserControl2.AutoSize = true;
+            xiUserControl2.Location = new Point(3, 3);
+            xiUserControl2.Name = "xiUserControl2";
+            xiUserControl2.ShowButtons = false;
+            xiUserControl2.Size = new Size(364, 181);
+            xiUserControl2.TabIndex = 24;
             // 
             // buttonLaunchGame
             // 
             buttonLaunchGame.Anchor = AnchorStyles.Top;
             buttonLaunchGame.Cursor = Cursors.Hand;
-            buttonLaunchGame.Enabled = false;
             buttonLaunchGame.FlatStyle = FlatStyle.Flat;
-            buttonLaunchGame.Location = new Point(174, 31);
+            buttonLaunchGame.Image = Properties.Resources.clear_x32;
+            buttonLaunchGame.Location = new Point(4, 190);
+            buttonLaunchGame.Margin = new Padding(3, 3, 3, 35);
             buttonLaunchGame.Name = "buttonLaunchGame";
-            buttonLaunchGame.Size = new Size(256, 64);
+            buttonLaunchGame.Size = new Size(362, 64);
             buttonLaunchGame.TabIndex = 10;
             buttonLaunchGame.Text = "Launch Game";
             buttonLaunchGame.UseVisualStyleBackColor = true;
@@ -146,47 +127,61 @@
             buttonLaunchEnvironment.Anchor = AnchorStyles.Top;
             buttonLaunchEnvironment.Cursor = Cursors.Hand;
             buttonLaunchEnvironment.FlatStyle = FlatStyle.Flat;
-            buttonLaunchEnvironment.Location = new Point(174, 118);
+            buttonLaunchEnvironment.Image = Properties.Resources.clear_x32;
+            buttonLaunchEnvironment.Location = new Point(4, 292);
+            buttonLaunchEnvironment.Margin = new Padding(3, 3, 3, 19);
             buttonLaunchEnvironment.Name = "buttonLaunchEnvironment";
-            buttonLaunchEnvironment.Size = new Size(256, 64);
+            buttonLaunchEnvironment.Size = new Size(362, 64);
             buttonLaunchEnvironment.TabIndex = 9;
             buttonLaunchEnvironment.Text = "Launch Environment";
             buttonLaunchEnvironment.UseVisualStyleBackColor = true;
             buttonLaunchEnvironment.Click += ButtonLaunchEnvironment_Click;
+            // 
+            // buttonLaunchDatabase
+            // 
+            buttonLaunchDatabase.Anchor = AnchorStyles.Top;
+            buttonLaunchDatabase.Cursor = Cursors.Hand;
+            buttonLaunchDatabase.FlatStyle = FlatStyle.Flat;
+            buttonLaunchDatabase.Image = Properties.Resources.clear_x32;
+            buttonLaunchDatabase.ImageAlign = ContentAlignment.MiddleRight;
+            buttonLaunchDatabase.Location = new Point(4, 378);
+            buttonLaunchDatabase.Name = "buttonLaunchDatabase";
+            buttonLaunchDatabase.Padding = new Padding(0, 0, 10, 0);
+            buttonLaunchDatabase.Size = new Size(362, 64);
+            buttonLaunchDatabase.TabIndex = 12;
+            buttonLaunchDatabase.Text = "Launch Database";
+            buttonLaunchDatabase.UseVisualStyleBackColor = true;
+            buttonLaunchDatabase.Click += ButtonLaunchDatabase_Click;
+            // 
+            // buttonQuitLauncher
+            // 
+            buttonQuitLauncher.Anchor = AnchorStyles.Top;
+            buttonQuitLauncher.Cursor = Cursors.Hand;
+            buttonQuitLauncher.FlatStyle = FlatStyle.Flat;
+            buttonQuitLauncher.Location = new Point(4, 480);
+            buttonQuitLauncher.Margin = new Padding(3, 35, 3, 19);
+            buttonQuitLauncher.Name = "buttonQuitLauncher";
+            buttonQuitLauncher.Size = new Size(362, 64);
+            buttonQuitLauncher.TabIndex = 11;
+            buttonQuitLauncher.Text = "Quit";
+            buttonQuitLauncher.UseVisualStyleBackColor = true;
+            buttonQuitLauncher.Click += ButtonQuitLauncher_Click;
             // 
             // tabMonitor
             // 
             tabMonitor.Location = new Point(4, 34);
             tabMonitor.Name = "tabMonitor";
             tabMonitor.Padding = new Padding(3);
-            tabMonitor.Size = new Size(620, 444);
+            tabMonitor.Size = new Size(985, 444);
             tabMonitor.TabIndex = 1;
             tabMonitor.Text = "Monitor";
             tabMonitor.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(452, 128);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(121, 31);
-            textBox1.TabIndex = 16;
-            textBox1.UseSystemPasswordChar = true;
-            textBox1.Visible = false;
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(452, 97);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(121, 31);
-            textBox2.TabIndex = 17;
-            textBox2.UseSystemPasswordChar = true;
-            textBox2.Visible = false;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(628, 514);
+            ClientSize = new Size(993, 636);
             Controls.Add(tabLauncher);
             Controls.Add(statusStrip);
             MinimizeBox = false;
@@ -197,8 +192,9 @@
             statusStrip.PerformLayout();
             tabLauncher.ResumeLayout(false);
             tabLaunch.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            tabLaunch.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -210,12 +206,15 @@
         private TabPage tabLaunch;
         private TabPage tabMonitor;
         private ToolStripStatusLabel tsStatusLabel;
-        private Panel panel1;
         private Button buttonLaunchDatabase;
         private Button buttonQuitLauncher;
         private Button buttonLaunchGame;
         private Button buttonLaunchEnvironment;
-        private TextBox textBox1;
-        private TextBox textBox2;
+        private Button button5;
+        private Button button3;
+        private Button button4;
+        private Button button1;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Controls.XiUserControl xiUserControl2;
     }
 }

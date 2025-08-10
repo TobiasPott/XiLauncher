@@ -1,21 +1,45 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Security;
+using System.Text;
 
 namespace xilauncher
 {
-
-    internal struct LoaderOptions
+    [Serializable]
+    public struct XiLoaderConfig
     {
-        public string Server = "127.0.0.1"; // localhost is default to connect to launched environment
-        public bool UseHairPin = false;
         public string Username = "";
         public SecureString Password = new SecureString();
-        public LoaderOptions()
+        public string Server = "127.0.0.1"; // localhost is default to connect to launched environment
+        public bool UseHairPin = false;
+        public XiLoaderConfig()
         {
+        }
+
+        public XiLoaderConfig(string userName, string unsafePassword, string server, bool hairpin)
+        {
+            Username = userName;
+            Password = new System.Security.SecureString();
+            foreach (char c in unsafePassword) Password.AppendChar(c);
+            Server = server;
+            UseHairPin = hairpin;
+        }
+
+        public string ToArguments()
+        {
+            StringBuilder sb = new StringBuilder();
+            string pass = new System.Net.NetworkCredential(string.Empty, this.Password).Password;
+
+            if (!String.IsNullOrWhiteSpace(Username)) sb.Append($"--user {this.Username} ");
+            if (!String.IsNullOrWhiteSpace(pass)) sb.Append($"--pass {pass} ");
+            if (!String.IsNullOrWhiteSpace(Server)) sb.Append($"--server {this.Server} ");
+            if (this.UseHairPin) sb.Append("--hairpin ");
+            return sb.ToString();
         }
     }
 
-    internal partial class Launcher
+    public partial class Launcher
     {
         private const string xiMariadbArgs = "--console";
 
@@ -29,6 +53,7 @@ namespace xilauncher
         //          (e.g. loader is shut down when exiting game, others may error critically)
 
         private List<Process?> _processesLoader = new List<Process?>();
+        private Process? _procLoader;
 
         // ToDo: add 'CanLaunch' properties to allow main form to query
 
@@ -51,8 +76,10 @@ namespace xilauncher
                 StopGame();
             }
         }
-        public bool LaunchGame()
+        public bool LaunchGame(XiLoaderConfig config)
         {
+            if (_procLoader is not null)
+                return false;
             // ToDo: Ponder about a way to implement game launch but have the interface stay simple
             //          the UI should keep the single big launch button
             //          but allow for a + button to launch more game instances with different configs
@@ -67,15 +94,29 @@ namespace xilauncher
             //if (!EnsureDatabaseEnvironmentVariable())
             //    return false;
 
-            //_procDatabase = Launch(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb);
-            //if (_procDatabase is not null) Console.WriteLine("Started local database.");
-            //else Console.WriteLine("Database failed to start!");
-
-            //return _procDatabase is not null;
-            return false;
+            _procLoader = Launch(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader, true, true, "runas");
+            if (_procLoader is not null)
+            {
+                Console.WriteLine("Started loader instance.");
+                _procLoader.Exited += LoaderProcess_Exited;
+            }
+            else Console.WriteLine("Loader failed to start!");
+            return _procLoader is not null;
         }
+
+        private void LoaderProcess_Exited(object? sender, EventArgs e)
+        {
+            if (sender == _procLoader) 
+                _procLoader = null;
+        }
+
         private void StopGame()
         {
+            if (_procLoader is not null)
+            {
+                Console.WriteLine($"Stopped loader instance (PID:{_procLoader.Id}).");
+                _procLoader.Kill(true);
+            }
             // Remark: Danger Zone: The loader is not meant to be killed as it holds into the running client
             //          though should work
             //foreach (Process? process in _processesLoader)
@@ -88,8 +129,18 @@ namespace xilauncher
             //}
         }
 
-        // ToDo:: add redirect of std out and std err
-        public static Process? Launch(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir)
+        /// <summary>
+        /// Launches the file described by the given info (if present) and sets up and starts the process according to the given arguments
+        /// </summary>
+        /// <param name="fileInfo"></param>
+        /// <param name="arguments"></param>
+        /// <param name="workDir"></param>
+        /// <param name="enableEvents"></param>
+        /// <param name="useShell"></param>
+        /// <param name="verb"></param>
+        /// <returns>The process started from this call, or null if something went wrong.</returns>
+        public static Process? Launch(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir,
+            bool enableEvents = true, bool useShell = false, string verb = "")
         {
             if (fileInfo is null
                 && !(fileInfo?.Exists ?? false))
@@ -98,12 +149,18 @@ namespace xilauncher
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = fileInfo.FullName;
             psi.Arguments = arguments;
-            psi.UseShellExecute = false;
+            psi.UseShellExecute = useShell;
             //psi.CreateNoWindow = false;
             psi.WindowStyle = ProcessWindowStyle.Normal;
             psi.WorkingDirectory = workDir?.FullName ?? string.Empty;
 
-            return Process.Start(psi);
+            // set process verb (e.g.: to allow elevated execution)
+            if (!String.IsNullOrWhiteSpace(verb)) psi.Verb = verb;
+
+            Process? process = Process.Start(psi);
+            // enable events on process (if created)
+            if (enableEvents && process is not null) process.EnableRaisingEvents = enableEvents;
+            return process;
         }
 
     }

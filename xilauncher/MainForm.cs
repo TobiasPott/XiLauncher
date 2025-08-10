@@ -3,19 +3,20 @@ namespace xilauncher
     public partial class MainForm : Form
     {
         private Launcher _launcher;
+        private XiLoaderConfig _default = new XiLoaderConfig("mule", "private", "127.0.0.1", true);
 
-        public MainForm()
+
+        public MainForm(Launcher launcher) : base()
         {
             InitializeComponent();
             //_ = new Input();
-            _launcher = new Launcher();
-
+            _launcher = launcher;
+            xiUserControl2.SetConfig(_default);
         }
 
         private void LaunchGame()
         {
-
-            if (_launcher.LaunchGame())
+            if (_launcher.LaunchGame(_default))
             {
             }
 
