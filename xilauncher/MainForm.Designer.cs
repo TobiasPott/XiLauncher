@@ -33,7 +33,7 @@
             tabLauncher = new TabControl();
             tabLaunch = new TabPage();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            xiUserControl2 = new xilauncher.Controls.XiUserControl();
+            xiUserConfigControl = new xilauncher.Controls.XiUserConfigControl();
             buttonLaunchGame = new Button();
             buttonLaunchEnvironment = new Button();
             buttonLaunchDatabase = new Button();
@@ -49,7 +49,7 @@
             // 
             statusStrip.ImageScalingSize = new Size(24, 24);
             statusStrip.Items.AddRange(new ToolStripItem[] { tsStatusLabel });
-            statusStrip.Location = new Point(0, 604);
+            statusStrip.Location = new Point(0, 627);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(993, 32);
             statusStrip.TabIndex = 2;
@@ -68,7 +68,7 @@
             tabLauncher.Location = new Point(0, 0);
             tabLauncher.Name = "tabLauncher";
             tabLauncher.SelectedIndex = 0;
-            tabLauncher.Size = new Size(993, 604);
+            tabLauncher.Size = new Size(993, 627);
             tabLauncher.TabIndex = 3;
             // 
             // tabLaunch
@@ -77,7 +77,7 @@
             tabLaunch.Location = new Point(4, 34);
             tabLaunch.Name = "tabLaunch";
             tabLaunch.Padding = new Padding(3);
-            tabLaunch.Size = new Size(985, 566);
+            tabLaunch.Size = new Size(985, 589);
             tabLaunch.TabIndex = 0;
             tabLaunch.Text = "Launch";
             tabLaunch.UseVisualStyleBackColor = true;
@@ -86,26 +86,27 @@
             // 
             flowLayoutPanel1.Anchor = AnchorStyles.Top;
             flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.Controls.Add(xiUserControl2);
-            flowLayoutPanel1.Controls.Add(buttonLaunchGame);
-            flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
             flowLayoutPanel1.Controls.Add(buttonLaunchDatabase);
+            flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
+            flowLayoutPanel1.Controls.Add(xiUserConfigControl);
+            flowLayoutPanel1.Controls.Add(buttonLaunchGame);
             flowLayoutPanel1.Controls.Add(buttonQuitLauncher);
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(290, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(370, 563);
+            flowLayoutPanel1.Size = new Size(370, 579);
             flowLayoutPanel1.TabIndex = 0;
             // 
-            // xiUserControl2
+            // xiUserConfigControl
             // 
-            xiUserControl2.Anchor = AnchorStyles.Top;
-            xiUserControl2.AutoSize = true;
-            xiUserControl2.Location = new Point(3, 3);
-            xiUserControl2.Name = "xiUserControl2";
-            xiUserControl2.ShowButtons = false;
-            xiUserControl2.Size = new Size(364, 181);
-            xiUserControl2.TabIndex = 24;
+            xiUserConfigControl.Anchor = AnchorStyles.Top;
+            xiUserConfigControl.AutoSize = true;
+            xiUserConfigControl.Location = new Point(3, 191);
+            xiUserConfigControl.Margin = new Padding(3, 19, 3, 3);
+            xiUserConfigControl.Name = "xiUserConfigControl";
+            xiUserConfigControl.ShowButtons = false;
+            xiUserConfigControl.Size = new Size(364, 181);
+            xiUserConfigControl.TabIndex = 24;
             // 
             // buttonLaunchGame
             // 
@@ -113,8 +114,7 @@
             buttonLaunchGame.Cursor = Cursors.Hand;
             buttonLaunchGame.FlatStyle = FlatStyle.Flat;
             buttonLaunchGame.Image = Properties.Resources.clear_x32;
-            buttonLaunchGame.Location = new Point(4, 190);
-            buttonLaunchGame.Margin = new Padding(3, 3, 3, 35);
+            buttonLaunchGame.Location = new Point(4, 378);
             buttonLaunchGame.Name = "buttonLaunchGame";
             buttonLaunchGame.Size = new Size(362, 64);
             buttonLaunchGame.TabIndex = 10;
@@ -128,8 +128,8 @@
             buttonLaunchEnvironment.Cursor = Cursors.Hand;
             buttonLaunchEnvironment.FlatStyle = FlatStyle.Flat;
             buttonLaunchEnvironment.Image = Properties.Resources.clear_x32;
-            buttonLaunchEnvironment.Location = new Point(4, 292);
-            buttonLaunchEnvironment.Margin = new Padding(3, 3, 3, 19);
+            buttonLaunchEnvironment.Location = new Point(4, 105);
+            buttonLaunchEnvironment.Margin = new Padding(3, 19, 3, 3);
             buttonLaunchEnvironment.Name = "buttonLaunchEnvironment";
             buttonLaunchEnvironment.Size = new Size(362, 64);
             buttonLaunchEnvironment.TabIndex = 9;
@@ -144,7 +144,8 @@
             buttonLaunchDatabase.FlatStyle = FlatStyle.Flat;
             buttonLaunchDatabase.Image = Properties.Resources.clear_x32;
             buttonLaunchDatabase.ImageAlign = ContentAlignment.MiddleRight;
-            buttonLaunchDatabase.Location = new Point(4, 378);
+            buttonLaunchDatabase.Location = new Point(4, 19);
+            buttonLaunchDatabase.Margin = new Padding(3, 19, 3, 3);
             buttonLaunchDatabase.Name = "buttonLaunchDatabase";
             buttonLaunchDatabase.Padding = new Padding(0, 0, 10, 0);
             buttonLaunchDatabase.Size = new Size(362, 64);
@@ -159,7 +160,7 @@
             buttonQuitLauncher.Cursor = Cursors.Hand;
             buttonQuitLauncher.FlatStyle = FlatStyle.Flat;
             buttonQuitLauncher.Location = new Point(4, 480);
-            buttonQuitLauncher.Margin = new Padding(3, 35, 3, 19);
+            buttonQuitLauncher.Margin = new Padding(3, 35, 3, 35);
             buttonQuitLauncher.Name = "buttonQuitLauncher";
             buttonQuitLauncher.Size = new Size(362, 64);
             buttonQuitLauncher.TabIndex = 11;
@@ -181,7 +182,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(993, 636);
+            ClientSize = new Size(993, 659);
             Controls.Add(tabLauncher);
             Controls.Add(statusStrip);
             MinimizeBox = false;
@@ -215,6 +216,6 @@
         private Button button4;
         private Button button1;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Controls.XiUserControl xiUserControl2;
+        private Controls.XiUserConfigControl xiUserConfigControl;
     }
 }

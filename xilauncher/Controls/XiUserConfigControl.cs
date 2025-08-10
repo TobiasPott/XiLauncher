@@ -1,6 +1,6 @@
 ﻿namespace xilauncher.Controls
 {
-    public partial class XiUserControl : UserControl
+    public partial class XiUserConfigControl : UserControl
     {
         [System.ComponentModel.Category("Controls"),
         System.ComponentModel.Description("Specifies whether the controls buttons are visible."),
@@ -20,7 +20,7 @@
         public string Server => textBoxServer.Text.Trim();
         public bool Hairpin => checkBoxHairpin.Checked;
 
-        public XiUserControl()
+        public XiUserConfigControl()
         {
             InitializeComponent();
         }

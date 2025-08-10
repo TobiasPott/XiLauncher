@@ -2,6 +2,8 @@
 {
     public partial class Launcher
     {
+        public bool IsDatabaseProcessActive => _procDatabase is not null;
+
         private bool EnsureDatabaseConfig()
         {
             if (_resources.fileMyIni is not null && _resources.fileMyIni.Exists
@@ -39,29 +41,30 @@
             return true;
         }
 
-        public bool LaunchDatabase()
+        public async Task<bool> LaunchDatabase()
         {
             if (_procDatabase is not null)
                 return false;
 
-            Console.WriteLine("Starting local database...");
+            XiLog.WriteLine("Starting local database...");
             if (!EnsureDatabaseConfig())
                 return false;
             if (!EnsureDatabaseEnvironmentVariable())
                 return false;
 
-            _procDatabase = Launch(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb);
-            if (_procDatabase is not null) Console.WriteLine("Started local database.");
-            else Console.WriteLine("Database failed to start!");
+            _procDatabase = await LaunchAsync(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb);
+            if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
+            else XiLog.WriteLine("Database failed to start!");
 
             return _procDatabase is not null;
         }
-        private void StopDatabase()
+        public void StopDatabase()
         {
             if (_procDatabase is not null)
             {
                 _procDatabase.Kill(true);
-                Console.WriteLine("Stopped local database.");
+                _procDatabase = null;
+                XiLog.WriteLine("Stopped local database.");
             }
         }
     }

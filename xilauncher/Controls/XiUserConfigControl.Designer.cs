@@ -1,6 +1,6 @@
 ﻿namespace xilauncher.Controls
 {
-    partial class XiUserControl
+    partial class XiUserConfigControl
     {
         /// <summary> 
         /// Required designer variable.

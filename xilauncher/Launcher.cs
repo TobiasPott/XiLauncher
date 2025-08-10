@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security;
@@ -85,36 +86,31 @@ namespace xilauncher
             //          but allow for a + button to launch more game instances with different configs
             //          this will require to have loader configs as data type and map config to the processes list
 
-            //if (_procDatabase is not null)
-            //    return false;
-
-            //Console.WriteLine("Starting local database...");
-            //if (!EnsureDatabaseConfig())
-            //    return false;
-            //if (!EnsureDatabaseEnvironmentVariable())
-            //    return false;
-
             _procLoader = Launch(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader, true, true, "runas");
             if (_procLoader is not null)
             {
-                Console.WriteLine("Started loader instance.");
+                XiLog.WriteLine("Started loader instance.");
                 _procLoader.Exited += LoaderProcess_Exited;
             }
-            else Console.WriteLine("Loader failed to start!");
+            else XiLog.WriteLine("Loader failed to start!");
             return _procLoader is not null;
         }
 
         private void LoaderProcess_Exited(object? sender, EventArgs e)
         {
-            if (sender == _procLoader) 
+            // ToDo: Add event to Launcher that passes out process exit/kill events to the UI
+            //       Event might signal which process and if started or exited
+            if (sender == _procLoader)
+            {
                 _procLoader = null;
+            }
         }
 
         private void StopGame()
         {
             if (_procLoader is not null)
             {
-                Console.WriteLine($"Stopped loader instance (PID:{_procLoader.Id}).");
+                XiLog.WriteLine($"Stopped loader instance (PID:{_procLoader.Id}).");
                 _procLoader.Kill(true);
             }
             // Remark: Danger Zone: The loader is not meant to be killed as it holds into the running client
@@ -123,7 +119,7 @@ namespace xilauncher
             //{
             //    if (process is not null)
             //    {
-            //        Console.WriteLine($"Stopping game instance (PID:{process.Id}).");
+            //        XiLog.WriteLine($"Stopping game instance (PID:{process.Id}).");
             //        process.Kill(true);
             //    }
             //}
@@ -157,7 +153,55 @@ namespace xilauncher
             // set process verb (e.g.: to allow elevated execution)
             if (!String.IsNullOrWhiteSpace(verb)) psi.Verb = verb;
 
-            Process? process = Process.Start(psi);
+            // ToDo: if launched with 'runas' the user cancellation causes a Win32Exception of sort
+            Process? process = null;
+            try
+            {
+                process = Process.Start(psi);
+            }
+            catch (Win32Exception w32ex)
+            {
+                XiLog.WriteLine($"Failed to launch process: {fileInfo.FullName}");
+                XiLog.WriteLine(w32ex.Message);
+            }
+            // enable events on process (if created)
+            if (enableEvents && process is not null) process.EnableRaisingEvents = enableEvents;
+            return process;
+        }
+        public static async Task<Process?> LaunchAsync(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir,
+    bool enableEvents = true, bool useShell = false, string verb = "")
+        {
+            if (fileInfo is null
+                && !(fileInfo?.Exists ?? false))
+                return null;
+
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.FileName = fileInfo.FullName;
+            psi.Arguments = arguments;
+            psi.UseShellExecute = useShell;
+            //psi.CreateNoWindow = false;
+            psi.WindowStyle = ProcessWindowStyle.Normal;
+            psi.WorkingDirectory = workDir?.FullName ?? string.Empty;
+
+            // set process verb (e.g.: to allow elevated execution)
+            if (!String.IsNullOrWhiteSpace(verb)) psi.Verb = verb;
+
+            Process? process = null;
+            await Task.Run(() =>
+            {
+                // ToDo: if launched with 'runas' the user cancellation causes a Win32Exception of sort
+                try
+                {
+                    process = Process.Start(psi);
+                }
+                catch (Win32Exception w32ex)
+                {
+                    XiLog.WriteLine($"Failed to launch process: {fileInfo.FullName}");
+                    XiLog.WriteLine(w32ex.Message);
+                }
+                return Task.CompletedTask;
+            });
+            //Process? process = Process.Start(psi);
             // enable events on process (if created)
             if (enableEvents && process is not null) process.EnableRaisingEvents = enableEvents;
             return process;

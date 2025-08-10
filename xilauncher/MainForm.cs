@@ -11,31 +11,22 @@ namespace xilauncher
             InitializeComponent();
             //_ = new Input();
             _launcher = launcher;
-            xiUserControl2.SetConfig(_default);
+            xiUserConfigControl.SetConfig(_default);
         }
 
         private void LaunchGame()
         {
             if (_launcher.LaunchGame(_default))
             {
+                buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
             }
-
-        }
-        private void LaunchEnvironment()
-        {
-            if (_launcher.LaunchServer())
+            else
             {
+                buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
             }
 
         }
 
-        private void LaunchDatabase()
-        {
-            // optional for now, focus on game and environment launching (what the powershell scripts do)
-            if (_launcher.LaunchDatabase())
-            {
-            }
-        }
 
         private void CloseApplication()
         {
@@ -43,23 +34,46 @@ namespace xilauncher
             this.Close();
         }
 
-        private void ButtonLaunchGame_Click(object sender, EventArgs e)
+        private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
             this.LaunchGame();
+            await Task.CompletedTask;
         }
-        private void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
+        private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
-            this.LaunchEnvironment();
+            if (_launcher.IsEnvironmentActive)
+            {
+                _launcher.StopServer();
+                buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
+            }
+            else if (await _launcher.LaunchServer())
+            {
+                buttonLaunchEnvironment.Text = UITexts.ButtonLabel_LaunchServer;
+            }
+            await Task.CompletedTask;
         }
-        private void ButtonQuitLauncher_Click(object sender, EventArgs e)
+        private async void ButtonLaunchDatabase_Click(object sender, EventArgs e)
         {
-            this.CloseApplication();
+            if (_launcher.IsDatabaseProcessActive)
+            {
+                _launcher.StopDatabase();
+                buttonLaunchDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
+            }
+            else if (await _launcher.LaunchDatabase())
+            {
+                buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+            }
+
+            //await this.LaunchDatabase();
+            await Task.CompletedTask;
         }
 
-        private void ButtonLaunchDatabase_Click(object sender, EventArgs e)
+        private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
-            this.LaunchDatabase();
+            this.CloseApplication();
+            await Task.CompletedTask;
         }
+
     }
 }
 
