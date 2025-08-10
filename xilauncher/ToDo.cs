@@ -2,8 +2,8 @@
 {
     internal class ToDo
     {
-        // ToDo: add 'stop' behaviour to all buttons that start a singular process
-        //          add as new buttons with confirm dialog
+        // ToDo: PRIO I: Add read-back from XiUserConfigControl to respect changes in that UI
+
 
 
         //  add config for servers (use params for xiloader as data set)

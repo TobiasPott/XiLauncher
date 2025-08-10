@@ -32,5 +32,13 @@
             textBoxServer.Text = config.Server;
             checkBoxHairpin.Checked = config.UseHairPin;
         }
+        public void GetConfig(ref XiLoaderConfig config)
+        {
+            config.Username = textBoxUsername.Text;
+            config.Password.Clear();
+            foreach (char c in textBoxPassword.Text) config.Password.AppendChar(c);
+            config.Server = textBoxServer.Text;
+            config.UseHairPin = checkBoxHairpin.Checked;
+        }
     }
 }

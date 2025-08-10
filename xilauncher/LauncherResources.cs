@@ -49,6 +49,12 @@ namespace xilauncher
         public LauncherResources()
         {
             this.RefreshResources();
+            // ToDo: sample to get cli arguments anywhere in code
+            // --rootDir [...]
+            foreach (String arg in Environment.GetCommandLineArgs())
+            {
+                Console.Write("Argument: " + arg);
+            }
             dirBase = new DirectoryInfo("LauncherResourcesNotInitialised");
         }
 
@@ -59,6 +65,8 @@ namespace xilauncher
 #if DEBUG
             xiBasePath = @"C:\Development\Standalone\LandSandBoat";
 #endif
+            // ToDo: Figure out a way to override xiBasePath for release builds
+            //      should be good point to add CLI argument support
             dirBase = xiBasePath.ToDirectoryInfo();
             Debug.WriteLine($"Launcher was started at: {xiBasePath}");
             this.ValidateFilesAndDirectories();

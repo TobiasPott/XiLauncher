@@ -46,15 +46,19 @@ namespace xilauncher
 
         private readonly LauncherResources _resources = new LauncherResources();
         private Process? _procDatabase;
+        private CancellationTokenSource _cancellationSourceDatabase = new CancellationTokenSource();
+
         private Process? _procConnect;
         private Process? _procSearch;
         private Process? _procMap;
         private Process? _procWorld;
+        private CancellationTokenSource _cancellationSourceEnvironment = new CancellationTokenSource();
         // ToDo: add listener to process termination to track external changes to the processes
         //          (e.g. loader is shut down when exiting game, others may error critically)
 
         private List<Process?> _processesLoader = new List<Process?>();
         private Process? _procLoader;
+        private CancellationTokenSource _cancellationSourceLoader = new CancellationTokenSource();
 
         // ToDo: add 'CanLaunch' properties to allow main form to query
 
@@ -70,7 +74,7 @@ namespace xilauncher
             }
             if (stopServer)
             {
-                StopServer();
+                StopEnvironment();
             }
             if (stopGame)
             {
@@ -169,7 +173,7 @@ namespace xilauncher
             return process;
         }
         public static async Task<Process?> LaunchAsync(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir,
-    bool enableEvents = true, bool useShell = false, string verb = "")
+    bool enableEvents = true, bool useShell = true, string verb = "")
         {
             if (fileInfo is null
                 && !(fileInfo?.Exists ?? false))

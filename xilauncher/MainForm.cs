@@ -1,3 +1,5 @@
+using xilauncher.Properties;
+
 namespace xilauncher
 {
     public partial class MainForm : Form
@@ -14,41 +16,51 @@ namespace xilauncher
             xiUserConfigControl.SetConfig(_default);
         }
 
-        private void LaunchGame()
-        {
-            if (_launcher.LaunchGame(_default))
-            {
-                buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-            }
-            else
-            {
-                buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
-            }
-
-        }
-
-
         private void CloseApplication()
         {
             _launcher.Exit(true, true, true);
             this.Close();
         }
 
+        // ToDo: covnert click function body to functions in Launcher.Database/Environment files
+        //      as async void callable with cancellation token
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
-            this.LaunchGame();
+            if (_launcher.IsEnvironmentActive)
+            {
+                _launcher.StopEnvironment();
+                buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
+                buttonLaunchGame.Image = Resources.red_x32;
+            }
+            else
+            {
+                buttonLaunchGame.Image = Resources.yellow_x32;
+                xiUserConfigControl.GetConfig(ref _default);
+                if (_launcher.LaunchGame(_default))
+                {
+                    buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
+                    buttonLaunchGame.Image = Resources.green_x32;
+                }
+            }
+
             await Task.CompletedTask;
         }
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
             if (_launcher.IsEnvironmentActive)
             {
-                _launcher.StopServer();
-                buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-            }
-            else if (await _launcher.LaunchServer())
-            {
+                _launcher.StopEnvironment();
                 buttonLaunchEnvironment.Text = UITexts.ButtonLabel_LaunchServer;
+                buttonLaunchEnvironment.Image = Resources.red_x32;
+            }
+            else
+            {
+                buttonLaunchEnvironment.Image = Resources.yellow_x32;
+                if (await _launcher.LaunchEnvironment())
+                {
+                    buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
+                    buttonLaunchEnvironment.Image = Resources.green_x32;
+                }
             }
             await Task.CompletedTask;
         }
@@ -58,13 +70,17 @@ namespace xilauncher
             {
                 _launcher.StopDatabase();
                 buttonLaunchDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
+                buttonLaunchDatabase.Image = Resources.red_x32;
             }
-            else if (await _launcher.LaunchDatabase())
+            else
             {
-                buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                buttonLaunchDatabase.Image = Resources.yellow_x32;
+                if (await _launcher.LaunchDatabase())
+                {
+                    buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                    buttonLaunchDatabase.Image = Resources.green_x32;
+                }
             }
-
-            //await this.LaunchDatabase();
             await Task.CompletedTask;
         }
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "xilauncher": {
+      "commandName": "Project",
+      "commandLineArgs": "--rootDir NothingSetYet"
+    }
+  }
+}
