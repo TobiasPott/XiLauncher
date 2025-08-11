@@ -94,6 +94,7 @@ namespace xilauncher
                 && !(fileInfo?.Exists ?? false))
                 return null;
 
+            XiLog.WriteLine($"Launching process async for '{fileInfo.FullName}' with arguments '{arguments}'");
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = fileInfo.FullName;
             psi.Arguments = arguments;
@@ -126,6 +127,7 @@ namespace xilauncher
                 && !(fileInfo?.Exists ?? false))
                 return null;
 
+            XiLog.WriteLine($"Launching process for '{fileInfo.FullName}' with arguments '{arguments}'");
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.FileName = fileInfo.FullName;
             psi.Arguments = arguments;

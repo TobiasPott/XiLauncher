@@ -2,7 +2,7 @@ namespace xilauncher
 {
     internal static class Program
     {
-        private static Launcher _launcher;
+        private static Launcher? _launcher;
 
         /// <summary>
         ///  The main entry point for the application.
@@ -15,6 +15,7 @@ namespace xilauncher
 
             ApplicationConfiguration.Initialize();
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Console.WriteLine();
             _launcher = new Launcher();
             Application.Run(new MainForm(_launcher));
         }
