@@ -10,14 +10,11 @@
     <ApplicationIcon>lsb_logo.ico</ApplicationIcon>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="lsb_logo.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Silk.NET.XInput" Version="2.22.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,5 +31,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy $(OutDir)\*.exe $(ProjectDir)\..\ /Y&#xD;&#xA;xcopy $(OutDir)\*.pdb $(ProjectDir)\..\ /Y&#xD;&#xA;xcopy $(OutDir)\*.dll $(ProjectDir)\..\ /Y&#xD;&#xA;xcopy $(OutDir)\*.runtimeconfig.json $(ProjectDir)\..\ /Y" />
+  </Target>
 
 </Project>
