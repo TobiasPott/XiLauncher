@@ -219,6 +219,7 @@
         private Button buttonQuitLauncher;
         private Button buttonLaunchGame;
         private Button buttonLaunchEnvironment;
+
         private FlowLayoutPanel flowLayoutPanel1;
         private Controls.XiUserConfigControl xiUserConfigControl;
     }

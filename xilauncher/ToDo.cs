@@ -2,9 +2,6 @@
 {
     internal class ToDo
     {
-        // ToDo: PRIO I: Add read-back from XiUserConfigControl to respect changes in that UI
-
-
 
         //  add config for servers (use params for xiloader as data set)
         //  add cli argument support to allow starting server or game with a single command

@@ -12,15 +12,17 @@
 
         public async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
         {
+            this.OnProcessChanged(LauncherModules.Environment, LauncherState.Starting);
             await LaunchConnectServer(cancellationToken);
             await LaunchSearchServer(cancellationToken);
             await LaunchWorldServer(cancellationToken);
             await LaunchMapServer(cancellationToken);
+            this.OnProcessChanged(LauncherModules.Environment, LauncherState.Running);
 
             // stop all processes already running (in order) is cancelled
             if (cancellationToken.IsCancellationRequested)
             {
-                StopEnvironment();
+                await StopEnvironment();
             }
 
             return IsDatabaseProcessActive;
@@ -30,14 +32,16 @@
         {
             if (_procMap is null)
             {
+                this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Starting);
                 XiLog.WriteLine("Starting server's xi_map...");
-
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     _procMap = await LaunchAsync(_resources.fileMapExe, "", _resources.dirServer);
                     if (_procMap is not null)
                     {
                         XiLog.WriteLine("...xi_map is running.");
+                        await Task.Delay(500);
+                        this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
                 }
@@ -48,6 +52,7 @@
         {
             if (_procWorld is null)
             {
+                this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Starting);
                 XiLog.WriteLine("Starting server's xi_world...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
@@ -56,6 +61,7 @@
                     {
                         XiLog.WriteLine("...xi_world is running.");
                         await Task.Delay(1500);
+                        this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
                 }
@@ -66,6 +72,7 @@
         {
             if (_procSearch is null)
             {
+                this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Starting);
                 XiLog.WriteLine("Starting server's xi_search...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
@@ -74,6 +81,7 @@
                     {
                         XiLog.WriteLine("...xi_search is running.");
                         await Task.Delay(500);
+                        this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
                 }
@@ -84,6 +92,7 @@
         {
             if (_procConnect is null)
             {
+                this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Starting);
                 XiLog.WriteLine("Starting server's xi_connect...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
@@ -92,58 +101,67 @@
                     {
                         XiLog.WriteLine("...xi_connect is running.");
                         await Task.Delay(500);
+                        this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
                 }
             }
         }
 
-        public void StopEnvironment()
+        public async Task StopEnvironment()
         {
-            StopMapServer();
-            StopWorldServer();
-            StopSearchServer();
-            StopConnectServer();
+            this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopping);
+            await StopMapServer();
+            await StopWorldServer();
+            await StopSearchServer();
+            await StopConnectServer();
+            this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopped);
         }
 
-        private void StopConnectServer()
+        private async Task StopConnectServer()
         {
             if (_procConnect is not null)
             {
                 _procConnect.Kill(true);
                 _procConnect = null;
+                await Task.Delay(33);
+                this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_connect server.");
             }
         }
-
-        private void StopSearchServer()
+        private async Task StopSearchServer()
         {
             if (_procSearch is not null)
             {
                 _procSearch.Kill(true);
                 _procSearch = null;
+                await Task.Delay(33);
+                this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_search server.");
             }
         }
-
-        private void StopWorldServer()
+        private async Task StopWorldServer()
         {
             if (_procWorld is not null)
             {
                 _procWorld.Kill(true);
                 _procWorld = null;
+                await Task.Delay(33);
+                this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_world server.");
             }
         }
-
-        private void StopMapServer()
+        private async Task StopMapServer()
         {
             if (_procMap is not null)
             {
                 _procMap.Kill(true);
                 _procMap = null;
+                await Task.Delay(33);
+                this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_map server.");
             }
         }
+  
     }
 }

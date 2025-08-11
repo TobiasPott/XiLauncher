@@ -46,25 +46,33 @@
             if (_procDatabase is not null)
                 return false;
 
+            this.OnProcessChanged(LauncherModules.Database, LauncherState.Starting);
             XiLog.WriteLine("Starting local database...");
-            if (!EnsureDatabaseConfig())
+            if (!EnsureDatabaseConfig()
+                || !EnsureDatabaseEnvironmentVariable())
+            {
+                this.OnProcessChanged(LauncherModules.Database, LauncherState.Errored);
                 return false;
-            if (!EnsureDatabaseEnvironmentVariable())
-                return false;
+            }
 
             _procDatabase = await LaunchAsync(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb);
             if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
             else XiLog.WriteLine("Database failed to start!");
 
+            this.OnProcessChanged(LauncherModules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
             return _procDatabase is not null;
         }
-        public void StopDatabase()
+        public async Task StopDatabase()
         {
             if (_procDatabase is not null)
             {
+                this.OnProcessChanged(LauncherModules.Database, LauncherState.Stopping);
+                await Task.Delay(16);
                 _procDatabase.Kill(true);
                 _procDatabase = null;
                 XiLog.WriteLine("Stopped local database.");
+                await Task.Delay(16);
+                this.OnProcessChanged(LauncherModules.Database, LauncherState.Stopped);
             }
         }
     }
