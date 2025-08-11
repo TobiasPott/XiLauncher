@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             statusStrip = new StatusStrip();
             tsStatusLabel = new ToolStripStatusLabel();
+            toolStripSplitButton1 = new ToolStripSplitButton();
             tabLauncher = new TabControl();
             tabLaunch = new TabPage();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -40,6 +41,7 @@
             buttonLaunchGame = new Button();
             buttonQuitLauncher = new Button();
             tabMonitor = new TabPage();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             statusStrip.SuspendLayout();
             tabLauncher.SuspendLayout();
             tabLaunch.SuspendLayout();
@@ -49,17 +51,27 @@
             // statusStrip
             // 
             statusStrip.ImageScalingSize = new Size(24, 24);
-            statusStrip.Items.AddRange(new ToolStripItem[] { tsStatusLabel });
+            statusStrip.Items.AddRange(new ToolStripItem[] { tsStatusLabel, toolStripStatusLabel1, toolStripSplitButton1 });
             statusStrip.Location = new Point(0, 618);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(428, 22);
+            statusStrip.Size = new Size(428, 32);
             statusStrip.TabIndex = 2;
             statusStrip.Text = "statusStrip1";
             // 
             // tsStatusLabel
             // 
             tsStatusLabel.Name = "tsStatusLabel";
-            tsStatusLabel.Size = new Size(0, 15);
+            tsStatusLabel.Size = new Size(54, 25);
+            tsStatusLabel.Text = "Root:";
+            // 
+            // toolStripSplitButton1
+            // 
+            toolStripSplitButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripSplitButton1.Image = (Image)resources.GetObject("toolStripSplitButton1.Image");
+            toolStripSplitButton1.ImageTransparentColor = Color.Magenta;
+            toolStripSplitButton1.Name = "toolStripSplitButton1";
+            toolStripSplitButton1.Size = new Size(45, 29);
+            toolStripSplitButton1.Text = "toolStripSplitButton1";
             // 
             // tabLauncher
             // 
@@ -68,7 +80,7 @@
             tabLauncher.Location = new Point(0, 0);
             tabLauncher.Name = "tabLauncher";
             tabLauncher.SelectedIndex = 0;
-            tabLauncher.Size = new Size(428, 618);
+            tabLauncher.Size = new Size(428, 615);
             tabLauncher.TabIndex = 3;
             // 
             // tabLaunch
@@ -77,7 +89,7 @@
             tabLaunch.Location = new Point(4, 34);
             tabLaunch.Name = "tabLaunch";
             tabLaunch.Padding = new Padding(3);
-            tabLaunch.Size = new Size(420, 580);
+            tabLaunch.Size = new Size(420, 577);
             tabLaunch.TabIndex = 0;
             tabLaunch.Text = "Launch";
             tabLaunch.UseVisualStyleBackColor = true;
@@ -86,7 +98,6 @@
             // 
             flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             flowLayoutPanel1.Controls.Add(buttonLaunchDatabase);
             flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
             flowLayoutPanel1.Controls.Add(xiUserConfigControl);
@@ -95,7 +106,7 @@
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
             flowLayoutPanel1.Location = new Point(24, 6);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(370, 547);
+            flowLayoutPanel1.Size = new Size(370, 565);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // buttonLaunchDatabase
@@ -183,11 +194,17 @@
             tabMonitor.Text = "Monitor";
             tabMonitor.UseVisualStyleBackColor = true;
             // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(146, 25);
+            toolStripStatusLabel1.Text = "tsslBaseDirectory";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(428, 640);
+            ClientSize = new Size(428, 650);
             Controls.Add(tabLauncher);
             Controls.Add(statusStrip);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -222,5 +239,7 @@
 
         private FlowLayoutPanel flowLayoutPanel1;
         private Controls.XiUserConfigControl xiUserConfigControl;
+        private ToolStripSplitButton toolStripSplitButton1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
