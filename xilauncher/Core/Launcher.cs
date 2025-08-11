@@ -32,10 +32,10 @@ namespace xilauncher
         private const string xiMariadbArgs = "--console";
 
 
-        public event LauncherEvent ProcessChanged;
+        public event LauncherEvent? ProcessChanged = null;
 
 
-        private readonly LauncherResources _resources = new LauncherResources();
+        private readonly LauncherResources _resources;
         private Process? _procDatabase;
         private CancellationTokenSource _cancellationSourceDatabase = new CancellationTokenSource();
 
@@ -50,6 +50,9 @@ namespace xilauncher
         private CancellationTokenSource _cancellationSourceLoader = new CancellationTokenSource();
 
 
+        public LauncherResources Resources { get { return _resources; } }
+
+
         // ToDo: add 'CanLaunch' properties to allow main form to query
         private void OnProcessChanged(LauncherModules modules, LauncherState state)
         {
@@ -57,9 +60,10 @@ namespace xilauncher
         }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        public Launcher()
+        public Launcher(LauncherResources resources)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        {
+        { 
+            _resources = resources;
         }
 
         public async Task Exit(bool stopDatabase, bool stopServer, bool stopGame)

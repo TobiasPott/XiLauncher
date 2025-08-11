@@ -2,7 +2,7 @@
 
 namespace xilauncher
 {
-    internal class LauncherResources
+    public class LauncherResources
     {
         private const string data = "data";
         private const string bin = "bin";
@@ -27,6 +27,9 @@ namespace xilauncher
         private const string xiMapExe = "xi_map.exe";
 
 
+        public event Action? Refreshed = null;
+
+
         internal DirectoryInfo dirBase {  get; private set; }
         internal DirectoryInfo? dirLauncher { get; private set; }
 
@@ -48,28 +51,35 @@ namespace xilauncher
 
         public LauncherResources()
         {
-            this.RefreshResources();
+            dirBase = new DirectoryInfo("LauncherResourcesNotInitialised");
             // ToDo: sample to get cli arguments anywhere in code
             // --rootDir [...]
-            foreach (String arg in Environment.GetCommandLineArgs())
-            {
-                Console.Write("Argument: " + arg);
-            }
-            dirBase = new DirectoryInfo("LauncherResourcesNotInitialised");
+            //foreach (String arg in Environment.GetCommandLineArgs())
+            //{
+            //    Console.Write("Argument: " + arg);
+            //}
         }
 
         public void RefreshResources()
         {
-            FileInfo fiAppExec = new FileInfo(Application.ExecutablePath);
-            xiBasePath = fiAppExec.Directory?.Parent?.FullName ?? @".\";
-#if DEBUG
-            xiBasePath = @"C:\Development\Standalone\LandSandBoat";
-#endif
-            // ToDo: Figure out a way to override xiBasePath for release builds
-            //      should be good point to add CLI argument support
-            dirBase = xiBasePath.ToDirectoryInfo();
-            Debug.WriteLine($"Launcher was started at: {xiBasePath}");
+            string appPath = Application.StartupPath;
+            dirBase = appPath.ToDirectoryInfo();
+
+            string dirBasePath = dirBase.FullName.ToLowerInvariant();
+            if (dirBasePath.Contains("bin/debug") || dirBasePath.Contains(@"bin\debug")
+                || dirBasePath.Contains("bin/Release") || dirBasePath.Contains(@"bin\Release"))
+                dirBase = dirBase.Parent?.Parent?.Parent?.Parent?.Parent ?? appPath.ToDirectoryInfo();
+
+            XiLog.WriteLine($"Launcher resources located at: {dirBase.FullName}");
+            if (!dirBase.FullName.Equals(appPath))
+                XiLog.WriteLine($"Launcher origin is: {appPath}");
+
+            // set base path to the directory determinded from refresh
+            xiBasePath = dirBase.FullName;
+
             this.ValidateFilesAndDirectories();
+            // dispatch refresh event
+            this.Refreshed?.Invoke();
         }
 
         private bool ValidateFilesAndDirectories()
@@ -118,7 +128,7 @@ namespace xilauncher
                 FileSystemInfo? fileInfo = filesAndDirectories[i];
                 if (fileInfo is not null)
                 {
-                    Debug.WriteLineIf(!fileInfo.Exists, $"{fileInfo.GetType().Name} at path: '{fileInfo.FullName}' does not exist.");
+                    XiLog.WriteLine($"{fileInfo.Exists} <- {fileInfo.GetType().Name} at path: '{fileInfo.FullName}'.");
 
                     if (!fileInfo.Exists)
                     {

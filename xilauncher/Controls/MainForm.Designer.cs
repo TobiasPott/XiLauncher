@@ -30,7 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             statusStrip = new StatusStrip();
-            tsStatusLabel = new ToolStripStatusLabel();
+            tsslBaseDirLabel = new ToolStripStatusLabel();
+            tsslBaseDir = new ToolStripStatusLabel();
             toolStripSplitButton1 = new ToolStripSplitButton();
             tabLauncher = new TabControl();
             tabLaunch = new TabPage();
@@ -41,7 +42,6 @@
             buttonLaunchGame = new Button();
             buttonQuitLauncher = new Button();
             tabMonitor = new TabPage();
-            toolStripStatusLabel1 = new ToolStripStatusLabel();
             statusStrip.SuspendLayout();
             tabLauncher.SuspendLayout();
             tabLaunch.SuspendLayout();
@@ -51,18 +51,24 @@
             // statusStrip
             // 
             statusStrip.ImageScalingSize = new Size(24, 24);
-            statusStrip.Items.AddRange(new ToolStripItem[] { tsStatusLabel, toolStripStatusLabel1, toolStripSplitButton1 });
+            statusStrip.Items.AddRange(new ToolStripItem[] { tsslBaseDirLabel, tsslBaseDir, toolStripSplitButton1 });
             statusStrip.Location = new Point(0, 618);
             statusStrip.Name = "statusStrip";
             statusStrip.Size = new Size(428, 32);
             statusStrip.TabIndex = 2;
             statusStrip.Text = "statusStrip1";
             // 
-            // tsStatusLabel
+            // tsslBaseDirLabel
             // 
-            tsStatusLabel.Name = "tsStatusLabel";
-            tsStatusLabel.Size = new Size(54, 25);
-            tsStatusLabel.Text = "Root:";
+            tsslBaseDirLabel.Name = "tsslBaseDirLabel";
+            tsslBaseDirLabel.Size = new Size(54, 25);
+            tsslBaseDirLabel.Text = "Root:";
+            // 
+            // tsslBaseDir
+            // 
+            tsslBaseDir.Name = "tsslBaseDir";
+            tsslBaseDir.Size = new Size(146, 25);
+            tsslBaseDir.Text = "tsslBaseDirectory";
             // 
             // toolStripSplitButton1
             // 
@@ -194,12 +200,6 @@
             tabMonitor.Text = "Monitor";
             tabMonitor.UseVisualStyleBackColor = true;
             // 
-            // toolStripStatusLabel1
-            // 
-            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            toolStripStatusLabel1.Size = new Size(146, 25);
-            toolStripStatusLabel1.Text = "tsslBaseDirectory";
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -231,7 +231,7 @@
         private TabControl tabLauncher;
         private TabPage tabLaunch;
         private TabPage tabMonitor;
-        private ToolStripStatusLabel tsStatusLabel;
+        private ToolStripStatusLabel tsslBaseDirLabel;
         private Button buttonLaunchDatabase;
         private Button buttonQuitLauncher;
         private Button buttonLaunchGame;
@@ -240,6 +240,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Controls.XiUserConfigControl xiUserConfigControl;
         private ToolStripSplitButton toolStripSplitButton1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
+        private ToolStripStatusLabel tsslBaseDir;
     }
 }

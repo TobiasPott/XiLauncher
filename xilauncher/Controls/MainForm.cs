@@ -14,7 +14,16 @@ namespace xilauncher
             //_ = new Input();
             _launcher = launcher;
             _launcher.ProcessChanged += Launcher_ProcessChanged;
+            _launcher.Resources.Refreshed += Resources_Refreshed;
             xiUserConfigControl.SetConfig(_default);
+
+            _launcher.Resources.RefreshResources();
+        }
+
+        private void Resources_Refreshed()
+        {
+            tsslBaseDir.Text = _launcher.Resources.dirBase.FullName;
+            XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
         }
 
         private async Task CloseApplication()
