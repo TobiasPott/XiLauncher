@@ -1,6 +1,6 @@
 ﻿namespace xilauncher.Controls
 {
-    partial class XiPolConfigControl
+    partial class XiExternalConfigControl
     {
         /// <summary> 
         /// Required designer variable.
