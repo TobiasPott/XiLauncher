@@ -30,7 +30,6 @@
         {
             components = new System.ComponentModel.Container();
             bindingSource1 = new BindingSource(components);
-            label4 = new Label();
             buttonConfigGamepad = new Button();
             buttonConfigFFXI = new Button();
             notifyIcon1 = new NotifyIcon(components);
@@ -38,26 +37,15 @@
             ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
             SuspendLayout();
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Dock = DockStyle.Top;
-            label4.Location = new Point(0, 0);
-            label4.Margin = new Padding(3, 3, 3, 6);
-            label4.Name = "label4";
-            label4.Padding = new Padding(3);
-            label4.Size = new Size(127, 31);
-            label4.TabIndex = 35;
-            label4.Text = "Configuration";
-            // 
             // buttonConfigGamepad
             // 
             buttonConfigGamepad.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             buttonConfigGamepad.Cursor = Cursors.Hand;
+            buttonConfigGamepad.FlatAppearance.BorderSize = 2;
             buttonConfigGamepad.FlatStyle = FlatStyle.Flat;
             buttonConfigGamepad.Image = Properties.Resources.FFXI_ExeIcon;
             buttonConfigGamepad.ImageAlign = ContentAlignment.MiddleLeft;
-            buttonConfigGamepad.Location = new Point(3, 41);
+            buttonConfigGamepad.Location = new Point(3, 6);
             buttonConfigGamepad.Margin = new Padding(3, 6, 3, 3);
             buttonConfigGamepad.MinimumSize = new Size(0, 64);
             buttonConfigGamepad.Name = "buttonConfigGamepad";
@@ -73,10 +61,11 @@
             // 
             buttonConfigFFXI.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             buttonConfigFFXI.Cursor = Cursors.Hand;
+            buttonConfigFFXI.FlatAppearance.BorderSize = 2;
             buttonConfigFFXI.FlatStyle = FlatStyle.Flat;
             buttonConfigFFXI.Image = Properties.Resources.FFXI_ExeIcon;
             buttonConfigFFXI.ImageAlign = ContentAlignment.MiddleLeft;
-            buttonConfigFFXI.Location = new Point(3, 114);
+            buttonConfigFFXI.Location = new Point(3, 79);
             buttonConfigFFXI.Margin = new Padding(3, 6, 3, 3);
             buttonConfigFFXI.MinimumSize = new Size(0, 64);
             buttonConfigFFXI.Name = "buttonConfigFFXI";
@@ -97,11 +86,12 @@
             // 
             buttonConfigPlayOnline.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             buttonConfigPlayOnline.Cursor = Cursors.Hand;
+            buttonConfigPlayOnline.FlatAppearance.BorderSize = 2;
             buttonConfigPlayOnline.FlatStyle = FlatStyle.Flat;
             buttonConfigPlayOnline.Image = Properties.Resources.Pol_ExeIcon;
             buttonConfigPlayOnline.ImageAlign = ContentAlignment.MiddleLeft;
-            buttonConfigPlayOnline.Location = new Point(3, 187);
-            buttonConfigPlayOnline.Margin = new Padding(3, 6, 3, 3);
+            buttonConfigPlayOnline.Location = new Point(3, 152);
+            buttonConfigPlayOnline.Margin = new Padding(3, 6, 3, 6);
             buttonConfigPlayOnline.MinimumSize = new Size(0, 64);
             buttonConfigPlayOnline.Name = "buttonConfigPlayOnline";
             buttonConfigPlayOnline.Padding = new Padding(12, 0, 12, 0);
@@ -117,21 +107,17 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
             Controls.Add(buttonConfigPlayOnline);
             Controls.Add(buttonConfigFFXI);
             Controls.Add(buttonConfigGamepad);
-            Controls.Add(label4);
             Name = "XiPolConfigControl";
-            Size = new Size(212, 254);
+            Size = new Size(212, 222);
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
         private BindingSource bindingSource1;
-        private Label label4;
         private Button buttonConfigGamepad;
         private Button buttonConfigFFXI;
         private NotifyIcon notifyIcon1;
