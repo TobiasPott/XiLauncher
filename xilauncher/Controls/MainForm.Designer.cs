@@ -38,9 +38,10 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             buttonLaunchDatabase = new Button();
             buttonLaunchEnvironment = new Button();
+            buttonQuitLauncher = new Button();
             xiUserConfigControl = new xilauncher.Controls.XiUserConfigControl();
             buttonLaunchGame = new Button();
-            buttonQuitLauncher = new Button();
+            xiPolConfigControl1 = new xilauncher.Controls.XiPolConfigControl();
             tabMonitor = new TabPage();
             statusStrip.SuspendLayout();
             tabLauncher.SuspendLayout();
@@ -52,9 +53,9 @@
             // 
             statusStrip.ImageScalingSize = new Size(24, 24);
             statusStrip.Items.AddRange(new ToolStripItem[] { tsslBaseDirLabel, tsslBaseDir, toolStripSplitButton1 });
-            statusStrip.Location = new Point(0, 618);
+            statusStrip.Location = new Point(0, 305);
             statusStrip.Name = "statusStrip";
-            statusStrip.Size = new Size(428, 32);
+            statusStrip.Size = new Size(765, 32);
             statusStrip.TabIndex = 2;
             statusStrip.Text = "statusStrip1";
             // 
@@ -81,12 +82,12 @@
             // 
             // tabLauncher
             // 
-            tabLauncher.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tabLauncher.Controls.Add(tabLaunch);
+            tabLauncher.Dock = DockStyle.Fill;
             tabLauncher.Location = new Point(0, 0);
             tabLauncher.Name = "tabLauncher";
             tabLauncher.SelectedIndex = 0;
-            tabLauncher.Size = new Size(428, 615);
+            tabLauncher.Size = new Size(765, 305);
             tabLauncher.TabIndex = 3;
             // 
             // tabLaunch
@@ -95,24 +96,25 @@
             tabLaunch.Location = new Point(4, 34);
             tabLaunch.Name = "tabLaunch";
             tabLaunch.Padding = new Padding(3);
-            tabLaunch.Size = new Size(420, 577);
+            tabLaunch.Size = new Size(757, 267);
             tabLaunch.TabIndex = 0;
             tabLaunch.Text = "Launch";
             tabLaunch.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel1
             // 
-            flowLayoutPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
             flowLayoutPanel1.AutoSize = true;
-            flowLayoutPanel1.Controls.Add(buttonLaunchDatabase);
-            flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
             flowLayoutPanel1.Controls.Add(xiUserConfigControl);
             flowLayoutPanel1.Controls.Add(buttonLaunchGame);
+            flowLayoutPanel1.Controls.Add(buttonLaunchDatabase);
+            flowLayoutPanel1.Controls.Add(buttonLaunchEnvironment);
             flowLayoutPanel1.Controls.Add(buttonQuitLauncher);
+            flowLayoutPanel1.Controls.Add(xiPolConfigControl1);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
             flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(24, 6);
+            flowLayoutPanel1.Location = new Point(3, 3);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(370, 565);
+            flowLayoutPanel1.Size = new Size(751, 261);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // buttonLaunchDatabase
@@ -122,11 +124,9 @@
             buttonLaunchDatabase.FlatStyle = FlatStyle.Flat;
             buttonLaunchDatabase.Image = Properties.Resources.clear_x32;
             buttonLaunchDatabase.ImageAlign = ContentAlignment.MiddleRight;
-            buttonLaunchDatabase.Location = new Point(4, 19);
-            buttonLaunchDatabase.Margin = new Padding(3, 19, 3, 3);
+            buttonLaunchDatabase.Location = new Point(373, 3);
             buttonLaunchDatabase.Name = "buttonLaunchDatabase";
-            buttonLaunchDatabase.Padding = new Padding(0, 0, 10, 0);
-            buttonLaunchDatabase.Size = new Size(362, 64);
+            buttonLaunchDatabase.Size = new Size(160, 64);
             buttonLaunchDatabase.TabIndex = 12;
             buttonLaunchDatabase.Text = "Launch Database";
             buttonLaunchDatabase.UseVisualStyleBackColor = true;
@@ -139,22 +139,37 @@
             buttonLaunchEnvironment.FlatStyle = FlatStyle.Flat;
             buttonLaunchEnvironment.Image = Properties.Resources.clear_x32;
             buttonLaunchEnvironment.ImageAlign = ContentAlignment.MiddleRight;
-            buttonLaunchEnvironment.Location = new Point(4, 105);
-            buttonLaunchEnvironment.Margin = new Padding(3, 19, 3, 3);
+            buttonLaunchEnvironment.Location = new Point(373, 82);
+            buttonLaunchEnvironment.Margin = new Padding(3, 12, 3, 12);
             buttonLaunchEnvironment.Name = "buttonLaunchEnvironment";
-            buttonLaunchEnvironment.Padding = new Padding(0, 0, 10, 0);
-            buttonLaunchEnvironment.Size = new Size(362, 64);
+            buttonLaunchEnvironment.Size = new Size(160, 64);
             buttonLaunchEnvironment.TabIndex = 9;
             buttonLaunchEnvironment.Text = "Launch Environment";
             buttonLaunchEnvironment.UseVisualStyleBackColor = true;
             buttonLaunchEnvironment.Click += ButtonLaunchEnvironment_Click;
             // 
+            // buttonQuitLauncher
+            // 
+            buttonQuitLauncher.Anchor = AnchorStyles.Top;
+            buttonQuitLauncher.BackColor = Color.IndianRed;
+            buttonQuitLauncher.Cursor = Cursors.Hand;
+            buttonQuitLauncher.FlatStyle = FlatStyle.Flat;
+            buttonQuitLauncher.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            buttonQuitLauncher.ForeColor = SystemColors.HighlightText;
+            buttonQuitLauncher.Location = new Point(373, 190);
+            buttonQuitLauncher.Margin = new Padding(3, 32, 3, 3);
+            buttonQuitLauncher.Name = "buttonQuitLauncher";
+            buttonQuitLauncher.Size = new Size(160, 64);
+            buttonQuitLauncher.TabIndex = 11;
+            buttonQuitLauncher.Text = "Quit";
+            buttonQuitLauncher.UseVisualStyleBackColor = false;
+            buttonQuitLauncher.Click += ButtonQuitLauncher_Click;
+            // 
             // xiUserConfigControl
             // 
             xiUserConfigControl.Anchor = AnchorStyles.Top;
             xiUserConfigControl.AutoSize = true;
-            xiUserConfigControl.Location = new Point(3, 191);
-            xiUserConfigControl.Margin = new Padding(3, 19, 3, 3);
+            xiUserConfigControl.Location = new Point(3, 3);
             xiUserConfigControl.Name = "xiUserConfigControl";
             xiUserConfigControl.ShowButtons = false;
             xiUserConfigControl.Size = new Size(364, 181);
@@ -167,28 +182,22 @@
             buttonLaunchGame.FlatStyle = FlatStyle.Flat;
             buttonLaunchGame.Image = Properties.Resources.clear_x32;
             buttonLaunchGame.ImageAlign = ContentAlignment.MiddleRight;
-            buttonLaunchGame.Location = new Point(4, 378);
+            buttonLaunchGame.Location = new Point(4, 190);
             buttonLaunchGame.Name = "buttonLaunchGame";
-            buttonLaunchGame.Padding = new Padding(0, 0, 10, 0);
             buttonLaunchGame.Size = new Size(362, 64);
             buttonLaunchGame.TabIndex = 10;
             buttonLaunchGame.Text = "Launch Game";
             buttonLaunchGame.UseVisualStyleBackColor = true;
             buttonLaunchGame.Click += ButtonLaunchGame_Click;
             // 
-            // buttonQuitLauncher
+            // xiPolConfigControl1
             // 
-            buttonQuitLauncher.Anchor = AnchorStyles.Top;
-            buttonQuitLauncher.Cursor = Cursors.Hand;
-            buttonQuitLauncher.FlatStyle = FlatStyle.Flat;
-            buttonQuitLauncher.Location = new Point(4, 480);
-            buttonQuitLauncher.Margin = new Padding(3, 35, 3, 3);
-            buttonQuitLauncher.Name = "buttonQuitLauncher";
-            buttonQuitLauncher.Size = new Size(362, 64);
-            buttonQuitLauncher.TabIndex = 11;
-            buttonQuitLauncher.Text = "Quit";
-            buttonQuitLauncher.UseVisualStyleBackColor = true;
-            buttonQuitLauncher.Click += ButtonQuitLauncher_Click;
+            xiPolConfigControl1.AutoSize = true;
+            xiPolConfigControl1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            xiPolConfigControl1.Location = new Point(539, 3);
+            xiPolConfigControl1.Name = "xiPolConfigControl1";
+            xiPolConfigControl1.Size = new Size(214, 254);
+            xiPolConfigControl1.TabIndex = 25;
             // 
             // tabMonitor
             // 
@@ -204,7 +213,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(428, 650);
+            ClientSize = new Size(765, 337);
             Controls.Add(tabLauncher);
             Controls.Add(statusStrip);
             FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -241,5 +250,6 @@
         private Controls.XiUserConfigControl xiUserConfigControl;
         private ToolStripSplitButton toolStripSplitButton1;
         private ToolStripStatusLabel tsslBaseDir;
+        private Controls.XiPolConfigControl xiPolConfigControl1;
     }
 }

@@ -7,7 +7,7 @@ namespace xilauncher
         private const string data = "data";
         private const string bin = "bin";
         private const string lib = "lib";
-        private const string plugins = "plugins";
+        private const string plugin = "plugin";
 
 
         private string xiBasePath = @"unresolved";
@@ -30,7 +30,7 @@ namespace xilauncher
         public event Action? Refreshed = null;
 
 
-        internal DirectoryInfo dirBase {  get; private set; }
+        internal DirectoryInfo dirBase { get; private set; }
         internal DirectoryInfo? dirLauncher { get; private set; }
 
         internal DirectoryInfo? dirLoader { get; private set; }
@@ -46,7 +46,7 @@ namespace xilauncher
         internal FileInfo? fileMysqldExe { get; private set; }
         internal FileInfo? fileMyIni { get; private set; }
         internal DirectoryInfo? dirMysqlData { get; private set; }
-        internal DirectoryInfo? dirMysqlPlugins { get; private set; }
+        internal DirectoryInfo? dirMysqlPlugin { get; private set; }
 
 
         public LauncherResources()
@@ -63,13 +63,13 @@ namespace xilauncher
         public void RefreshResources()
         {
             string appPath = Application.StartupPath;
-            dirBase = appPath.ToDirectoryInfo();
+            dirBase = appPath.ToDirectoryInfo().Parent ?? appPath.ToDirectoryInfo();
 
             string dirBasePath = dirBase.FullName.ToLowerInvariant();
             if (dirBasePath.Contains("bin/debug") || dirBasePath.Contains(@"bin\debug")
-                || dirBasePath.Contains("bin/Release") || dirBasePath.Contains(@"bin\Release"))
-                dirBase = dirBase.Parent?.Parent?.Parent?.Parent?.Parent ?? appPath.ToDirectoryInfo();
-
+                || dirBasePath.Contains("bin/release") || dirBasePath.Contains(@"bin\release"))
+                dirBase = dirBase.Parent?.Parent?.Parent?.Parent ?? appPath.ToDirectoryInfo();
+            
             XiLog.WriteLine($"Launcher resources located at: {dirBase.FullName}");
             if (!dirBase.FullName.Equals(appPath))
                 XiLog.WriteLine($"Launcher origin is: {appPath}");
@@ -97,7 +97,7 @@ namespace xilauncher
             string mysqldExe = Path.Combine(mariadbDir, bin, xiMariaDBMySqlExe);
             string myIni = Path.Combine(mariadbDir, data, xiMariaDBMyIni);
             string mysqlBinDir = Path.Combine(mariadbDir, data);
-            string mysqlPluginsDir = Path.Combine(mariadbDir, lib, plugins);
+            string mysqlPluginsDir = Path.Combine(mariadbDir, lib, plugin);
 
             dirLoader = loaderDir.ToDirectoryInfo();
             fileLoaderExe = loaderExe.ToFileInfo();
@@ -112,14 +112,14 @@ namespace xilauncher
             fileMysqldExe = mysqldExe.ToFileInfo();
             fileMyIni = myIni.ToFileInfo();
             dirMysqlData = mysqlBinDir.ToDirectoryInfo();
-            dirMysqlPlugins = mysqlPluginsDir.ToDirectoryInfo();
+            dirMysqlPlugin = mysqlPluginsDir.ToDirectoryInfo();
 
             List<FileSystemInfo?> filesAndDirectories = new List<FileSystemInfo?>() {
                 dirBase,
                 dirLauncher,
                 dirLoader, fileLoaderExe,
                 dirServer, fileConnectExe, fileSearchExe, fileWorldExe, fileMapExe,
-                dirMariadb, fileMysqldExe, fileMyIni, dirMysqlData, dirMysqlPlugins
+                dirMariadb, fileMysqldExe, fileMyIni, dirMysqlData, dirMysqlPlugin
             };
             bool allValid = true;
             //foreach (FileSystemInfo? fileInfo in filesAndDirectories)

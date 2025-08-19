@@ -4,17 +4,17 @@ using System.Text;
 namespace xilauncher
 {
     [Serializable]
-    public struct XiLoaderConfig
+    public struct XiLoaderUserConfig
     {
         public string Username = "";
         public SecureString Password = new SecureString();
         public string Server = "127.0.0.1"; // localhost is default to connect to launched environment
         public bool UseHairPin = false;
-        public XiLoaderConfig()
+        public XiLoaderUserConfig()
         {
         }
 
-        public XiLoaderConfig(string userName, string unsafePassword, string server, bool hairpin)
+        public XiLoaderUserConfig(string userName, string unsafePassword, string server, bool hairpin)
         {
             Username = userName;
             Password = new System.Security.SecureString();

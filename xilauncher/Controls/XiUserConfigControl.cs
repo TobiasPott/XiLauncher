@@ -25,14 +25,14 @@
             InitializeComponent();
         }
 
-        public void SetConfig(XiLoaderConfig config)
+        public void SetConfig(XiLoaderUserConfig config)
         {
             textBoxUsername.Text = config.Username;
             textBoxPassword.Text = new System.Net.NetworkCredential(string.Empty, config.Password).Password;
             textBoxServer.Text = config.Server;
             checkBoxHairpin.Checked = config.UseHairPin;
         }
-        public void GetConfig(ref XiLoaderConfig config)
+        public void GetConfig(ref XiLoaderUserConfig config)
         {
             config.Username = textBoxUsername.Text;
             config.Password.Clear();

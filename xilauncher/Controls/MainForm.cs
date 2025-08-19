@@ -1,11 +1,38 @@
+using Microsoft.Win32;
+using System.Windows.Forms;
 using xilauncher.Properties;
 
 namespace xilauncher
 {
+    /*
+    //    RegistryKey key = Registry.LocalMachine.OpenSubKey("Software", true);
+    //    key.CreateSubKey("AppName");
+    //key = key.OpenSubKey("AppName", true);
+    //key.CreateSubKey("AppVersion");
+    //key = key.OpenSubKey("AppVersion", true);
+    //key.SetValue("yourkey", "yourvalue");
+    */
+
+    /*
+    HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer
+    HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer\Settings
+
+    FullScreen 			0   (?? 0 or 1) 
+    Language			1   (?? unclear)
+    PlayAudio			1   (?? 0 or 1)
+    PlayOpeningMovie	1   (?? 0 or 1)
+    ResetSettings		0   (?? 0 or 1)
+    SupportLanguage		1   (?? unclear)
+    UseGameController	0   (?? 0 or 1)
+    WindowH				480 (?? width in pixel)
+    WindowW				640 (?? height in pixel)
+    WindowX				256 (?? x position on screen)
+    WindowY				256 (?? x position on screen)
+        */
     public partial class MainForm : Form
     {
         private Launcher _launcher;
-        private XiLoaderConfig _default = new XiLoaderConfig("mule", "private", "127.0.0.1", true);
+        private XiLoaderUserConfig _default = new XiLoaderUserConfig("mule", "private", "127.0.0.1", true);
 
 
         public MainForm(Launcher launcher) : base()
@@ -34,61 +61,90 @@ namespace xilauncher
         }
         private void Launcher_ProcessChanged(LauncherModules modules, LauncherState state)
         {
-            if (modules.HasFlag(LauncherModules.Database))
+            this.Invoke(new Action(() =>
             {
-                switch (state)
+                if (modules.HasFlag(LauncherModules.Database))
                 {
-                    case LauncherState.Starting:
-                        buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                        buttonLaunchDatabase.Image = Resources.yellow_x32;
-                        break;
+                    switch (state)
+                    {
+                        case LauncherState.Starting:
+                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                            buttonLaunchDatabase.Image = Resources.yellow_x32;
+                            break;
 
-                    case LauncherState.Running:
-                        buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                        buttonLaunchDatabase.Image = Resources.green_x32;
-                        break;
+                        case LauncherState.Running:
+                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                            buttonLaunchDatabase.Image = Resources.green_x32;
+                            break;
 
-                    case LauncherState.Stopping:
-                        buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                        buttonLaunchDatabase.Image = Resources.yellow_x32;
-                        break;
+                        case LauncherState.Stopping:
+                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                            buttonLaunchDatabase.Image = Resources.yellow_x32;
+                            break;
 
-                    case LauncherState.Stopped:
-                        buttonLaunchDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
-                        buttonLaunchDatabase.Image = Resources.red_x32;
-                        break;
+                        case LauncherState.Stopped:
+                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
+                            buttonLaunchDatabase.Image = Resources.red_x32;
+                            break;
+
+                    }
 
                 }
-
-            }
-            if (modules.HasFlag(LauncherModules.Environment))
-            {
-                switch (state)
+                if (modules.HasFlag(LauncherModules.Environment))
                 {
-                    case LauncherState.Starting:
-                        buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                        buttonLaunchEnvironment.Image = Resources.yellow_x32;
-                        break;
+                    switch (state)
+                    {
+                        case LauncherState.Starting:
+                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
+                            buttonLaunchEnvironment.Image = Resources.yellow_x32;
+                            break;
 
-                    case LauncherState.Running:
-                        buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                        buttonLaunchEnvironment.Image = Resources.green_x32;
-                        break;
+                        case LauncherState.Running:
+                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
+                            buttonLaunchEnvironment.Image = Resources.green_x32;
+                            break;
 
-                    case LauncherState.Stopping:
-                        buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                        buttonLaunchEnvironment.Image = Resources.yellow_x32;
-                        break;
+                        case LauncherState.Stopping:
+                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
+                            buttonLaunchEnvironment.Image = Resources.yellow_x32;
+                            break;
 
-                    case LauncherState.Stopped:
-                        buttonLaunchEnvironment.Text = UITexts.ButtonLabel_LaunchServer;
-                        buttonLaunchEnvironment.Image = Resources.red_x32;
-                        break;
+                        case LauncherState.Stopped:
+                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_LaunchServer;
+                            buttonLaunchEnvironment.Image = Resources.red_x32;
+                            break;
+
+                    }
 
                 }
+                if (modules.HasFlag(LauncherModules.Loader))
+                {
+                    switch (state)
+                    {
+                        case LauncherState.Starting:
+                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
+                            buttonLaunchGame.Image = Resources.yellow_x32;
+                            break;
 
-            }
+                        case LauncherState.Running:
+                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
+                            buttonLaunchGame.Image = Resources.green_x32;
+                            break;
 
+                        case LauncherState.Stopping:
+                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
+                            buttonLaunchGame.Image = Resources.yellow_x32;
+                            break;
+
+                        case LauncherState.Stopped:
+                            buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
+                            buttonLaunchGame.Image = Resources.red_x32;
+                            break;
+
+                    }
+
+                }
+            }));
         }
 
         // ToDo: covnert click function body to functions in Launcher.Database/Environment files
@@ -97,22 +153,30 @@ namespace xilauncher
         {
             if (_launcher.IsGameActive)
             {
-                _launcher.StopGame();
-                buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
-                buttonLaunchGame.Image = Resources.red_x32;
+                await _launcher.StopGame();
             }
-            else
+            else if (await _launcher.LaunchGame(_default))
             {
-                buttonLaunchGame.Image = Resources.yellow_x32;
-                xiUserConfigControl.GetConfig(ref _default);
-                if (_launcher.LaunchGame(_default))
-                {
-                    buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-                    buttonLaunchGame.Image = Resources.green_x32;
-                }
             }
-
             await Task.CompletedTask;
+            //if (_launcher.IsGameActive)
+            //{
+            //    _launcher.StopGame();
+            //    buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
+            //    buttonLaunchGame.Image = Resources.red_x32;
+            //}
+            //else
+            //{
+            //    buttonLaunchGame.Image = Resources.yellow_x32;
+            //    xiUserConfigControl.GetConfig(ref _default);
+            //    if (_launcher.LaunchGame(_default))
+            //    {
+            //        buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
+            //        buttonLaunchGame.Image = Resources.green_x32;
+            //    }
+            //}
+
+            //await Task.CompletedTask;
         }
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {

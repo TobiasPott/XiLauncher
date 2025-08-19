@@ -116,9 +116,9 @@
             label4.Margin = new Padding(3, 3, 3, 6);
             label4.Name = "label4";
             label4.Padding = new Padding(3);
-            label4.Size = new Size(127, 31);
+            label4.Size = new Size(123, 31);
             label4.TabIndex = 35;
-            label4.Text = "Configuration";
+            label4.Text = "User Account";
             // 
             // button1
             // 
@@ -130,10 +130,10 @@
             button1.Name = "button1";
             button1.Size = new Size(250, 65);
             button1.TabIndex = 27;
-            button1.Text = "New Login";
+            button1.Text = "New User";
             button1.UseVisualStyleBackColor = true;
             // 
-            // XiUserControl
+            // XiUserConfigControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -147,7 +147,7 @@
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(textBoxServer);
-            Name = "XiUserControl";
+            Name = "XiUserConfigControl";
             Size = new Size(256, 252);
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);

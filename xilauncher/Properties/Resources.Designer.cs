@@ -83,6 +83,16 @@ namespace xilauncher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FFXI_ExeIcon {
+            get {
+                object obj = ResourceManager.GetObject("FFXI_ExeIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gray_x32 {
             get {
                 object obj = ResourceManager.GetObject("gray_x32", resourceCulture);
@@ -106,6 +116,16 @@ namespace xilauncher.Properties {
         internal static System.Drawing.Bitmap orange_x32 {
             get {
                 object obj = ResourceManager.GetObject("orange_x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pol_ExeIcon {
+            get {
+                object obj = ResourceManager.GetObject("Pol_ExeIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

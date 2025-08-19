@@ -8,7 +8,7 @@
         {
             if (_resources.fileMyIni is not null && _resources.fileMyIni.Exists
                 && _resources.dirMysqlData is not null
-                && _resources.dirMysqlPlugins is not null)
+                && _resources.dirMysqlPlugin is not null)
             {
                 StreamReader srMyIni = new StreamReader(_resources.fileMyIni.OpenRead());
                 string[] myIniLines = srMyIni.ReadToEnd().Split(Environment.NewLine);
@@ -19,7 +19,7 @@
                     if (line.StartsWith("datadir="))
                         myIniLines[i] = $"datadir={_resources.dirMysqlData.FullName}";
                     else if (line.StartsWith("plugin-dir="))
-                        myIniLines[i] = $"plugin-dir={_resources.dirMysqlPlugins.FullName}";
+                        myIniLines[i] = $"plugin-dir={_resources.dirMysqlPlugin.FullName}";
                 }
 
                 StreamWriter swMyIni = new StreamWriter(_resources.fileMyIni.OpenWrite());
