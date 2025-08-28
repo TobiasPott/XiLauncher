@@ -1,18 +1,7 @@
-using Microsoft.Win32;
-using System.Windows.Forms;
 using xilauncher.Properties;
 
 namespace xilauncher
 {
-    /*
-    //    RegistryKey key = Registry.LocalMachine.OpenSubKey("Software", true);
-    //    key.CreateSubKey("AppName");
-    //key = key.OpenSubKey("AppName", true);
-    //key.CreateSubKey("AppVersion");
-    //key = key.OpenSubKey("AppVersion", true);
-    //key.SetValue("yourkey", "yourvalue");
-    */
-
     /*
     HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer
     HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer\Settings
@@ -45,6 +34,8 @@ namespace xilauncher
             xiUserConfigControl.SetConfig(_default);
 
             _launcher.Resources.RefreshResources();
+
+
         }
 
         private void Resources_Refreshed()
@@ -151,7 +142,7 @@ namespace xilauncher
         //      as async void callable with cancellation token
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
-            if (_launcher.IsGameActive)
+            if (_launcher.IsGameProcessActive)
             {
                 await _launcher.StopGame();
             }
@@ -159,24 +150,6 @@ namespace xilauncher
             {
             }
             await Task.CompletedTask;
-            //if (_launcher.IsGameActive)
-            //{
-            //    _launcher.StopGame();
-            //    buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
-            //    buttonLaunchGame.Image = Resources.red_x32;
-            //}
-            //else
-            //{
-            //    buttonLaunchGame.Image = Resources.yellow_x32;
-            //    xiUserConfigControl.GetConfig(ref _default);
-            //    if (_launcher.LaunchGame(_default))
-            //    {
-            //        buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-            //        buttonLaunchGame.Image = Resources.green_x32;
-            //    }
-            //}
-
-            //await Task.CompletedTask;
         }
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
@@ -203,10 +176,57 @@ namespace xilauncher
 
         private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
-            await this.CloseApplication();
+            // ToDo: only call dialog if servers are running
+            DialogResult result = DialogResult.Yes;
+            if (_launcher.IsDatabaseProcessActive || _launcher.IsEnvironmentActive
+                || _launcher.IsGameProcessActive)
+            {
+                string message = String.Format($"Processes are still running. {Environment.NewLine}" +
+                    $"Game:\t\t{(_launcher.IsGameProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
+                    $"Database:\t{(_launcher.IsDatabaseProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
+                    $"Server:\t\t{(_launcher.IsEnvironmentActive ? "running" : "stopped")}{Environment.NewLine}" +
+                    $"{Environment.NewLine}");
+                result = MessageBox.Show(message, "Stop processes and Quit?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await this.CloseApplication();
+                }
+            }
+            //DialogResult result = MessageBox.Show("message", "Quit Application", MessageBoxButtons.YesNo);
+            if (result == System.Windows.Forms.DialogResult.Yes)
+                await this.CloseApplication();
             await Task.CompletedTask;
         }
 
+
+        //private void tabLauncher_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    string logContent = XiLog.GetLog(XiLog.XiLogCategory.Database);
+        //    textBoxMonitor.Text = logContent;
+        //    textBoxMonitor.Select(logContent.Length, 0);
+        //    textBoxMonitor.ScrollToCaret();
+        //}
+
+
+        Controls.LogForm? logFormDatabase;
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (logFormDatabase == null)
+            {
+                logFormDatabase = new Controls.LogForm();
+                logFormDatabase.Category = XiLog.XiLogCategory.Database;
+                // init log form;
+                logFormDatabase.FormClosed += LogFormDatabase_FormClosed;
+            }
+
+            logFormDatabase.Show();
+        }
+
+        private void LogFormDatabase_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            //logFormDatabase?.Dispose();
+            logFormDatabase = null;
+        }
     }
 }
 

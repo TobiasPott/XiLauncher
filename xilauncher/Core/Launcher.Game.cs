@@ -8,7 +8,7 @@ namespace xilauncher
 {
     public partial class Launcher
     {
-        public bool IsGameActive => _procLoader is not null;
+        public bool IsGameProcessActive => _procLoader is not null;
 
         public async Task<bool> LaunchGame(XiLoaderUserConfig config)
         {

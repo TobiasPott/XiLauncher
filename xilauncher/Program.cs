@@ -15,7 +15,7 @@ namespace xilauncher
             // see https://aka.ms/applicationconfiguration.
 
             ApplicationConfiguration.Initialize();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.SetHighDpiMode(HighDpiMode.DpiUnawareGdiScaled);
             Console.WriteLine();
             _launcherResources = new LauncherResources();
             _launcher = new Launcher(_launcherResources);

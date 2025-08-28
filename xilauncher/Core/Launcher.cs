@@ -62,7 +62,7 @@ namespace xilauncher
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public Launcher(LauncherResources resources)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
-        { 
+        {
             _resources = resources;
         }
 
@@ -81,6 +81,7 @@ namespace xilauncher
                 StopGame();
             }
         }
+
         /// <summary>
         /// Launches the file described by the given info (if present) and sets up and starts the process according to the given arguments
         /// </summary>
@@ -125,7 +126,7 @@ namespace xilauncher
             return process;
         }
         public static async Task<Process?> LaunchAsync(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir,
-    bool enableEvents = true, bool useShell = true, string verb = "")
+    bool enableEvents = true, bool useShell = true, string verb = "", bool redirectStreams = false)
         {
             if (fileInfo is null
                 && !(fileInfo?.Exists ?? false))
@@ -139,7 +140,10 @@ namespace xilauncher
             //psi.CreateNoWindow = false;
             psi.WindowStyle = ProcessWindowStyle.Normal;
             psi.WorkingDirectory = workDir?.FullName ?? string.Empty;
-
+            
+            psi.RedirectStandardOutput = redirectStreams;
+            psi.RedirectStandardInput = redirectStreams;
+            psi.RedirectStandardError = redirectStreams;
             // set process verb (e.g.: to allow elevated execution)
             if (!String.IsNullOrWhiteSpace(verb)) psi.Verb = verb;
 

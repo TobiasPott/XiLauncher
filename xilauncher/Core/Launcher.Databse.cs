@@ -1,8 +1,12 @@
-﻿namespace xilauncher
+﻿using System.Diagnostics;
+
+namespace xilauncher
 {
     public partial class Launcher
     {
         public bool IsDatabaseProcessActive => _procDatabase is not null;
+
+        private XiLogProcessRedirector _logDatabaseRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.Database);
 
         private bool EnsureDatabaseConfig()
         {
@@ -41,6 +45,8 @@
             return true;
         }
 
+
+        private Task? logTask = null;
         public async Task<bool> LaunchDatabase()
         {
             if (_procDatabase is not null)
@@ -55,25 +61,56 @@
                 return false;
             }
 
-            _procDatabase = await LaunchAsync(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb);
+
+            _procDatabase = await LaunchAsync(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb,
+                true, false, "", true);
+
             if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
             else XiLog.WriteLine("Database failed to start!");
+
+            _logDatabaseRedirector.Attach(_procDatabase);
+            //// enable output and error retrieval
+            //if (_procDatabase is not null)
+            //{
+            //    _procDatabase.OutputDataReceived += ProcDatabase_OutputDataReceived;
+            //    _procDatabase.ErrorDataReceived += ProcDatabase_ErrorDataReceived;
+            //    _procDatabase.BeginOutputReadLine();
+            //    _procDatabase.BeginErrorReadLine();
+            //}
 
             this.OnProcessChanged(LauncherModules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
             return _procDatabase is not null;
         }
+
+        private void ProcDatabase_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            string log = $"{e.Data}";
+            XiLog.WriteLine(log, XiLog.XiLogCategory.Database, XiLog.XiLogLevel.Error);
+        }
+
+        private void ProcDatabase_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            string log = $"{e.Data}";
+            XiLog.WriteLine(log, XiLog.XiLogCategory.Database, XiLog.XiLogLevel.Message);
+        }
+
         public async Task StopDatabase()
         {
             if (_procDatabase is not null)
             {
+
                 this.OnProcessChanged(LauncherModules.Database, LauncherState.Stopping);
                 await Task.Delay(16);
                 _procDatabase.Kill(true);
-                _procDatabase = null;
+                // detach log redirector
+                _logDatabaseRedirector.Detach();
+                // reset reference and dispatch event
                 XiLog.WriteLine("Stopped local database.");
+                _procDatabase = null;
                 await Task.Delay(16);
                 this.OnProcessChanged(LauncherModules.Database, LauncherState.Stopped);
             }
         }
     }
+
 }

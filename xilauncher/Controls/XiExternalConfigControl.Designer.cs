@@ -56,6 +56,7 @@
             buttonConfigGamepad.TextAlign = ContentAlignment.MiddleLeft;
             buttonConfigGamepad.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonConfigGamepad.UseVisualStyleBackColor = true;
+            buttonConfigGamepad.Click += ButtonConfigGamepad_Click;
             // 
             // buttonConfigFFXI
             // 
@@ -76,6 +77,7 @@
             buttonConfigFFXI.TextAlign = ContentAlignment.MiddleLeft;
             buttonConfigFFXI.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonConfigFFXI.UseVisualStyleBackColor = true;
+            buttonConfigFFXI.Click += ButtonConfigFFXI_Click;
             // 
             // notifyIcon1
             // 
@@ -101,8 +103,9 @@
             buttonConfigPlayOnline.TextAlign = ContentAlignment.MiddleLeft;
             buttonConfigPlayOnline.TextImageRelation = TextImageRelation.ImageBeforeText;
             buttonConfigPlayOnline.UseVisualStyleBackColor = true;
+            buttonConfigPlayOnline.Click += ButtonConfigPlayOnline_Click;
             // 
-            // XiPolConfigControl
+            // XiExternalConfigControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -110,7 +113,7 @@
             Controls.Add(buttonConfigPlayOnline);
             Controls.Add(buttonConfigFFXI);
             Controls.Add(buttonConfigGamepad);
-            Name = "XiPolConfigControl";
+            Name = "XiExternalConfigControl";
             Size = new Size(212, 222);
             ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
             ResumeLayout(false);
