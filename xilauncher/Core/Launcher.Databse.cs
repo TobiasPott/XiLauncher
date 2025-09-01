@@ -67,31 +67,10 @@ namespace xilauncher
 
             if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
             else XiLog.WriteLine("Database failed to start!");
-
             _logDatabaseRedirector.Attach(_procDatabase);
-            //// enable output and error retrieval
-            //if (_procDatabase is not null)
-            //{
-            //    _procDatabase.OutputDataReceived += ProcDatabase_OutputDataReceived;
-            //    _procDatabase.ErrorDataReceived += ProcDatabase_ErrorDataReceived;
-            //    _procDatabase.BeginOutputReadLine();
-            //    _procDatabase.BeginErrorReadLine();
-            //}
 
             this.OnProcessChanged(LauncherModules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
             return _procDatabase is not null;
-        }
-
-        private void ProcDatabase_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            string log = $"{e.Data}";
-            XiLog.WriteLine(log, XiLog.XiLogCategory.Database, XiLog.XiLogLevel.Error);
-        }
-
-        private void ProcDatabase_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            string log = $"{e.Data}";
-            XiLog.WriteLine(log, XiLog.XiLogCategory.Database, XiLog.XiLogLevel.Message);
         }
 
         public async Task StopDatabase()

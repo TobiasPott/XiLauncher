@@ -31,23 +31,23 @@
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             imageListTabs = new ImageList(components);
-            button1 = new Button();
+            bQuit = new Button();
             poisonTabControl1 = new ReaLTaiizor.Controls.PoisonTabControl();
             tabPage1 = new TabPage();
             poisonPanel4 = new ReaLTaiizor.Controls.PoisonPanel();
-            poisonButton13 = new ReaLTaiizor.Controls.PoisonButton();
+            pbQuitLauncher = new ReaLTaiizor.Controls.PoisonButton();
             poisonPanel2 = new ReaLTaiizor.Controls.PoisonPanel();
-            poisonButton7 = new ReaLTaiizor.Controls.PoisonButton();
-            poisonButton8 = new ReaLTaiizor.Controls.PoisonButton();
+            pbOpenConfigGamepad = new ReaLTaiizor.Controls.PoisonButton();
+            pbOpenConfigPlayOnline = new ReaLTaiizor.Controls.PoisonButton();
             poisonLabel7 = new ReaLTaiizor.Controls.PoisonLabel();
-            poisonButton9 = new ReaLTaiizor.Controls.PoisonButton();
+            pbOpenConfigGame = new ReaLTaiizor.Controls.PoisonButton();
             poisonPanel3 = new ReaLTaiizor.Controls.PoisonPanel();
             userConfigControl = new xilauncher.Controls.XiUserConfigControl();
-            poisonButton12 = new ReaLTaiizor.Controls.PoisonButton();
+            pbStartGame = new ReaLTaiizor.Controls.PoisonButton();
             poisonLabel8 = new ReaLTaiizor.Controls.PoisonLabel();
             poisonPanel1 = new ReaLTaiizor.Controls.PoisonPanel();
-            poisonButton11 = new ReaLTaiizor.Controls.PoisonButton();
-            poisonButton10 = new ReaLTaiizor.Controls.PoisonButton();
+            pbStartServer = new ReaLTaiizor.Controls.PoisonButton();
+            pbStartDatabase = new ReaLTaiizor.Controls.PoisonButton();
             poisonLabel3 = new ReaLTaiizor.Controls.PoisonLabel();
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
@@ -84,24 +84,24 @@
             imageListTabs.Images.SetKeyName(3, "monitor_heart_48dp_1F1F1F.png");
             imageListTabs.Images.SetKeyName(4, "logout_48dp_1F1F1F.png");
             // 
-            // button1
+            // bQuit
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.BackColor = Color.IndianRed;
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            button1.ForeColor = SystemColors.HighlightText;
-            button1.ImageKey = "logout_48dp_1F1F1F.png";
-            button1.ImageList = imageListTabs;
-            button1.Location = new Point(720, 12);
-            button1.Margin = new Padding(2, 27, 2, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(64, 64);
-            button1.TabIndex = 28;
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += ButtonQuitLauncher_Click;
+            bQuit.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            bQuit.BackColor = Color.IndianRed;
+            bQuit.Cursor = Cursors.Hand;
+            bQuit.FlatAppearance.BorderSize = 0;
+            bQuit.FlatStyle = FlatStyle.Flat;
+            bQuit.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            bQuit.ForeColor = SystemColors.HighlightText;
+            bQuit.ImageKey = "logout_48dp_1F1F1F.png";
+            bQuit.ImageList = imageListTabs;
+            bQuit.Location = new Point(748, 13);
+            bQuit.Margin = new Padding(2, 27, 2, 2);
+            bQuit.Name = "bQuit";
+            bQuit.Size = new Size(64, 64);
+            bQuit.TabIndex = 28;
+            bQuit.UseVisualStyleBackColor = false;
+            bQuit.Click += ButtonQuitLauncher_Click;
             // 
             // poisonTabControl1
             // 
@@ -111,6 +111,7 @@
             poisonTabControl1.Dock = DockStyle.Top;
             poisonTabControl1.FontSize = ReaLTaiizor.Extension.Poison.PoisonTabControlSize.Tall;
             poisonTabControl1.FontWeight = ReaLTaiizor.Extension.Poison.PoisonTabControlWeight.Regular;
+            poisonTabControl1.HotTrack = true;
             poisonTabControl1.Location = new Point(8, 60);
             poisonTabControl1.Name = "poisonTabControl1";
             poisonTabControl1.Padding = new Point(6, 8);
@@ -132,7 +133,7 @@
             // 
             // poisonPanel4
             // 
-            poisonPanel4.Controls.Add(poisonButton13);
+            poisonPanel4.Controls.Add(pbQuitLauncher);
             poisonPanel4.Controls.Add(poisonPanel2);
             poisonPanel4.Controls.Add(poisonPanel3);
             poisonPanel4.Controls.Add(poisonPanel1);
@@ -148,32 +149,32 @@
             poisonPanel4.VerticalScrollbarHighlightOnWheel = false;
             poisonPanel4.VerticalScrollbarSize = 10;
             // 
-            // poisonButton13
+            // pbQuitLauncher
             // 
-            poisonButton13.BackColor = Color.IndianRed;
-            poisonButton13.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton13.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton13.ForeColor = SystemColors.HighlightText;
-            poisonButton13.Highlight = true;
-            poisonButton13.ImeMode = ImeMode.NoControl;
-            poisonButton13.Location = new Point(397, 237);
-            poisonButton13.Name = "poisonButton13";
-            poisonButton13.Size = new Size(388, 49);
-            poisonButton13.TabIndex = 46;
-            poisonButton13.Text = "Quit";
-            poisonButton13.UseCustomBackColor = true;
-            poisonButton13.UseCustomForeColor = true;
-            poisonButton13.UseSelectable = true;
-            poisonButton13.UseVisualStyleBackColor = false;
-            poisonButton13.Click += ButtonQuitLauncher_Click;
+            pbQuitLauncher.BackColor = Color.IndianRed;
+            pbQuitLauncher.DisplayFocus = true;
+            pbQuitLauncher.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbQuitLauncher.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbQuitLauncher.ForeColor = SystemColors.HighlightText;
+            pbQuitLauncher.ImeMode = ImeMode.NoControl;
+            pbQuitLauncher.Location = new Point(397, 237);
+            pbQuitLauncher.Name = "pbQuitLauncher";
+            pbQuitLauncher.Size = new Size(388, 49);
+            pbQuitLauncher.TabIndex = 46;
+            pbQuitLauncher.Text = "Quit";
+            pbQuitLauncher.UseCustomBackColor = true;
+            pbQuitLauncher.UseCustomForeColor = true;
+            pbQuitLauncher.UseSelectable = true;
+            pbQuitLauncher.UseVisualStyleBackColor = false;
+            pbQuitLauncher.Click += ButtonQuitLauncher_Click;
             // 
             // poisonPanel2
             // 
             poisonPanel2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            poisonPanel2.Controls.Add(poisonButton7);
-            poisonPanel2.Controls.Add(poisonButton8);
+            poisonPanel2.Controls.Add(pbOpenConfigGamepad);
+            poisonPanel2.Controls.Add(pbOpenConfigPlayOnline);
             poisonPanel2.Controls.Add(poisonLabel7);
-            poisonPanel2.Controls.Add(poisonButton9);
+            poisonPanel2.Controls.Add(pbOpenConfigGame);
             poisonPanel2.HorizontalScrollbarBarColor = true;
             poisonPanel2.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel2.HorizontalScrollbarSize = 10;
@@ -185,33 +186,33 @@
             poisonPanel2.VerticalScrollbarHighlightOnWheel = false;
             poisonPanel2.VerticalScrollbarSize = 10;
             // 
-            // poisonButton7
+            // pbOpenConfigGamepad
             // 
-            poisonButton7.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton7.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton7.Highlight = true;
-            poisonButton7.ImeMode = ImeMode.NoControl;
-            poisonButton7.Location = new Point(195, 28);
-            poisonButton7.Name = "poisonButton7";
-            poisonButton7.Size = new Size(193, 49);
-            poisonButton7.TabIndex = 43;
-            poisonButton7.Text = "Gamepad";
-            poisonButton7.UseSelectable = true;
-            poisonButton7.Click += OpenGamepadConfigButton_Click;
+            pbOpenConfigGamepad.DisplayFocus = true;
+            pbOpenConfigGamepad.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbOpenConfigGamepad.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbOpenConfigGamepad.ImeMode = ImeMode.NoControl;
+            pbOpenConfigGamepad.Location = new Point(195, 28);
+            pbOpenConfigGamepad.Name = "pbOpenConfigGamepad";
+            pbOpenConfigGamepad.Size = new Size(193, 49);
+            pbOpenConfigGamepad.TabIndex = 43;
+            pbOpenConfigGamepad.Text = "Gamepad";
+            pbOpenConfigGamepad.UseSelectable = true;
+            pbOpenConfigGamepad.Click += OpenGamepadConfigButton_Click;
             // 
-            // poisonButton8
+            // pbOpenConfigPlayOnline
             // 
-            poisonButton8.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton8.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton8.Highlight = true;
-            poisonButton8.ImeMode = ImeMode.NoControl;
-            poisonButton8.Location = new Point(0, 83);
-            poisonButton8.Name = "poisonButton8";
-            poisonButton8.Size = new Size(193, 49);
-            poisonButton8.TabIndex = 44;
-            poisonButton8.Text = "PlayOnline";
-            poisonButton8.UseSelectable = true;
-            poisonButton8.Click += OpenPlayOnlineConfigButton_Click;
+            pbOpenConfigPlayOnline.DisplayFocus = true;
+            pbOpenConfigPlayOnline.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbOpenConfigPlayOnline.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbOpenConfigPlayOnline.ImeMode = ImeMode.NoControl;
+            pbOpenConfigPlayOnline.Location = new Point(0, 83);
+            pbOpenConfigPlayOnline.Name = "pbOpenConfigPlayOnline";
+            pbOpenConfigPlayOnline.Size = new Size(193, 49);
+            pbOpenConfigPlayOnline.TabIndex = 44;
+            pbOpenConfigPlayOnline.Text = "PlayOnline";
+            pbOpenConfigPlayOnline.UseSelectable = true;
+            pbOpenConfigPlayOnline.Click += OpenPlayOnlineConfigButton_Click;
             // 
             // poisonLabel7
             // 
@@ -225,25 +226,25 @@
             poisonLabel7.TabIndex = 13;
             poisonLabel7.Text = "Configuration";
             // 
-            // poisonButton9
+            // pbOpenConfigGame
             // 
-            poisonButton9.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton9.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton9.Highlight = true;
-            poisonButton9.ImeMode = ImeMode.NoControl;
-            poisonButton9.Location = new Point(0, 28);
-            poisonButton9.Name = "poisonButton9";
-            poisonButton9.Size = new Size(193, 49);
-            poisonButton9.TabIndex = 42;
-            poisonButton9.Text = "Game";
-            poisonButton9.UseSelectable = true;
-            poisonButton9.Click += OpenGameConfigButton_Click;
+            pbOpenConfigGame.DisplayFocus = true;
+            pbOpenConfigGame.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbOpenConfigGame.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbOpenConfigGame.ImeMode = ImeMode.NoControl;
+            pbOpenConfigGame.Location = new Point(0, 28);
+            pbOpenConfigGame.Name = "pbOpenConfigGame";
+            pbOpenConfigGame.Size = new Size(193, 49);
+            pbOpenConfigGame.TabIndex = 42;
+            pbOpenConfigGame.Text = "Game";
+            pbOpenConfigGame.UseSelectable = true;
+            pbOpenConfigGame.Click += OpenGameConfigButton_Click;
             // 
             // poisonPanel3
             // 
             poisonPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             poisonPanel3.Controls.Add(userConfigControl);
-            poisonPanel3.Controls.Add(poisonButton12);
+            poisonPanel3.Controls.Add(pbStartGame);
             poisonPanel3.Controls.Add(poisonLabel8);
             poisonPanel3.HorizontalScrollbarBarColor = true;
             poisonPanel3.HorizontalScrollbarHighlightOnWheel = false;
@@ -264,19 +265,19 @@
             userConfigControl.Size = new Size(385, 200);
             userConfigControl.TabIndex = 46;
             // 
-            // poisonButton12
+            // pbStartGame
             // 
-            poisonButton12.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton12.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton12.Highlight = true;
-            poisonButton12.ImeMode = ImeMode.NoControl;
-            poisonButton12.Location = new Point(2, 234);
-            poisonButton12.Name = "poisonButton12";
-            poisonButton12.Size = new Size(383, 49);
-            poisonButton12.TabIndex = 45;
-            poisonButton12.Text = "Start Game";
-            poisonButton12.UseSelectable = true;
-            poisonButton12.Click += ButtonLaunchGame_Click;
+            pbStartGame.DisplayFocus = true;
+            pbStartGame.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbStartGame.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbStartGame.ImeMode = ImeMode.NoControl;
+            pbStartGame.Location = new Point(2, 234);
+            pbStartGame.Name = "pbStartGame";
+            pbStartGame.Size = new Size(383, 49);
+            pbStartGame.TabIndex = 45;
+            pbStartGame.Text = "Start Game";
+            pbStartGame.UseSelectable = true;
+            pbStartGame.Click += ButtonLaunchGame_Click;
             // 
             // poisonLabel8
             // 
@@ -293,8 +294,8 @@
             // poisonPanel1
             // 
             poisonPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            poisonPanel1.Controls.Add(poisonButton11);
-            poisonPanel1.Controls.Add(poisonButton10);
+            poisonPanel1.Controls.Add(pbStartServer);
+            poisonPanel1.Controls.Add(pbStartDatabase);
             poisonPanel1.Controls.Add(poisonLabel3);
             poisonPanel1.HorizontalScrollbarBarColor = true;
             poisonPanel1.HorizontalScrollbarHighlightOnWheel = false;
@@ -307,36 +308,37 @@
             poisonPanel1.VerticalScrollbarHighlightOnWheel = false;
             poisonPanel1.VerticalScrollbarSize = 10;
             // 
-            // poisonButton11
+            // pbStartServer
             // 
-            poisonButton11.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            poisonButton11.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton11.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton11.ImeMode = ImeMode.NoControl;
-            poisonButton11.Location = new Point(192, 28);
-            poisonButton11.Name = "poisonButton11";
-            poisonButton11.Size = new Size(193, 49);
-            poisonButton11.TabIndex = 46;
-            poisonButton11.Text = "Start Server";
-            poisonButton11.UseCustomBackColor = true;
-            poisonButton11.UseSelectable = true;
-            poisonButton11.UseVisualStyleBackColor = false;
-            poisonButton11.Click += ButtonLaunchEnvironment_Click;
+            pbStartServer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbStartServer.DisplayFocus = true;
+            pbStartServer.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbStartServer.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbStartServer.ImeMode = ImeMode.NoControl;
+            pbStartServer.Location = new Point(192, 28);
+            pbStartServer.Name = "pbStartServer";
+            pbStartServer.Size = new Size(193, 49);
+            pbStartServer.TabIndex = 46;
+            pbStartServer.Text = "Start Server";
+            pbStartServer.UseCustomBackColor = true;
+            pbStartServer.UseSelectable = true;
+            pbStartServer.UseVisualStyleBackColor = false;
+            pbStartServer.Click += ButtonLaunchEnvironment_Click;
             // 
-            // poisonButton10
+            // pbStartDatabase
             // 
-            poisonButton10.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            poisonButton10.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
-            poisonButton10.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
-            poisonButton10.Highlight = true;
-            poisonButton10.ImeMode = ImeMode.NoControl;
-            poisonButton10.Location = new Point(0, 28);
-            poisonButton10.Name = "poisonButton10";
-            poisonButton10.Size = new Size(193, 49);
-            poisonButton10.TabIndex = 45;
-            poisonButton10.Text = "Start Database";
-            poisonButton10.UseSelectable = true;
-            poisonButton10.Click += ButtonLaunchDatabase_Click;
+            pbStartDatabase.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pbStartDatabase.DisplayFocus = true;
+            pbStartDatabase.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
+            pbStartDatabase.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
+            pbStartDatabase.ImeMode = ImeMode.NoControl;
+            pbStartDatabase.Location = new Point(0, 28);
+            pbStartDatabase.Name = "pbStartDatabase";
+            pbStartDatabase.Size = new Size(193, 49);
+            pbStartDatabase.TabIndex = 45;
+            pbStartDatabase.Text = "Start Database";
+            pbStartDatabase.UseSelectable = true;
+            pbStartDatabase.Click += ButtonLaunchDatabase_Click;
             // 
             // poisonLabel3
             // 
@@ -355,7 +357,7 @@
             tabPage2.Location = new Point(4, 35);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(796, 303);
+            tabPage2.Size = new Size(792, 303);
             tabPage2.TabIndex = 3;
             tabPage2.Text = "Server";
             tabPage2.UseVisualStyleBackColor = true;
@@ -374,7 +376,7 @@
             tabPage3.Location = new Point(4, 35);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(796, 303);
+            tabPage3.Size = new Size(792, 303);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Logs";
             tabPage3.UseVisualStyleBackColor = true;
@@ -495,7 +497,7 @@
             flowPanelStatusBar.Controls.Add(poisonLabel2);
             flowPanelStatusBar.Controls.Add(poisonLabel1);
             flowPanelStatusBar.Dock = DockStyle.Bottom;
-            flowPanelStatusBar.Location = new Point(8, 399);
+            flowPanelStatusBar.Location = new Point(8, 408);
             flowPanelStatusBar.Name = "flowPanelStatusBar";
             flowPanelStatusBar.Size = new Size(800, 25);
             flowPanelStatusBar.TabIndex = 32;
@@ -527,18 +529,16 @@
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(816, 427);
+            ClientSize = new Size(816, 436);
             ControlBox = false;
             Controls.Add(flowPanelStatusBar);
-            Controls.Add(button1);
+            Controls.Add(bQuit);
             Controls.Add(poisonTabControl1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             MaximizeBox = false;
             Name = "MainForm";
             Padding = new Padding(8, 60, 8, 3);
-            ShowIcon = false;
             Text = "XiLauncher - FFXI Server Environment";
             poisonTabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -559,7 +559,7 @@
 
         #endregion
         private ImageList imageListTabs;
-        private Button button1;
+        private Button bQuit;
         private ReaLTaiizor.Controls.PoisonTabControl poisonTabControl1;
         private TabPage tabPage1;
         private TabPage tabPage3;
@@ -578,18 +578,18 @@
         private TabPage tabPage2;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel1;
         private ReaLTaiizor.Controls.PoisonLabel poisonLabel3;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton9;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton7;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton11;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton10;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton8;
+        private ReaLTaiizor.Controls.PoisonButton pbOpenConfigGame;
+        private ReaLTaiizor.Controls.PoisonButton pbOpenConfigGamepad;
+        private ReaLTaiizor.Controls.PoisonButton pbStartServer;
+        private ReaLTaiizor.Controls.PoisonButton pbStartDatabase;
+        private ReaLTaiizor.Controls.PoisonButton pbOpenConfigPlayOnline;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel2;
         private ReaLTaiizor.Controls.PoisonLabel poisonLabel7;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel3;
         private ReaLTaiizor.Controls.PoisonLabel poisonLabel8;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton12;
+        private ReaLTaiizor.Controls.PoisonButton pbStartGame;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel4;
-        private ReaLTaiizor.Controls.PoisonButton poisonButton13;
+        private ReaLTaiizor.Controls.PoisonButton pbQuitLauncher;
         private Controls.XiUserConfigControl userConfigControl;
     }
 }

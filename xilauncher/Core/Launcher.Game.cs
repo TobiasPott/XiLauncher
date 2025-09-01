@@ -17,7 +17,8 @@ namespace xilauncher
 
             this.OnProcessChanged(LauncherModules.Loader, LauncherState.Starting);
             XiLog.WriteLine("Starting game instance...");
-            _procLoader = await LaunchAsync(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader, true, true, "runas");
+            _procLoader = await LaunchAsync(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader, 
+                true, true, "runas");
             if (_procLoader is not null)
             {
                 XiLog.WriteLine("Started loader instance.");

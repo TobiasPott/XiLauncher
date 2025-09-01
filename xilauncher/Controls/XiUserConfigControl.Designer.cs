@@ -45,12 +45,14 @@
             // toggleHairpin
             // 
             toggleHairpin.AutoSize = true;
+            toggleHairpin.Checked = true;
+            toggleHairpin.CheckState = CheckState.Checked;
             toggleHairpin.FontSize = ReaLTaiizor.Extension.Poison.PoisonLinkLabelSize.Medium;
             toggleHairpin.Location = new Point(151, 159);
             toggleHairpin.Name = "toggleHairpin";
             toggleHairpin.Size = new Size(80, 29);
             toggleHairpin.TabIndex = 36;
-            toggleHairpin.Text = "Aus";
+            toggleHairpin.Text = "An";
             toggleHairpin.UseSelectable = true;
             // 
             // textBoxUsername
@@ -71,7 +73,7 @@
             textBoxUsername.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
             textBoxUsername.Lines = new string[]
     {
-    "poisonTextBox1"
+    "mule"
     };
             textBoxUsername.Location = new Point(151, 4);
             textBoxUsername.MaxLength = 32767;
@@ -84,7 +86,7 @@
             textBoxUsername.ShortcutsEnabled = true;
             textBoxUsername.Size = new Size(171, 34);
             textBoxUsername.TabIndex = 37;
-            textBoxUsername.Text = "poisonTextBox1";
+            textBoxUsername.Text = "mule";
             textBoxUsername.UseSelectable = true;
             textBoxUsername.WaterMarkColor = Color.FromArgb(109, 109, 109);
             textBoxUsername.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
@@ -107,7 +109,7 @@
             textBoxPassword.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
             textBoxPassword.Lines = new string[]
     {
-    "poisonTextBox2"
+    "private"
     };
             textBoxPassword.Location = new Point(151, 44);
             textBoxPassword.MaxLength = 32767;
@@ -120,7 +122,7 @@
             textBoxPassword.ShortcutsEnabled = true;
             textBoxPassword.Size = new Size(171, 34);
             textBoxPassword.TabIndex = 38;
-            textBoxPassword.Text = "poisonTextBox2";
+            textBoxPassword.Text = "private";
             textBoxPassword.UseSelectable = true;
             textBoxPassword.WaterMarkColor = Color.FromArgb(109, 109, 109);
             textBoxPassword.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
@@ -143,7 +145,7 @@
             textBoxServer.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
             textBoxServer.Lines = new string[]
     {
-    "poisonTextBox3"
+    "127.0.0.1"
     };
             textBoxServer.Location = new Point(151, 119);
             textBoxServer.MaxLength = 32767;
@@ -156,7 +158,7 @@
             textBoxServer.ShortcutsEnabled = true;
             textBoxServer.Size = new Size(171, 34);
             textBoxServer.TabIndex = 39;
-            textBoxServer.Text = "poisonTextBox3";
+            textBoxServer.Text = "127.0.0.1";
             textBoxServer.UseSelectable = true;
             textBoxServer.WaterMarkColor = Color.FromArgb(109, 109, 109);
             textBoxServer.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);

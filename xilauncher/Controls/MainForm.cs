@@ -57,11 +57,35 @@ namespace xilauncher
         {
             this.Invoke(new Action(() =>
             {
+                if (modules.HasFlag(LauncherModules.Loader))
+                {
+                    switch (state)
+                    {
+                        case LauncherState.Starting:
+                        case LauncherState.Running:
+                            this.pbStartGame.Text = UITexts.ButtonLabel_StopGame;
+                            break;
+                        case LauncherState.Stopping:
+                        case LauncherState.Stopped:
+                        case LauncherState.Errored:
+                            this.pbStartGame.Text = UITexts.ButtonLabel_LaunchGame;
+                            break;
+                    }
+
+                }
                 if (modules.HasFlag(LauncherModules.Database))
                 {
                     switch (state)
                     {
-
+                        case LauncherState.Starting:
+                        case LauncherState.Running:
+                            this.pbStartDatabase.Text = UITexts.ButtonLabel_StopDatabase;
+                            break;
+                        case LauncherState.Stopping:
+                        case LauncherState.Stopped:
+                        case LauncherState.Errored:
+                            this.pbStartDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
+                            break;
                     }
 
                 }
@@ -69,15 +93,15 @@ namespace xilauncher
                 {
                     switch (state)
                     {
-
-                    }
-
-                }
-                if (modules.HasFlag(LauncherModules.Loader))
-                {
-                    switch (state)
-                    {
-
+                        case LauncherState.Starting:
+                        case LauncherState.Running:
+                            this.pbStartServer.Text = UITexts.ButtonLabel_StopServer;
+                            break;
+                        case LauncherState.Stopping:
+                        case LauncherState.Stopped:
+                        case LauncherState.Errored:
+                            this.pbStartServer.Text = UITexts.ButtonLabel_LaunchServer;
+                            break;
                     }
 
                 }
@@ -89,34 +113,25 @@ namespace xilauncher
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
             if (_launcher.IsGameProcessActive)
-            {
-                await _launcher.StopGame();
-            }
+            { await _launcher.StopGame(); }
             else if (await _launcher.LaunchGame(_default))
-            {
-            }
+            { }
             await Task.CompletedTask;
         }
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
             if (_launcher.IsEnvironmentActive)
-            {
-                await _launcher.StopEnvironment();
-            }
+            { await _launcher.StopEnvironment(); }
             else if (await _launcher.LaunchEnvironment())
-            {
-            }
+            { }
             await Task.CompletedTask;
         }
         private async void ButtonLaunchDatabase_Click(object sender, EventArgs e)
         {
             if (_launcher.IsDatabaseProcessActive)
-            {
-                await _launcher.StopDatabase();
-            }
+            { await _launcher.StopDatabase(); }
             else if (await _launcher.LaunchDatabase())
-            {
-            }
+            { }
             await Task.CompletedTask;
         }
 
@@ -154,12 +169,13 @@ namespace xilauncher
         //}
 
 
-        Controls.LogForm? logFormDatabase;
+        Controls.XiLogForm? logFormDatabase;
         private void OpenLogDatabaseButton_Click(object sender, EventArgs e)
         {
             if (logFormDatabase == null)
             {
-                logFormDatabase = new Controls.LogForm();
+                logFormDatabase = new Controls.XiLogForm();
+                logFormDatabase.Text = $"Log - {XiLog.XiLogCategory.Database}";
                 logFormDatabase.Category = XiLog.XiLogCategory.Database;
                 // init log form;
                 logFormDatabase.FormClosed += LogFormDatabase_FormClosed;

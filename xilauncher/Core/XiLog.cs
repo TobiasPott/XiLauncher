@@ -52,7 +52,7 @@ namespace xilauncher
                 sb.Remove(0, LogBufferBaseSize);
             // log to channel buffer and console window
             sb.AppendLine($">> {message}");
-            
+
             Console.WriteLine(timestampedMessage);
             // call event to notify othery
             LogWritten?.Invoke(category, level, message);
@@ -106,13 +106,15 @@ namespace xilauncher
         private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             string log = $"{e.Data}";
-            XiLog.WriteLine(log, Category, ErrorAs);
+            if (!String.IsNullOrWhiteSpace(log))
+                XiLog.WriteLine(log, Category, ErrorAs);
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             string log = $"{e.Data}";
-            XiLog.WriteLine(log, Category, OutputAs);
+            if (!String.IsNullOrWhiteSpace(log))
+                XiLog.WriteLine(log, Category, OutputAs);
         }
 
     }

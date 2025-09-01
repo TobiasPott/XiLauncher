@@ -1,4 +1,6 @@
-﻿namespace xilauncher
+﻿using System.Diagnostics;
+
+namespace xilauncher
 {
     public partial class Launcher
     {
@@ -9,13 +11,20 @@
 
         // ToDo: add CancellationToken argument to allow cancellation of launching all processes
         //          the Task.Delay calls introduce delay in execution which can result in processes started though others are killed via UI already
+        private XiLogProcessRedirector _logConnectRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.ConnectServer);
+        private XiLogProcessRedirector _logSearchRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.SearchServer);
+        private XiLogProcessRedirector _logWorldRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.WorldServer);
+        private XiLogProcessRedirector _logMapRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.MapServer);
 
         public async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Starting);
             await LaunchConnectServer(cancellationToken);
+            await Task.Delay(1000);
             await LaunchSearchServer(cancellationToken);
+            await Task.Delay(1000);
             await LaunchWorldServer(cancellationToken);
+            await Task.Delay(1000);
             await LaunchMapServer(cancellationToken);
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Running);
 
@@ -36,11 +45,12 @@
                 XiLog.WriteLine("Starting server's xi_map...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procMap = await LaunchAsync(_resources.fileMapExe, "", _resources.dirServer);
+                    _procMap = await LaunchAsync(_resources.fileMapExe, "", _resources.dirServer,
+                        true, false, "", true);
                     if (_procMap is not null)
                     {
                         XiLog.WriteLine("...xi_map is running.");
-                        await Task.Delay(500);
+                        _logMapRedirector.Attach(_procMap);
                         this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -56,11 +66,12 @@
                 XiLog.WriteLine("Starting server's xi_world...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procWorld = await LaunchAsync(_resources.fileWorldExe, "", _resources.dirServer);
+                    _procWorld = await LaunchAsync(_resources.fileWorldExe, "", _resources.dirServer,
+                        true, false, "", true);
                     if (_procWorld is not null)
                     {
                         XiLog.WriteLine("...xi_world is running.");
-                        await Task.Delay(1500);
+                        _logWorldRedirector.Attach(_procWorld);
                         this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -76,11 +87,12 @@
                 XiLog.WriteLine("Starting server's xi_search...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procSearch = await LaunchAsync(_resources.fileSearchExe, "", _resources.dirServer);
+                    _procSearch = await LaunchAsync(_resources.fileSearchExe, "", _resources.dirServer,
+                        true, false, "", true);
                     if (_procSearch is not null)
                     {
                         XiLog.WriteLine("...xi_search is running.");
-                        await Task.Delay(500);
+                        _logSearchRedirector.Attach(_procSearch);
                         this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -96,11 +108,12 @@
                 XiLog.WriteLine("Starting server's xi_connect...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procConnect = await LaunchAsync(_resources.fileConnectExe, "", _resources.dirServer);
+                    _procConnect = await LaunchAsync(_resources.fileConnectExe, "", _resources.dirServer,
+                        true, false, "", true);
                     if (_procConnect is not null)
                     {
-                        XiLog.WriteLine("...xi_connect is running.");
-                        await Task.Delay(500);
+                        XiLog.WriteLine("...xi_connect is running."); 
+                        _logConnectRedirector.Attach(_procConnect);
                         this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
