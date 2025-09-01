@@ -34,6 +34,7 @@ namespace xilauncher
             if (!String.IsNullOrWhiteSpace(pass)) sb.Append($"--pass {pass} ");
             if (!String.IsNullOrWhiteSpace(Server)) sb.Append($"--server {this.Server} ");
             if (this.UseHairPin) sb.Append("--hairpin ");
+            sb.Append("--hide ");
 
             // ToDo: add 'createAccount' as --create to the xi loader arguments assembled here
             return sb.ToString();

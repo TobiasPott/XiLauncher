@@ -45,14 +45,12 @@
             // toggleHairpin
             // 
             toggleHairpin.AutoSize = true;
-            toggleHairpin.Checked = true;
-            toggleHairpin.CheckState = CheckState.Checked;
             toggleHairpin.FontSize = ReaLTaiizor.Extension.Poison.PoisonLinkLabelSize.Medium;
             toggleHairpin.Location = new Point(151, 159);
             toggleHairpin.Name = "toggleHairpin";
             toggleHairpin.Size = new Size(80, 29);
             toggleHairpin.TabIndex = 36;
-            toggleHairpin.Text = "An";
+            toggleHairpin.Text = "Aus";
             toggleHairpin.UseSelectable = true;
             // 
             // textBoxUsername
