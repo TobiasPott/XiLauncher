@@ -1,3 +1,6 @@
+using ReaLTaiizor.Controls;
+using ReaLTaiizor.Forms;
+using xilauncher.Configuration;
 using xilauncher.Properties;
 
 namespace xilauncher
@@ -18,7 +21,7 @@ namespace xilauncher
     WindowX				256 (?? x position on screen)
     WindowY				256 (?? x position on screen)
         */
-    public partial class MainForm : Form
+    public partial class MainForm : PoisonForm
     {
         private Launcher _launcher;
         private XiLoaderUserConfig _default = new XiLoaderUserConfig("mule", "private", "127.0.0.1", true);
@@ -31,7 +34,7 @@ namespace xilauncher
             _launcher = launcher;
             _launcher.ProcessChanged += Launcher_ProcessChanged;
             _launcher.Resources.Refreshed += Resources_Refreshed;
-            xiUserConfigControl.SetConfig(_default);
+            //xiUserConfigControl.SetConfig(_default);
 
             _launcher.Resources.RefreshResources();
 
@@ -40,7 +43,7 @@ namespace xilauncher
 
         private void Resources_Refreshed()
         {
-            tsslBaseDir.Text = _launcher.Resources.dirBase.FullName;
+            poisonLabel1.Text = _launcher.Resources.dirBase.FullName;
             XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
         }
 
@@ -58,25 +61,6 @@ namespace xilauncher
                 {
                     switch (state)
                     {
-                        case LauncherState.Starting:
-                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                            buttonLaunchDatabase.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Running:
-                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                            buttonLaunchDatabase.Image = Resources.green_x32;
-                            break;
-
-                        case LauncherState.Stopping:
-                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                            buttonLaunchDatabase.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Stopped:
-                            buttonLaunchDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
-                            buttonLaunchDatabase.Image = Resources.red_x32;
-                            break;
 
                     }
 
@@ -85,25 +69,6 @@ namespace xilauncher
                 {
                     switch (state)
                     {
-                        case LauncherState.Starting:
-                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                            buttonLaunchEnvironment.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Running:
-                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                            buttonLaunchEnvironment.Image = Resources.green_x32;
-                            break;
-
-                        case LauncherState.Stopping:
-                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_StopServer;
-                            buttonLaunchEnvironment.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Stopped:
-                            buttonLaunchEnvironment.Text = UITexts.ButtonLabel_LaunchServer;
-                            buttonLaunchEnvironment.Image = Resources.red_x32;
-                            break;
 
                     }
 
@@ -112,25 +77,6 @@ namespace xilauncher
                 {
                     switch (state)
                     {
-                        case LauncherState.Starting:
-                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-                            buttonLaunchGame.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Running:
-                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-                            buttonLaunchGame.Image = Resources.green_x32;
-                            break;
-
-                        case LauncherState.Stopping:
-                            buttonLaunchGame.Text = UITexts.ButtonLabel_StopGame;
-                            buttonLaunchGame.Image = Resources.yellow_x32;
-                            break;
-
-                        case LauncherState.Stopped:
-                            buttonLaunchGame.Text = UITexts.ButtonLabel_LaunchGame;
-                            buttonLaunchGame.Image = Resources.red_x32;
-                            break;
 
                     }
 
@@ -209,7 +155,7 @@ namespace xilauncher
 
 
         Controls.LogForm? logFormDatabase;
-        private void button2_Click(object sender, EventArgs e)
+        private void OpenLogDatabaseButton_Click(object sender, EventArgs e)
         {
             if (logFormDatabase == null)
             {
@@ -226,6 +172,21 @@ namespace xilauncher
         {
             //logFormDatabase?.Dispose();
             logFormDatabase = null;
+        }
+
+        private void OpenGameConfigButton_Click(object sender, EventArgs e)
+        {
+            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.FinalFantasyXI);
+        }
+
+        private void OpenGamepadConfigButton_Click(object sender, EventArgs e)
+        {
+            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.Gamepad);
+        }
+
+        private void OpenPlayOnlineConfigButton_Click(object sender, EventArgs e)
+        {
+            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.PlayOnline);
         }
     }
 }

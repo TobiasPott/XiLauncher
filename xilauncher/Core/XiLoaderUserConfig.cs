@@ -10,6 +10,7 @@ namespace xilauncher
         public SecureString Password = new SecureString();
         public string Server = "127.0.0.1"; // localhost is default to connect to launched environment
         public bool UseHairPin = false;
+        public bool CreateAccount = false;
         public XiLoaderUserConfig()
         {
         }
@@ -21,6 +22,7 @@ namespace xilauncher
             foreach (char c in unsafePassword) Password.AppendChar(c);
             Server = server;
             UseHairPin = hairpin;
+            CreateAccount = false;
         }
 
         public string ToArguments()
@@ -32,6 +34,8 @@ namespace xilauncher
             if (!String.IsNullOrWhiteSpace(pass)) sb.Append($"--pass {pass} ");
             if (!String.IsNullOrWhiteSpace(Server)) sb.Append($"--server {this.Server} ");
             if (this.UseHairPin) sb.Append("--hairpin ");
+
+            // ToDo: add 'createAccount' as --create to the xi loader arguments assembled here
             return sb.ToString();
         }
     }

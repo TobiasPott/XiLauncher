@@ -28,143 +28,250 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            label3 = new Label();
-            textBoxUsername = new TextBox();
-            checkBoxHairpin = new CheckBox();
-            label2 = new Label();
-            textBoxPassword = new TextBox();
-            label1 = new Label();
-            textBoxServer = new TextBox();
-            bindingSource1 = new BindingSource(components);
-            label4 = new Label();
-            button1 = new Button();
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).BeginInit();
+            toggleHairpin = new ReaLTaiizor.Controls.PoisonToggle();
+            textBoxUsername = new ReaLTaiizor.Controls.PoisonTextBox();
+            textBoxPassword = new ReaLTaiizor.Controls.PoisonTextBox();
+            textBoxServer = new ReaLTaiizor.Controls.PoisonTextBox();
+            toggleCreateAccount = new ReaLTaiizor.Controls.PoisonToggle();
+            poisonLabel1 = new ReaLTaiizor.Controls.PoisonLabel();
+            poisonLabel2 = new ReaLTaiizor.Controls.PoisonLabel();
+            poisonLabel3 = new ReaLTaiizor.Controls.PoisonLabel();
+            poisonLabel4 = new ReaLTaiizor.Controls.PoisonLabel();
+            poisonLabel5 = new ReaLTaiizor.Controls.PoisonLabel();
+            poisonPanel1 = new ReaLTaiizor.Controls.PoisonPanel();
+            poisonPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // label3
+            // toggleHairpin
             // 
-            label3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label3.AutoSize = true;
-            label3.Location = new Point(3, 37);
-            label3.Name = "label3";
-            label3.Size = new Size(56, 25);
-            label3.TabIndex = 34;
-            label3.Text = "Login";
+            toggleHairpin.AutoSize = true;
+            toggleHairpin.FontSize = ReaLTaiizor.Extension.Poison.PoisonLinkLabelSize.Medium;
+            toggleHairpin.Location = new Point(151, 159);
+            toggleHairpin.Name = "toggleHairpin";
+            toggleHairpin.Size = new Size(80, 29);
+            toggleHairpin.TabIndex = 36;
+            toggleHairpin.Text = "Aus";
+            toggleHairpin.UseSelectable = true;
             // 
             // textBoxUsername
             // 
             textBoxUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxUsername.Location = new Point(106, 34);
+            // 
+            // 
+            // 
+            textBoxUsername.CustomButton.Image = null;
+            textBoxUsername.CustomButton.Location = new Point(139, 2);
+            textBoxUsername.CustomButton.Name = "";
+            textBoxUsername.CustomButton.Size = new Size(29, 29);
+            textBoxUsername.CustomButton.Style = ReaLTaiizor.Enum.Poison.ColorStyle.Blue;
+            textBoxUsername.CustomButton.TabIndex = 1;
+            textBoxUsername.CustomButton.Theme = ReaLTaiizor.Enum.Poison.ThemeStyle.Light;
+            textBoxUsername.CustomButton.UseSelectable = true;
+            textBoxUsername.CustomButton.Visible = false;
+            textBoxUsername.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
+            textBoxUsername.Lines = new string[]
+    {
+    "poisonTextBox1"
+    };
+            textBoxUsername.Location = new Point(151, 4);
+            textBoxUsername.MaxLength = 32767;
             textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new Size(147, 31);
-            textBoxUsername.TabIndex = 33;
-            // 
-            // checkBoxHairpin
-            // 
-            checkBoxHairpin.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            checkBoxHairpin.CheckAlign = ContentAlignment.MiddleRight;
-            checkBoxHairpin.Location = new Point(3, 149);
-            checkBoxHairpin.Name = "checkBoxHairpin";
-            checkBoxHairpin.Size = new Size(250, 29);
-            checkBoxHairpin.TabIndex = 32;
-            checkBoxHairpin.Text = "Hairpin";
-            checkBoxHairpin.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new Point(3, 74);
-            label2.Name = "label2";
-            label2.Size = new Size(87, 25);
-            label2.TabIndex = 31;
-            label2.Text = "Password";
+            textBoxUsername.PasswordChar = '\0';
+            textBoxUsername.ScrollBars = ScrollBars.None;
+            textBoxUsername.SelectedText = "";
+            textBoxUsername.SelectionLength = 0;
+            textBoxUsername.SelectionStart = 0;
+            textBoxUsername.ShortcutsEnabled = true;
+            textBoxUsername.Size = new Size(171, 34);
+            textBoxUsername.TabIndex = 37;
+            textBoxUsername.Text = "poisonTextBox1";
+            textBoxUsername.UseSelectable = true;
+            textBoxUsername.WaterMarkColor = Color.FromArgb(109, 109, 109);
+            textBoxUsername.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
             // 
             // textBoxPassword
             // 
             textBoxPassword.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxPassword.Location = new Point(106, 71);
+            // 
+            // 
+            // 
+            textBoxPassword.CustomButton.Image = null;
+            textBoxPassword.CustomButton.Location = new Point(139, 2);
+            textBoxPassword.CustomButton.Name = "";
+            textBoxPassword.CustomButton.Size = new Size(29, 29);
+            textBoxPassword.CustomButton.Style = ReaLTaiizor.Enum.Poison.ColorStyle.Blue;
+            textBoxPassword.CustomButton.TabIndex = 1;
+            textBoxPassword.CustomButton.Theme = ReaLTaiizor.Enum.Poison.ThemeStyle.Light;
+            textBoxPassword.CustomButton.UseSelectable = true;
+            textBoxPassword.CustomButton.Visible = false;
+            textBoxPassword.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
+            textBoxPassword.Lines = new string[]
+    {
+    "poisonTextBox2"
+    };
+            textBoxPassword.Location = new Point(151, 44);
+            textBoxPassword.MaxLength = 32767;
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(147, 31);
-            textBoxPassword.TabIndex = 30;
-            textBoxPassword.UseSystemPasswordChar = true;
-            // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 115);
-            label1.Name = "label1";
-            label1.Size = new Size(61, 25);
-            label1.TabIndex = 29;
-            label1.Text = "Server";
+            textBoxPassword.PasswordChar = '*';
+            textBoxPassword.ScrollBars = ScrollBars.None;
+            textBoxPassword.SelectedText = "";
+            textBoxPassword.SelectionLength = 0;
+            textBoxPassword.SelectionStart = 0;
+            textBoxPassword.ShortcutsEnabled = true;
+            textBoxPassword.Size = new Size(171, 34);
+            textBoxPassword.TabIndex = 38;
+            textBoxPassword.Text = "poisonTextBox2";
+            textBoxPassword.UseSelectable = true;
+            textBoxPassword.WaterMarkColor = Color.FromArgb(109, 109, 109);
+            textBoxPassword.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
             // 
             // textBoxServer
             // 
             textBoxServer.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxServer.Location = new Point(106, 112);
+            // 
+            // 
+            // 
+            textBoxServer.CustomButton.Image = null;
+            textBoxServer.CustomButton.Location = new Point(139, 2);
+            textBoxServer.CustomButton.Name = "";
+            textBoxServer.CustomButton.Size = new Size(29, 29);
+            textBoxServer.CustomButton.Style = ReaLTaiizor.Enum.Poison.ColorStyle.Blue;
+            textBoxServer.CustomButton.TabIndex = 1;
+            textBoxServer.CustomButton.Theme = ReaLTaiizor.Enum.Poison.ThemeStyle.Light;
+            textBoxServer.CustomButton.UseSelectable = true;
+            textBoxServer.CustomButton.Visible = false;
+            textBoxServer.FontSize = ReaLTaiizor.Extension.Poison.PoisonTextBoxSize.Tall;
+            textBoxServer.Lines = new string[]
+    {
+    "poisonTextBox3"
+    };
+            textBoxServer.Location = new Point(151, 119);
+            textBoxServer.MaxLength = 32767;
             textBoxServer.Name = "textBoxServer";
-            textBoxServer.Size = new Size(147, 31);
-            textBoxServer.TabIndex = 26;
+            textBoxServer.PasswordChar = '\0';
+            textBoxServer.ScrollBars = ScrollBars.None;
+            textBoxServer.SelectedText = "";
+            textBoxServer.SelectionLength = 0;
+            textBoxServer.SelectionStart = 0;
+            textBoxServer.ShortcutsEnabled = true;
+            textBoxServer.Size = new Size(171, 34);
+            textBoxServer.TabIndex = 39;
+            textBoxServer.Text = "poisonTextBox3";
+            textBoxServer.UseSelectable = true;
+            textBoxServer.WaterMarkColor = Color.FromArgb(109, 109, 109);
+            textBoxServer.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
             // 
-            // label4
+            // toggleCreateAccount
             // 
-            label4.AutoSize = true;
-            label4.Dock = DockStyle.Top;
-            label4.Location = new Point(0, 0);
-            label4.Margin = new Padding(3, 3, 3, 6);
-            label4.Name = "label4";
-            label4.Padding = new Padding(3);
-            label4.Size = new Size(123, 31);
-            label4.TabIndex = 35;
-            label4.Text = "User Account";
+            toggleCreateAccount.AutoSize = true;
+            toggleCreateAccount.FontSize = ReaLTaiizor.Extension.Poison.PoisonLinkLabelSize.Medium;
+            toggleCreateAccount.Location = new Point(151, 84);
+            toggleCreateAccount.Name = "toggleCreateAccount";
+            toggleCreateAccount.Size = new Size(80, 29);
+            toggleCreateAccount.TabIndex = 41;
+            toggleCreateAccount.Text = "Aus";
+            toggleCreateAccount.UseSelectable = true;
             // 
-            // button1
+            // poisonLabel1
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button1.Cursor = Cursors.Hand;
-            button1.Enabled = false;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(3, 184);
-            button1.Name = "button1";
-            button1.Size = new Size(250, 65);
-            button1.TabIndex = 27;
-            button1.Text = "New User";
-            button1.UseVisualStyleBackColor = true;
+            poisonLabel1.AutoSize = true;
+            poisonLabel1.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
+            poisonLabel1.Location = new Point(3, 163);
+            poisonLabel1.Name = "poisonLabel1";
+            poisonLabel1.Size = new Size(67, 25);
+            poisonLabel1.TabIndex = 42;
+            poisonLabel1.Text = "Hairpin";
+            // 
+            // poisonLabel2
+            // 
+            poisonLabel2.AutoSize = true;
+            poisonLabel2.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
+            poisonLabel2.Location = new Point(3, 128);
+            poisonLabel2.Name = "poisonLabel2";
+            poisonLabel2.Size = new Size(60, 25);
+            poisonLabel2.TabIndex = 43;
+            poisonLabel2.Text = "Server";
+            // 
+            // poisonLabel3
+            // 
+            poisonLabel3.AutoSize = true;
+            poisonLabel3.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
+            poisonLabel3.Location = new Point(3, 13);
+            poisonLabel3.Name = "poisonLabel3";
+            poisonLabel3.Size = new Size(89, 25);
+            poisonLabel3.TabIndex = 44;
+            poisonLabel3.Text = "Username";
+            // 
+            // poisonLabel4
+            // 
+            poisonLabel4.AutoSize = true;
+            poisonLabel4.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
+            poisonLabel4.Location = new Point(3, 53);
+            poisonLabel4.Name = "poisonLabel4";
+            poisonLabel4.Size = new Size(82, 25);
+            poisonLabel4.TabIndex = 45;
+            poisonLabel4.Text = "Password";
+            // 
+            // poisonLabel5
+            // 
+            poisonLabel5.AutoSize = true;
+            poisonLabel5.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
+            poisonLabel5.Location = new Point(4, 88);
+            poisonLabel5.Name = "poisonLabel5";
+            poisonLabel5.Size = new Size(128, 25);
+            poisonLabel5.TabIndex = 46;
+            poisonLabel5.Text = "Create Account";
+            // 
+            // poisonPanel1
+            // 
+            poisonPanel1.AutoSize = true;
+            poisonPanel1.Controls.Add(toggleHairpin);
+            poisonPanel1.Controls.Add(textBoxUsername);
+            poisonPanel1.Controls.Add(textBoxPassword);
+            poisonPanel1.Controls.Add(textBoxServer);
+            poisonPanel1.Controls.Add(toggleCreateAccount);
+            poisonPanel1.Controls.Add(poisonLabel1);
+            poisonPanel1.Controls.Add(poisonLabel5);
+            poisonPanel1.Controls.Add(poisonLabel2);
+            poisonPanel1.Controls.Add(poisonLabel3);
+            poisonPanel1.Controls.Add(poisonLabel4);
+            poisonPanel1.Dock = DockStyle.Fill;
+            poisonPanel1.HorizontalScrollbarBarColor = true;
+            poisonPanel1.HorizontalScrollbarHighlightOnWheel = false;
+            poisonPanel1.HorizontalScrollbarSize = 10;
+            poisonPanel1.Location = new Point(0, 0);
+            poisonPanel1.Name = "poisonPanel1";
+            poisonPanel1.Size = new Size(325, 196);
+            poisonPanel1.TabIndex = 47;
+            poisonPanel1.VerticalScrollbarBarColor = true;
+            poisonPanel1.VerticalScrollbarHighlightOnWheel = false;
+            poisonPanel1.VerticalScrollbarSize = 10;
             // 
             // XiUserConfigControl
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoSize = true;
-            Controls.Add(label4);
-            Controls.Add(label3);
-            Controls.Add(textBoxUsername);
-            Controls.Add(checkBoxHairpin);
-            Controls.Add(label2);
-            Controls.Add(textBoxPassword);
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(textBoxServer);
+            Controls.Add(poisonPanel1);
             Name = "XiUserConfigControl";
-            Size = new Size(256, 252);
-            ((System.ComponentModel.ISupportInitialize)bindingSource1).EndInit();
+            Size = new Size(325, 196);
+            poisonPanel1.ResumeLayout(false);
+            poisonPanel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Label label3;
-        private TextBox textBoxUsername;
-        private CheckBox checkBoxHairpin;
-        private Label label2;
-        private TextBox textBoxPassword;
-        private Label label1;
-        private TextBox textBoxServer;
-        private BindingSource bindingSource1;
-        private Label label4;
-        private Button button1;
+        private ReaLTaiizor.Controls.PoisonToggle toggleHairpin;
+        private ReaLTaiizor.Controls.PoisonTextBox textBoxUsername;
+        private ReaLTaiizor.Controls.PoisonTextBox textBoxPassword;
+        private ReaLTaiizor.Controls.PoisonTextBox textBoxServer;
+        private ReaLTaiizor.Controls.PoisonToggle toggleCreateAccount;
+        private ReaLTaiizor.Controls.PoisonLabel poisonLabel1;
+        private ReaLTaiizor.Controls.PoisonLabel poisonLabel2;
+        private ReaLTaiizor.Controls.PoisonLabel poisonLabel3;
+        private ReaLTaiizor.Controls.PoisonLabel poisonLabel4;
+        private ReaLTaiizor.Controls.PoisonLabel poisonLabel5;
+        private ReaLTaiizor.Controls.PoisonPanel poisonPanel1;
     }
 }

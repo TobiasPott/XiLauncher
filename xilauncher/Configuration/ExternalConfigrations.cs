@@ -1,23 +1,32 @@
 ﻿using Microsoft.Win32;
+using System.Diagnostics;
 
-namespace xilauncher.Controls
+namespace xilauncher.Configuration
 {
-    public partial class XiExternalConfigControl : UserControl
+    public enum ConfigApp
+    {
+        PlayOnline,
+        FinalFantasyXI,
+        Gamepad
+    }
+
+    internal class ExternalConfigrations
     {
 
-        RegistryKey? regKeyIinstallFolders = Registry.LocalMachine.OpenSubKey("Software", false)?
+        public static ExternalConfigrations Instance { get; private set; } = new ExternalConfigrations();
+
+
+        private RegistryKey? regKeyIinstallFolders = Registry.LocalMachine.OpenSubKey("Software", false)?
             .OpenSubKey("WOW6432Node", false)?
                 .OpenSubKey("PlayOnlineUS", false)?
                 .OpenSubKey("InstallFolder", false);
 
-        FileInfo? ffxiGameConfigExe;
-        FileInfo? ffxiGamepadConfigExe;
-        FileInfo? ffxiPolConfigExe;
+        private FileInfo? ffxiGameConfigExe;
+        private FileInfo? ffxiGamepadConfigExe;
+        private FileInfo? ffxiPolConfigExe;
 
-
-        public XiExternalConfigControl()
+        public ExternalConfigrations()
         {
-            InitializeComponent();
 
             if (regKeyIinstallFolders != null)
             {
@@ -41,19 +50,31 @@ namespace xilauncher.Controls
             }
         }
 
-        private void ButtonConfigGamepad_Click(object sender, EventArgs e)
+        public Process? OpenConfigFor(ConfigApp configApp)
         {
-            Launcher.Launch(ffxiGamepadConfigExe, "", null, false, true, "runas");
+            switch (configApp)
+            {
+                case ConfigApp.PlayOnline:
+                    return OpenConfigForPlayOnline();
+                case ConfigApp.FinalFantasyXI:
+                    return OpenConfigForFinalFantasyXI();
+                case ConfigApp.Gamepad:
+                    return OpenConfigForGamepad();
+            }
+            return null;
+        }
+        public Process? OpenConfigForGamepad()
+        {
+            return Launcher.Launch(ffxiGamepadConfigExe, "", null, false, true, "runas");
         }
 
-        private void ButtonConfigFFXI_Click(object sender, EventArgs e)
+        public Process? OpenConfigForFinalFantasyXI()
         {
-            Launcher.Launch(ffxiGameConfigExe, "", null, false, true, "runas");
+            return Launcher.Launch(ffxiGameConfigExe, "", null, false, true, "runas");
         }
-
-        private void ButtonConfigPlayOnline_Click(object sender, EventArgs e)
+        public Process? OpenConfigForPlayOnline()
         {
-            Launcher.Launch(ffxiPolConfigExe, "", null, false, true, "runas");
+            return Launcher.Launch(ffxiPolConfigExe, "", null, false, true, "runas");
         }
     }
 }
