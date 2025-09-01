@@ -173,6 +173,7 @@
             toggleCreateAccount.TabIndex = 41;
             toggleCreateAccount.Text = "Aus";
             toggleCreateAccount.UseSelectable = true;
+            toggleCreateAccount.Visible = false;
             // 
             // poisonLabel1
             // 
@@ -223,6 +224,7 @@
             poisonLabel5.Size = new Size(128, 25);
             poisonLabel5.TabIndex = 46;
             poisonLabel5.Text = "Create Account";
+            poisonLabel5.Visible = false;
             // 
             // poisonPanel1
             // 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 
 namespace xilauncher
@@ -24,6 +23,13 @@ namespace xilauncher
             Message,
             Error
         }
+        [Flags()]
+        public enum XiLogVisibility
+        {
+            All = Log | Console,
+            Log = 1,
+            Console = 2
+        }
 
         public static event Action<XiLogCategory, XiLogLevel, string>? LogWritten;
 
@@ -38,7 +44,10 @@ namespace xilauncher
             return string.Empty;
         }
 
-        public static void WriteLine(string message, XiLogCategory category = XiLogCategory.Default, XiLogLevel level = XiLogLevel.Message)
+        public static void WriteLine(string message,
+            XiLogCategory category = XiLogCategory.Default,
+            XiLogLevel level = XiLogLevel.Message,
+            XiLogVisibility visibility = XiLogVisibility.All)
         {
             if (!_logChannels.ContainsKey(category))
                 _logChannels[category] = new StringBuilder(LogBufferBaseSize, LogBufferBaseSize * 8);
@@ -51,28 +60,43 @@ namespace xilauncher
             if (sb.Capacity >= (sb.MaxCapacity - timestampedMessage.Length))
                 sb.Remove(0, LogBufferBaseSize);
             // log to channel buffer and console window
-            sb.AppendLine($">> {message}");
 
-            Console.WriteLine(timestampedMessage);
-            // call event to notify othery
-            LogWritten?.Invoke(category, level, message);
+
+
+            if (visibility.HasFlag(XiLogVisibility.Console))
+                Console.WriteLine(timestampedMessage);
+            if (visibility.HasFlag(XiLogVisibility.Log))
+            {
+                sb.AppendLine($">> {message}");
+                // call event to notify othery
+                LogWritten?.Invoke(category, level, message);
+            }
         }
     }
 
 
     internal class XiLogProcessRedirector
     {
+        public static readonly XiLogProcessRedirector DatabaseRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.Database, visibility: XiLog.XiLogVisibility.Log);
+        public static readonly XiLogProcessRedirector XiConnectRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.ConnectServer, visibility: XiLog.XiLogVisibility.Log);
+        public static readonly XiLogProcessRedirector XiSearchRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.SearchServer, visibility: XiLog.XiLogVisibility.Log);
+        public static readonly XiLogProcessRedirector XiWorldRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.WorldServer, visibility: XiLog.XiLogVisibility.Log);
+        public static readonly XiLogProcessRedirector XiMapRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.MapServer, visibility: XiLog.XiLogVisibility.Log);
+
+
         public readonly XiLog.XiLogCategory Category;
         public readonly XiLog.XiLogLevel OutputAs;
         public readonly XiLog.XiLogLevel ErrorAs;
+        public readonly XiLog.XiLogVisibility Visibility;
         private Process? _process = null;
 
         public XiLogProcessRedirector(XiLog.XiLogCategory category, XiLog.XiLogLevel outputAs = XiLog.XiLogLevel.Message,
-            XiLog.XiLogLevel errorAs = XiLog.XiLogLevel.Error)
+            XiLog.XiLogLevel errorAs = XiLog.XiLogLevel.Error, XiLog.XiLogVisibility visibility = XiLog.XiLogVisibility.All)
         {
             this.Category = category;
             this.OutputAs = outputAs;
             this.ErrorAs = errorAs;
+            this.Visibility = visibility;
         }
 
         public void Attach(Process? process)
@@ -107,14 +131,14 @@ namespace xilauncher
         {
             string log = $"{e.Data}";
             if (!String.IsNullOrWhiteSpace(log))
-                XiLog.WriteLine(log, Category, ErrorAs);
+                XiLog.WriteLine(log, Category, ErrorAs, Visibility);
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             string log = $"{e.Data}";
             if (!String.IsNullOrWhiteSpace(log))
-                XiLog.WriteLine(log, Category, OutputAs);
+                XiLog.WriteLine(log, Category, OutputAs, Visibility);
         }
 
     }

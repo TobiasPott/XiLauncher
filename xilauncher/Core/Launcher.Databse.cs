@@ -6,8 +6,6 @@ namespace xilauncher
     {
         public bool IsDatabaseProcessActive => _procDatabase is not null;
 
-        private XiLogProcessRedirector _logDatabaseRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.Database);
-
         private bool EnsureDatabaseConfig()
         {
             if (_resources.fileMyIni is not null && _resources.fileMyIni.Exists
@@ -67,7 +65,7 @@ namespace xilauncher
 
             if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
             else XiLog.WriteLine("Database failed to start!");
-            _logDatabaseRedirector.Attach(_procDatabase);
+            XiLogProcessRedirector.DatabaseRedirector.Attach(_procDatabase);
 
             this.OnProcessChanged(LauncherModules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
             return _procDatabase is not null;
@@ -82,7 +80,7 @@ namespace xilauncher
                 await Task.Delay(16);
                 _procDatabase.Kill(true);
                 // detach log redirector
-                _logDatabaseRedirector.Detach();
+                XiLogProcessRedirector.DatabaseRedirector.Detach();
                 // reset reference and dispatch event
                 XiLog.WriteLine("Stopped local database.");
                 _procDatabase = null;

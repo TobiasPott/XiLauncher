@@ -101,17 +101,17 @@
             ptIn.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);
             ptIn.KeyPress += ptIn_KeyPress;
             // 
-            // LogForm
+            // XiLogForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.FromArgb(255, 255, 255);
             ClientSize = new Size(800, 450);
             Controls.Add(ptIn);
             Controls.Add(ptOut);
             ForeColor = SystemColors.HighlightText;
-            Name = "LogForm";
+            Name = "XiLogForm";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "LogForm";
             FormClosing += LogForm_FormClosing;
             Load += LogForm_Activated;

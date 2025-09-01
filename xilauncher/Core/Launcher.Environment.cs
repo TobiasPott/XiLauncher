@@ -9,13 +9,6 @@ namespace xilauncher
                     && _procWorld is not null
                     && _procMap is not null;
 
-        // ToDo: add CancellationToken argument to allow cancellation of launching all processes
-        //          the Task.Delay calls introduce delay in execution which can result in processes started though others are killed via UI already
-        private XiLogProcessRedirector _logConnectRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.ConnectServer);
-        private XiLogProcessRedirector _logSearchRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.SearchServer);
-        private XiLogProcessRedirector _logWorldRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.WorldServer);
-        private XiLogProcessRedirector _logMapRedirector = new XiLogProcessRedirector(XiLog.XiLogCategory.MapServer);
-
         public async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Starting);
@@ -50,7 +43,7 @@ namespace xilauncher
                     if (_procMap is not null)
                     {
                         XiLog.WriteLine("...xi_map is running.");
-                        _logMapRedirector.Attach(_procMap);
+                        XiLogProcessRedirector.XiMapRedirector.Attach(_procMap);
                         this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -71,7 +64,7 @@ namespace xilauncher
                     if (_procWorld is not null)
                     {
                         XiLog.WriteLine("...xi_world is running.");
-                        _logWorldRedirector.Attach(_procWorld);
+                        XiLogProcessRedirector.XiWorldRedirector.Attach(_procWorld);
                         this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -92,7 +85,7 @@ namespace xilauncher
                     if (_procSearch is not null)
                     {
                         XiLog.WriteLine("...xi_search is running.");
-                        _logSearchRedirector.Attach(_procSearch);
+                        XiLogProcessRedirector.XiSearchRedirector.Attach(_procSearch);
                         this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -112,8 +105,8 @@ namespace xilauncher
                         true, false, "", true);
                     if (_procConnect is not null)
                     {
-                        XiLog.WriteLine("...xi_connect is running."); 
-                        _logConnectRedirector.Attach(_procConnect);
+                        XiLog.WriteLine("...xi_connect is running.");
+                        XiLogProcessRedirector.XiConnectRedirector.Attach(_procConnect);
                         this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Running);
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -137,6 +130,7 @@ namespace xilauncher
             {
                 _procConnect.Kill(true);
                 _procConnect = null;
+                XiLogProcessRedirector.XiConnectRedirector.Detach();
                 await Task.Delay(33);
                 this.OnProcessChanged(LauncherModules.ConnectServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_connect server.");
@@ -148,6 +142,7 @@ namespace xilauncher
             {
                 _procSearch.Kill(true);
                 _procSearch = null;
+                XiLogProcessRedirector.XiSearchRedirector.Detach();
                 await Task.Delay(33);
                 this.OnProcessChanged(LauncherModules.SearchServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_search server.");
@@ -159,6 +154,7 @@ namespace xilauncher
             {
                 _procWorld.Kill(true);
                 _procWorld = null;
+                XiLogProcessRedirector.XiWorldRedirector.Detach();
                 await Task.Delay(33);
                 this.OnProcessChanged(LauncherModules.WorldServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_world server.");
@@ -170,6 +166,7 @@ namespace xilauncher
             {
                 _procMap.Kill(true);
                 _procMap = null;
+                XiLogProcessRedirector.XiMapRedirector.Detach();
                 await Task.Delay(33);
                 this.OnProcessChanged(LauncherModules.MapServer, LauncherState.Stopped);
                 XiLog.WriteLine("Stopped xi_map server.");

@@ -1,7 +1,5 @@
-using ReaLTaiizor.Controls;
 using ReaLTaiizor.Forms;
 using xilauncher.Configuration;
-using xilauncher.Properties;
 
 namespace xilauncher
 {
@@ -160,35 +158,52 @@ namespace xilauncher
         }
 
 
-        //private void tabLauncher_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    string logContent = XiLog.GetLog(XiLog.XiLogCategory.Database);
-        //    textBoxMonitor.Text = logContent;
-        //    textBoxMonitor.Select(logContent.Length, 0);
-        //    textBoxMonitor.ScrollToCaret();
-        //}
+
+        private Controls.XiLogForm? logFormXiConnect;
+        private void OpenLogXiConnectButton_Click(object sender, EventArgs e) =>
+            OpenLog(ref logFormXiConnect, XiLog.XiLogCategory.ConnectServer, LogFormXiConnect_FormClosed);
+        private void LogFormXiConnect_FormClosed(object? sender, FormClosedEventArgs e)
+        { logFormXiConnect = null; this.Focus(); }
+
+        private Controls.XiLogForm? logFormXiSearch;
+        private void OpenLogXiSearchButton_Click(object sender, EventArgs e) =>
+            OpenLog(ref logFormXiSearch, XiLog.XiLogCategory.SearchServer, LogFormXiSearch_FormClosed);
+        private void LogFormXiSearch_FormClosed(object? sender, FormClosedEventArgs e)
+        { logFormXiSearch = null; this.Focus(); }
+
+        private Controls.XiLogForm? logFormXiWorld;
+        private void OpenLogXiWorldButton_Click(object sender, EventArgs e) =>
+            OpenLog(ref logFormXiWorld, XiLog.XiLogCategory.WorldServer, LogFormXiWorld_FormClosed);
+        private void LogFormXiWorld_FormClosed(object? sender, FormClosedEventArgs e)
+        { logFormXiWorld = null; this.Focus(); }
+
+        private Controls.XiLogForm? logFormXiMap;
+        private void OpenLogXiMapButton_Click(object sender, EventArgs e) =>
+            OpenLog(ref logFormXiMap, XiLog.XiLogCategory.MapServer, LogFormXiMap_FormClosed);
+        private void LogFormXiMap_FormClosed(object? sender, FormClosedEventArgs e)
+        { logFormXiMap = null; this.Focus(); }
 
 
-        Controls.XiLogForm? logFormDatabase;
-        private void OpenLogDatabaseButton_Click(object sender, EventArgs e)
-        {
-            if (logFormDatabase == null)
-            {
-                logFormDatabase = new Controls.XiLogForm();
-                logFormDatabase.Text = $"Log - {XiLog.XiLogCategory.Database}";
-                logFormDatabase.Category = XiLog.XiLogCategory.Database;
-                // init log form;
-                logFormDatabase.FormClosed += LogFormDatabase_FormClosed;
-            }
-
-            logFormDatabase.Show();
-        }
-
+        private Controls.XiLogForm? logFormDatabase;
+        private void OpenLogDatabaseButton_Click(object sender, EventArgs e) =>
+            OpenLog(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
         private void LogFormDatabase_FormClosed(object? sender, FormClosedEventArgs e)
+        { logFormDatabase = null; this.Focus(); }
+
+
+        private void OpenLog(ref Controls.XiLogForm? form, XiLog.XiLogCategory category, FormClosedEventHandler? onFormClosed)
         {
-            //logFormDatabase?.Dispose();
-            logFormDatabase = null;
+            if (form == null)
+            {
+                form = new Controls.XiLogForm();
+                form.Text = $"Log - {category}";
+                form.Category = category;
+                // init log form;
+                form.FormClosed += onFormClosed;
+            }
+            form.Show();
         }
+
 
         private void OpenGameConfigButton_Click(object sender, EventArgs e)
         {
@@ -204,6 +219,7 @@ namespace xilauncher
         {
             ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.PlayOnline);
         }
+
     }
 }
 
