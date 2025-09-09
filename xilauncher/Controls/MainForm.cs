@@ -36,7 +36,6 @@ namespace xilauncher
 
             _launcher.Resources.RefreshResources();
 
-
         }
 
         private void Resources_Refreshed()
@@ -53,56 +52,31 @@ namespace xilauncher
         }
         private void Launcher_ProcessChanged(LauncherModules modules, LauncherState state)
         {
+            bool isStopped = state == LauncherState.Stopped || state == LauncherState.Stopping || state == LauncherState.Errored;
+            bool isDisabled = state == LauncherState.Starting || state == LauncherState.Stopping;
+            string text = (!isStopped ? UITexts.ButtonLabel_StopFormat : UITexts.ButtonLabel_LaunchFormat) + " {0}";
+            Color backColor = (isStopped ? Color.IndianRed : Color.ForestGreen);
+
+            Action<Button?, PictureBox?, LauncherModules> applyStatus = (button, pictureBox, module) =>
+            {
+                if (button != null)
+                {
+                    button.Text = string.Format(text, module);
+                    button.Enabled = !isDisabled;
+                }
+                if (pictureBox != null)
+                    pictureBox.BackColor = backColor;
+            };
+
             this.Invoke(new Action(() =>
             {
-                if (modules.HasFlag(LauncherModules.Loader))
-                {
-                    switch (state)
-                    {
-                        case LauncherState.Starting:
-                        case LauncherState.Running:
-                            this.pbStartGame.Text = UITexts.ButtonLabel_StopGame;
-                            break;
-                        case LauncherState.Stopping:
-                        case LauncherState.Stopped:
-                        case LauncherState.Errored:
-                            this.pbStartGame.Text = UITexts.ButtonLabel_LaunchGame;
-                            break;
-                    }
-
-                }
-                if (modules.HasFlag(LauncherModules.Database))
-                {
-                    switch (state)
-                    {
-                        case LauncherState.Starting:
-                        case LauncherState.Running:
-                            this.pbStartDatabase.Text = UITexts.ButtonLabel_StopDatabase;
-                            break;
-                        case LauncherState.Stopping:
-                        case LauncherState.Stopped:
-                        case LauncherState.Errored:
-                            this.pbStartDatabase.Text = UITexts.ButtonLabel_LaunchDatabase;
-                            break;
-                    }
-
-                }
-                if (modules.HasFlag(LauncherModules.Environment))
-                {
-                    switch (state)
-                    {
-                        case LauncherState.Starting:
-                        case LauncherState.Running:
-                            this.pbStartServer.Text = UITexts.ButtonLabel_StopServer;
-                            break;
-                        case LauncherState.Stopping:
-                        case LauncherState.Stopped:
-                        case LauncherState.Errored:
-                            this.pbStartServer.Text = UITexts.ButtonLabel_LaunchServer;
-                            break;
-                    }
-
-                }
+                if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, pbStatusGame, LauncherModules.Loader);
+                if (modules.HasFlag(LauncherModules.ConnectServer)) applyStatus(null, pbStatusConnect, LauncherModules.ConnectServer);
+                if (modules.HasFlag(LauncherModules.SearchServer)) applyStatus(null, pbStatusSearch, LauncherModules.SearchServer);
+                if (modules.HasFlag(LauncherModules.WorldServer)) applyStatus(null, pbStatusWorld, LauncherModules.WorldServer);
+                if (modules.HasFlag(LauncherModules.MapServer)) applyStatus(null, pbStatusMap, LauncherModules.MapServer);
+                if (modules.HasFlag(LauncherModules.Environment)) applyStatus(pbStartServer, null, LauncherModules.Environment);
+                if (modules.HasFlag(LauncherModules.Database)) applyStatus(pbStartDatabase, pbStatusDatabase, LauncherModules.Database);
             }));
         }
 

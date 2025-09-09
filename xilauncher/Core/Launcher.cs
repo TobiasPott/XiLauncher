@@ -68,18 +68,19 @@ namespace xilauncher
 
         public async Task Exit(bool stopDatabase, bool stopServer, bool stopGame)
         {
-            if (stopDatabase)
+            if (stopGame)
             {
-                await StopDatabase();
+                await StopGame();
             }
             if (stopServer)
             {
                 await StopEnvironment();
             }
-            if (stopGame)
+            if (stopDatabase)
             {
-                StopGame();
+                await StopDatabase();
             }
+            
         }
 
         /// <summary>

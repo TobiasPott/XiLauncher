@@ -64,6 +64,14 @@
             flowPanelStatusBar = new FlowLayoutPanel();
             poisonLabel2 = new ReaLTaiizor.Controls.PoisonLabel();
             poisonLabel1 = new ReaLTaiizor.Controls.PoisonLabel();
+            panelStatus = new ReaLTaiizor.Controls.PoisonPanel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            pbStatusGame = new PictureBox();
+            pbStatusMap = new PictureBox();
+            pbStatusWorld = new PictureBox();
+            pbStatusSearch = new PictureBox();
+            pbStatusConnect = new PictureBox();
+            pbStatusDatabase = new PictureBox();
             poisonTabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             poisonPanel4.SuspendLayout();
@@ -72,6 +80,14 @@
             poisonPanel1.SuspendLayout();
             tabPage3.SuspendLayout();
             flowPanelStatusBar.SuspendLayout();
+            panelStatus.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbStatusGame).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusMap).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusWorld).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusSearch).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusConnect).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusDatabase).BeginInit();
             SuspendLayout();
             // 
             // imageListTabs
@@ -96,10 +112,10 @@
             bQuit.ForeColor = SystemColors.HighlightText;
             bQuit.ImageKey = "logout_48dp_1F1F1F.png";
             bQuit.ImageList = imageListTabs;
-            bQuit.Location = new Point(750, 13);
+            bQuit.Location = new Point(768, 13);
             bQuit.Margin = new Padding(2, 27, 2, 2);
             bQuit.Name = "bQuit";
-            bQuit.Size = new Size(64, 64);
+            bQuit.Size = new Size(42, 42);
             bQuit.TabIndex = 28;
             bQuit.UseVisualStyleBackColor = false;
             bQuit.Click += ButtonQuitLauncher_Click;
@@ -554,11 +570,120 @@
             poisonLabel1.TabIndex = 33;
             poisonLabel1.Text = "poisonLabel1";
             // 
+            // panelStatus
+            // 
+            panelStatus.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelStatus.Controls.Add(flowLayoutPanel1);
+            panelStatus.HorizontalScrollbarBarColor = true;
+            panelStatus.HorizontalScrollbarHighlightOnWheel = false;
+            panelStatus.HorizontalScrollbarSize = 10;
+            panelStatus.Location = new Point(573, 75);
+            panelStatus.Name = "panelStatus";
+            panelStatus.Size = new Size(231, 24);
+            panelStatus.TabIndex = 33;
+            panelStatus.VerticalScrollbarBarColor = true;
+            panelStatus.VerticalScrollbarHighlightOnWheel = false;
+            panelStatus.VerticalScrollbarSize = 10;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(pbStatusGame);
+            flowLayoutPanel1.Controls.Add(pbStatusMap);
+            flowLayoutPanel1.Controls.Add(pbStatusWorld);
+            flowLayoutPanel1.Controls.Add(pbStatusSearch);
+            flowLayoutPanel1.Controls.Add(pbStatusConnect);
+            flowLayoutPanel1.Controls.Add(pbStatusDatabase);
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.FlowDirection = FlowDirection.RightToLeft;
+            flowLayoutPanel1.Location = new Point(0, 0);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(231, 24);
+            flowLayoutPanel1.TabIndex = 5;
+            // 
+            // pbStatusGame
+            // 
+            pbStatusGame.BackColor = Color.IndianRed;
+            pbStatusGame.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusGame.Image = Properties.Resources.videogame_asset_48dp_F1F1F1;
+            pbStatusGame.Location = new Point(207, 0);
+            pbStatusGame.Margin = new Padding(12, 0, 0, 0);
+            pbStatusGame.Name = "pbStatusGame";
+            pbStatusGame.Size = new Size(24, 24);
+            pbStatusGame.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusGame.TabIndex = 12;
+            pbStatusGame.TabStop = false;
+            // 
+            // pbStatusMap
+            // 
+            pbStatusMap.BackColor = Color.IndianRed;
+            pbStatusMap.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusMap.Image = Properties.Resources.map_48dp_F1F1F1;
+            pbStatusMap.Location = new Point(171, 0);
+            pbStatusMap.Margin = new Padding(12, 0, 0, 0);
+            pbStatusMap.Name = "pbStatusMap";
+            pbStatusMap.Size = new Size(24, 24);
+            pbStatusMap.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusMap.TabIndex = 13;
+            pbStatusMap.TabStop = false;
+            // 
+            // pbStatusWorld
+            // 
+            pbStatusWorld.BackColor = Color.IndianRed;
+            pbStatusWorld.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusWorld.Image = Properties.Resources.globe_48dp_F1F1F1;
+            pbStatusWorld.Location = new Point(135, 0);
+            pbStatusWorld.Margin = new Padding(12, 0, 0, 0);
+            pbStatusWorld.Name = "pbStatusWorld";
+            pbStatusWorld.Size = new Size(24, 24);
+            pbStatusWorld.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusWorld.TabIndex = 14;
+            pbStatusWorld.TabStop = false;
+            // 
+            // pbStatusSearch
+            // 
+            pbStatusSearch.BackColor = Color.IndianRed;
+            pbStatusSearch.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusSearch.Image = Properties.Resources.database_search_48dp_F1F1F1;
+            pbStatusSearch.Location = new Point(99, 0);
+            pbStatusSearch.Margin = new Padding(12, 0, 0, 0);
+            pbStatusSearch.Name = "pbStatusSearch";
+            pbStatusSearch.Size = new Size(24, 24);
+            pbStatusSearch.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusSearch.TabIndex = 15;
+            pbStatusSearch.TabStop = false;
+            // 
+            // pbStatusConnect
+            // 
+            pbStatusConnect.BackColor = Color.IndianRed;
+            pbStatusConnect.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusConnect.Image = Properties.Resources.router_48dp_F1F1F1;
+            pbStatusConnect.Location = new Point(63, 0);
+            pbStatusConnect.Margin = new Padding(12, 0, 0, 0);
+            pbStatusConnect.Name = "pbStatusConnect";
+            pbStatusConnect.Size = new Size(24, 24);
+            pbStatusConnect.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusConnect.TabIndex = 16;
+            pbStatusConnect.TabStop = false;
+            // 
+            // pbStatusDatabase
+            // 
+            pbStatusDatabase.BackColor = Color.IndianRed;
+            pbStatusDatabase.BorderStyle = BorderStyle.FixedSingle;
+            pbStatusDatabase.Image = Properties.Resources.data_table_48dp_F1F1F1;
+            pbStatusDatabase.Location = new Point(27, 0);
+            pbStatusDatabase.Margin = new Padding(12, 0, 0, 0);
+            pbStatusDatabase.Name = "pbStatusDatabase";
+            pbStatusDatabase.Size = new Size(24, 24);
+            pbStatusDatabase.SizeMode = PictureBoxSizeMode.Zoom;
+            pbStatusDatabase.TabIndex = 17;
+            pbStatusDatabase.TabStop = false;
+            // 
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(818, 438);
             ControlBox = false;
+            Controls.Add(panelStatus);
             Controls.Add(flowPanelStatusBar);
             Controls.Add(bQuit);
             Controls.Add(poisonTabControl1);
@@ -581,6 +706,14 @@
             tabPage3.PerformLayout();
             flowPanelStatusBar.ResumeLayout(false);
             flowPanelStatusBar.PerformLayout();
+            panelStatus.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pbStatusGame).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusMap).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusWorld).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusSearch).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusConnect).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pbStatusDatabase).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -620,5 +753,13 @@
         private ReaLTaiizor.Controls.PoisonButton pbQuitLauncher;
         private Controls.XiUserConfigControl userConfigControl;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel5;
+        private ReaLTaiizor.Controls.PoisonPanel panelStatus;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private PictureBox pbStatusGame;
+        private PictureBox pbStatusMap;
+        private PictureBox pbStatusWorld;
+        private PictureBox pbStatusSearch;
+        private PictureBox pbStatusConnect;
+        private PictureBox pbStatusDatabase;
     }
 }

@@ -118,8 +118,11 @@ namespace xilauncher
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopping);
             await StopMapServer();
+            await Task.Delay(200);
             await StopWorldServer();
+            await Task.Delay(200);
             await StopSearchServer();
+            await Task.Delay(200);
             await StopConnectServer();
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopped);
         }

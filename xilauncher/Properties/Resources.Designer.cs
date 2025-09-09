@@ -83,9 +83,39 @@ namespace xilauncher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap data_table_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("data_table_48dp_F1F1F1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database_search_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("database_search_48dp_F1F1F1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FFXI_ExeIcon {
             get {
                 object obj = ResourceManager.GetObject("FFXI_ExeIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap globe_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("globe_48dp_F1F1F1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -106,6 +136,16 @@ namespace xilauncher.Properties {
         internal static System.Drawing.Bitmap green_x32 {
             get {
                 object obj = ResourceManager.GetObject("green_x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap map_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("map_48dp_F1F1F1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +176,26 @@ namespace xilauncher.Properties {
         internal static System.Drawing.Bitmap red_x32 {
             get {
                 object obj = ResourceManager.GetObject("red_x32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap router_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("router_48dp_F1F1F1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap videogame_asset_48dp_F1F1F1 {
+            get {
+                object obj = ResourceManager.GetObject("videogame_asset_48dp_F1F1F1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

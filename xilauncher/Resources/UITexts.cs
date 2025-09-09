@@ -2,6 +2,9 @@
 {
     internal class UITexts
     {
+        public const string ButtonLabel_StopFormat = "Stop ";
+        public const string ButtonLabel_LaunchFormat = "Launch ";
+
         public const string ButtonLabel_LaunchGame = "Launch Game";
         public const string ButtonLabel_StopGame = "Stop Game";
 
