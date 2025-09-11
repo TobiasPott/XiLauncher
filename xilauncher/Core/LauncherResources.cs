@@ -4,13 +4,18 @@ namespace xilauncher
 {
     public class LauncherResources
     {
+        #region Events
+        public event Action? Refreshed = null;
+
+        #endregion
+
+        #region Constants
         private const string data = "data";
         private const string bin = "bin";
         private const string lib = "lib";
         private const string plugin = "plugin";
 
 
-        private string xiBasePath = @"unresolved";
         private const string xiLauncherDir = "xilauncher";
 
         private const string xiLoaderDir = "xiloader";
@@ -27,9 +32,21 @@ namespace xilauncher
         private const string xiMapExe = "xi_map.exe";
 
 
-        public event Action? Refreshed = null;
+        private const string buildDebugDir = "bin/debug"; 
+        private const string buildDebugDirAlt = @"bin\debug"; 
+        private const string buildReleaseDir = "bin/release";
+        private const string buildReleaseDirAlt = @"bin\release";
+
+        #endregion
 
 
+        #region Fields
+        private string xiBasePath = @"unresolved";
+
+        #endregion
+
+
+        #region Properties
         internal DirectoryInfo dirBase { get; private set; }
         internal DirectoryInfo? dirLauncher { get; private set; }
 
@@ -49,6 +66,16 @@ namespace xilauncher
         internal DirectoryInfo? dirMysqlPlugin { get; private set; }
 
 
+        public bool IsDatabaseLaunchSupported => fileMysqldExe != null && fileMysqldExe.Exists;
+        public bool IsEnvironmentLaunchSupported => fileLoaderExe != null && fileLoaderExe.Exists;
+        public bool IsGameLaunchSupported => fileConnectExe != null && fileConnectExe.Exists
+                                            && fileSearchExe != null && fileSearchExe.Exists
+                                            && fileWorldExe != null && fileWorldExe.Exists
+                                            && fileMapExe != null && fileMapExe.Exists;
+
+        #endregion
+
+
         public LauncherResources()
         {
             dirBase = new DirectoryInfo("LauncherResourcesNotInitialised");
@@ -66,15 +93,17 @@ namespace xilauncher
             dirBase = appPath.ToDirectoryInfo().Parent ?? appPath.ToDirectoryInfo();
 
             string dirBasePath = dirBase.FullName.ToLowerInvariant();
-            if (dirBasePath.Contains("bin/debug") || dirBasePath.Contains(@"bin\debug")
-                || dirBasePath.Contains("bin/release") || dirBasePath.Contains(@"bin\release"))
+            // check for debug/release builds from visual studio 
+            if (dirBasePath.Contains(buildDebugDir) || dirBasePath.Contains(buildDebugDirAlt)
+                || dirBasePath.Contains(buildReleaseDir) || dirBasePath.Contains(buildReleaseDirAlt))
+                // pick the specific parent folder as base (assuming xiloader and other process share a common root above the solution folder)
                 dirBase = dirBase.Parent?.Parent?.Parent?.Parent ?? appPath.ToDirectoryInfo();
-            
+
             XiLog.WriteLine($"Launcher resources located at: {dirBase.FullName}");
             if (!dirBase.FullName.Equals(appPath))
                 XiLog.WriteLine($"Launcher origin is: {appPath}");
 
-            // set base path to the directory determinded from refresh
+            // set base path to the directory determined from refresh
             xiBasePath = dirBase.FullName;
 
             this.ValidateFilesAndDirectories();
@@ -121,15 +150,14 @@ namespace xilauncher
                 dirServer, fileConnectExe, fileSearchExe, fileWorldExe, fileMapExe,
                 dirMariadb, fileMysqldExe, fileMyIni, dirMysqlData, dirMysqlPlugin
             };
+
+            // iterate over all directories and files and print some info to the log
             bool allValid = true;
-            //foreach (FileSystemInfo? fileInfo in filesAndDirectories)
-            for (int i = 0; i < filesAndDirectories.Count; i++)
+            foreach (var fileInfo in filesAndDirectories)
             {
-                FileSystemInfo? fileInfo = filesAndDirectories[i];
                 if (fileInfo is not null)
                 {
                     XiLog.WriteLine($"{fileInfo.Exists} <- {fileInfo.GetType().Name} at path: '{fileInfo.FullName}'.");
-
                     if (!fileInfo.Exists)
                     {
                         allValid = false;

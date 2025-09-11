@@ -25,6 +25,12 @@ namespace xilauncher.Configuration
         private FileInfo? ffxiGamepadConfigExe;
         private FileInfo? ffxiPolConfigExe;
 
+
+        public bool IsGameConfigSupported => ffxiGameConfigExe != null && ffxiGameConfigExe.Exists;
+        public bool IsGamepadConfigSupported => ffxiGamepadConfigExe != null && ffxiGamepadConfigExe.Exists;
+        public bool IsPlayOnlineConfigSupported => ffxiPolConfigExe != null && ffxiPolConfigExe.Exists;
+
+
         public ExternalConfigrations()
         {
 

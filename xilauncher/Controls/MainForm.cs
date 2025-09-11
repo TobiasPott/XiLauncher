@@ -21,19 +21,16 @@ namespace xilauncher
         */
     public partial class MainForm : PoisonForm
     {
-        private Launcher _launcher;
+        private readonly Launcher _launcher;
         private XiLoaderUserConfig _default = new XiLoaderUserConfig("mule", "private", "127.0.0.1", true);
 
 
         public MainForm(Launcher launcher) : base()
         {
             InitializeComponent();
-            //_ = new Input();
             _launcher = launcher;
             _launcher.ProcessChanged += Launcher_ProcessChanged;
             _launcher.Resources.Refreshed += Resources_Refreshed;
-            //xiUserConfigControl.SetConfig(_default);
-
             _launcher.Resources.RefreshResources();
 
         }
@@ -42,6 +39,24 @@ namespace xilauncher
         {
             poisonLabel1.Text = _launcher.Resources.dirBase.FullName;
             XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
+
+            // update button states based on availability of resources and external files
+            pbStartGame.Enabled = _launcher.Resources.IsGameLaunchSupported;
+            pbOpenGameLog.Enabled = _launcher.Resources.IsGameLaunchSupported;
+
+            pbStartEnvironment.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+            pbOpenConnectLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+            pbOpenSearchLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+            pbOpenWorldLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+            pbOpenMapLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+
+            pbStartDatabase.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
+            pbOpenDatabaseLog.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
+
+
+            pbOpenConfigGame.Enabled = ExternalConfigrations.Instance.IsGameConfigSupported;
+            pbOpenConfigGamepad.Enabled = ExternalConfigrations.Instance.IsGamepadConfigSupported;
+            pbOpenConfigPlayOnline.Enabled = ExternalConfigrations.Instance.IsPlayOnlineConfigSupported;
         }
 
         private async Task CloseApplication()
@@ -75,13 +90,11 @@ namespace xilauncher
                 if (modules.HasFlag(LauncherModules.SearchServer)) applyStatus(null, pbStatusSearch, LauncherModules.SearchServer);
                 if (modules.HasFlag(LauncherModules.WorldServer)) applyStatus(null, pbStatusWorld, LauncherModules.WorldServer);
                 if (modules.HasFlag(LauncherModules.MapServer)) applyStatus(null, pbStatusMap, LauncherModules.MapServer);
-                if (modules.HasFlag(LauncherModules.Environment)) applyStatus(pbStartServer, null, LauncherModules.Environment);
+                if (modules.HasFlag(LauncherModules.Environment)) applyStatus(pbStartEnvironment, null, LauncherModules.Environment);
                 if (modules.HasFlag(LauncherModules.Database)) applyStatus(pbStartDatabase, pbStatusDatabase, LauncherModules.Database);
             }));
         }
 
-        // ToDo: covnert click function body to functions in Launcher.Database/Environment files
-        //      as async void callable with cancellation token
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
             if (_launcher.IsGameProcessActive)
@@ -109,7 +122,7 @@ namespace xilauncher
 
         private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
-            // ToDo: only call dialog if servers are running
+            // check if any processes are active to prompt for confirmation
             DialogResult result = DialogResult.Yes;
             if (_launcher.IsDatabaseProcessActive || _launcher.IsEnvironmentActive
                 || _launcher.IsGameProcessActive)
@@ -125,7 +138,6 @@ namespace xilauncher
                     await this.CloseApplication();
                 }
             }
-            //DialogResult result = MessageBox.Show("message", "Quit Application", MessageBoxButtons.YesNo);
             if (result == System.Windows.Forms.DialogResult.Yes)
                 await this.CloseApplication();
             await Task.CompletedTask;

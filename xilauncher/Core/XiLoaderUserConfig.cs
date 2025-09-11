@@ -6,11 +6,32 @@ namespace xilauncher
     [Serializable]
     public struct XiLoaderUserConfig
     {
+
+        #region Fields
+        /// <summary>
+        /// the username passed to xiloader process
+        /// </summary>
         public string Username = "";
+        /// <summary>
+        /// the password passed to xiloader process (is passed in plaintext and not securely stored)
+        /// </summary>
         public SecureString Password = new SecureString();
-        public string Server = "127.0.0.1"; // localhost is default to connect to launched environment
-        public bool UseHairPin = false;
+        /// <summary>
+        /// flag that determines whether a new account should be created if possible (not supported by xiloader yet)
+        /// </summary>
         public bool CreateAccount = false;
+        /// <summary>
+        /// the ip or host name of the server passed to xiloader process
+        /// </summary>
+        public string Server = "127.0.0.1";
+        /// <summary>
+        /// flag that enables the --hairpin option on the xiloader process for public exposed server access
+        /// </summary>
+        public bool UseHairPin = false;
+
+        #endregion
+
+
         public XiLoaderUserConfig()
         {
         }
@@ -19,10 +40,10 @@ namespace xilauncher
         {
             Username = userName;
             Password = new System.Security.SecureString();
+            CreateAccount = false;
             foreach (char c in unsafePassword) Password.AppendChar(c);
             Server = server;
             UseHairPin = hairpin;
-            CreateAccount = false;
         }
 
         public string ToArguments()

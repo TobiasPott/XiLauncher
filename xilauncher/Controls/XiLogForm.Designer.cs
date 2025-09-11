@@ -57,13 +57,14 @@
             ptOut.Multiline = true;
             ptOut.Name = "ptOut";
             ptOut.PasswordChar = '\0';
+            ptOut.ReadOnly = true;
             ptOut.ScrollBars = ScrollBars.None;
             ptOut.SelectedText = "";
             ptOut.SelectionLength = 0;
             ptOut.SelectionStart = 0;
             ptOut.ShortcutsEnabled = true;
             ptOut.Size = new Size(760, 330);
-            ptOut.TabIndex = 3;
+            ptOut.TabIndex = 2;
             ptOut.Text = "poisonTextBox1";
             ptOut.UseSelectable = true;
             ptOut.WaterMarkColor = Color.FromArgb(109, 109, 109);
@@ -94,8 +95,9 @@
             ptIn.SelectionLength = 0;
             ptIn.SelectionStart = 0;
             ptIn.ShortcutsEnabled = true;
+            ptIn.ShowClearButton = true;
             ptIn.Size = new Size(760, 34);
-            ptIn.TabIndex = 4;
+            ptIn.TabIndex = 1;
             ptIn.UseSelectable = true;
             ptIn.WaterMarkColor = Color.FromArgb(109, 109, 109);
             ptIn.WaterMarkFont = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Pixel);

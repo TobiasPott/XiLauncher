@@ -4,13 +4,20 @@ namespace xilauncher.Controls
 {
     public partial class XiLogForm : PoisonForm
     {
+        #region Events
+        public event Action<string>? LineRead;
+
+        #endregion
+
+        #region Properties
         internal XiLog.XiLogCategory Category { get; set; } = XiLog.XiLogCategory.Default;
 
-        public event Action<string>? LineRead;
+        #endregion
 
         public XiLogForm()
         {
             InitializeComponent();
+
         }
 
         private void LogForm_Activated(object sender, EventArgs e)
@@ -23,6 +30,7 @@ namespace xilauncher.Controls
                 ptOut.Invalidate(true);
             }));
             XiLog.LogWritten += XiLog_LogWritten;
+
         }
 
         private void XiLog_LogWritten(XiLog.XiLogCategory arg1, XiLog.XiLogLevel arg2, string arg3)
@@ -36,24 +44,25 @@ namespace xilauncher.Controls
             }
         }
 
-        private void LogForm_Deactivate(object sender, EventArgs e)
-        {
-            XiLog.LogWritten -= XiLog_LogWritten;
-        }
-
         private void LogForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // detach from log event when form is closed
             XiLog.LogWritten -= XiLog_LogWritten;
         }
 
         private void ptIn_KeyPress(object sender, KeyPressEventArgs e)
         {
-            string input = ptIn.Text;
-            if (!string.IsNullOrWhiteSpace(input))
+            // check for 'return' key pressed on the input textfield
+            if (e.KeyChar == '\r')
             {
-                LineRead?.Invoke(input);
+                string input = ptIn.Text;
+                if (!string.IsNullOrWhiteSpace(input))
+                {
+                    LineRead?.Invoke(input);
+                }
+
+                ptIn.Clear();
             }
-            ptIn.Clear();
         }
     }
 }

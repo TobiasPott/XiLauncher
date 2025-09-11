@@ -3,11 +3,14 @@
     public partial class XiUserConfigControl : UserControl
     {
 
+        #region Properties
         public string Username => textBoxUsername.Text.Trim();
         public string Password => textBoxPassword.Text.Trim();
         public bool CreateAccount => toggleCreateAccount.Checked;
         public string Server => textBoxServer.Text.Trim();
         public bool Hairpin => toggleHairpin.Checked;
+
+        #endregion
 
         public XiUserConfigControl()
         {
