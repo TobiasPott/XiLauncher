@@ -281,7 +281,7 @@
             pbStartGame.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
             pbStartGame.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
             pbStartGame.ImeMode = ImeMode.NoControl;
-            pbStartGame.Location = new Point(0, 270);
+            pbStartGame.Location = new Point(2, 273);
             pbStartGame.Name = "pbStartGame";
             pbStartGame.Size = new Size(383, 49);
             pbStartGame.TabIndex = 45;
@@ -308,7 +308,7 @@
             userConfigControl.Location = new Point(0, 27);
             userConfigControl.Margin = new Padding(2);
             userConfigControl.Name = "userConfigControl";
-            userConfigControl.Size = new Size(385, 295);
+            userConfigControl.Size = new Size(385, 301);
             userConfigControl.TabIndex = 46;
             // 
             // poisonPanel1
@@ -387,7 +387,7 @@
             tabPage3.Location = new Point(4, 35);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(794, 308);
+            tabPage3.Size = new Size(794, 346);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Logs";
             tabPage3.UseVisualStyleBackColor = true;
@@ -522,7 +522,7 @@
             panelTabLogs.HorizontalScrollbarSize = 10;
             panelTabLogs.Location = new Point(3, 3);
             panelTabLogs.Name = "panelTabLogs";
-            panelTabLogs.Size = new Size(788, 302);
+            panelTabLogs.Size = new Size(788, 340);
             panelTabLogs.TabIndex = 31;
             panelTabLogs.VerticalScrollbarBarColor = true;
             panelTabLogs.VerticalScrollbarHighlightOnWheel = false;

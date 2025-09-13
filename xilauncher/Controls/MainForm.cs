@@ -53,7 +53,6 @@ namespace xilauncher
             pbStartDatabase.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
             pbOpenDatabaseLog.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
 
-
             pbOpenConfigGame.Enabled = ExternalConfigrations.Instance.IsGameConfigSupported;
             pbOpenConfigGamepad.Enabled = ExternalConfigrations.Instance.IsGamepadConfigSupported;
             pbOpenConfigPlayOnline.Enabled = ExternalConfigrations.Instance.IsPlayOnlineConfigSupported;
@@ -98,7 +97,16 @@ namespace xilauncher
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
             if (_launcher.IsGameProcessActive)
-            { await _launcher.StopGame(); }
+            {
+                string message = String.Format($"Game is running.");
+                // ToDo: @tpott: change to use PoisonMessageBox to stay in style
+                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopGame();
+                }
+                //await _launcher.StopGame(); 
+            }
             else if (await _launcher.LaunchGame(_default))
             { }
             await Task.CompletedTask;
@@ -113,7 +121,6 @@ namespace xilauncher
                 {
                     await _launcher.StopEnvironment();
                 }
-
                 //await _launcher.StopEnvironment();
             }
             else if (await _launcher.LaunchEnvironment())
