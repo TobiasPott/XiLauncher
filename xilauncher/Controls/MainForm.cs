@@ -106,15 +106,33 @@ namespace xilauncher
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
             if (_launcher.IsEnvironmentActive)
-            { await _launcher.StopEnvironment(); }
+            {
+                string message = String.Format($"Environment is running.");
+                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopEnvironment();
+                }
+
+                //await _launcher.StopEnvironment();
+            }
             else if (await _launcher.LaunchEnvironment())
             { }
             await Task.CompletedTask;
         }
         private async void ButtonLaunchDatabase_Click(object sender, EventArgs e)
         {
+            // Todo: @tpott: add confirm dialog when stopping things
             if (_launcher.IsDatabaseProcessActive)
-            { await _launcher.StopDatabase(); }
+            {
+                string message = String.Format($"Database is running.");
+                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopDatabase();
+                }
+                //await _launcher.StopDatabase();
+            }
             else if (await _launcher.LaunchDatabase())
             { }
             await Task.CompletedTask;
@@ -138,7 +156,7 @@ namespace xilauncher
                     await this.CloseApplication();
                 }
             }
-            if (result == System.Windows.Forms.DialogResult.Yes)
+            else if (result == System.Windows.Forms.DialogResult.Yes)
                 await this.CloseApplication();
             await Task.CompletedTask;
         }

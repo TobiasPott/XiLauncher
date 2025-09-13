@@ -42,9 +42,9 @@
             poisonLabel7 = new ReaLTaiizor.Controls.PoisonLabel();
             pbOpenConfigGame = new ReaLTaiizor.Controls.PoisonButton();
             poisonPanel3 = new ReaLTaiizor.Controls.PoisonPanel();
-            userConfigControl = new xilauncher.Controls.XiUserConfigControl();
             pbStartGame = new ReaLTaiizor.Controls.PoisonButton();
             poisonLabel8 = new ReaLTaiizor.Controls.PoisonLabel();
+            userConfigControl = new xilauncher.Controls.XiUserConfigControl();
             poisonPanel1 = new ReaLTaiizor.Controls.PoisonPanel();
             pbStartEnvironment = new ReaLTaiizor.Controls.PoisonButton();
             pbStartDatabase = new ReaLTaiizor.Controls.PoisonButton();
@@ -121,9 +121,9 @@
             // 
             // poisonTabControl1
             // 
+            poisonTabControl1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             poisonTabControl1.Controls.Add(tabPage1);
             poisonTabControl1.Controls.Add(tabPage3);
-            poisonTabControl1.Dock = DockStyle.Top;
             poisonTabControl1.FontSize = ReaLTaiizor.Extension.Poison.PoisonTabControlSize.Tall;
             poisonTabControl1.FontWeight = ReaLTaiizor.Extension.Poison.PoisonTabControlWeight.Regular;
             poisonTabControl1.HotTrack = true;
@@ -131,7 +131,7 @@
             poisonTabControl1.Name = "poisonTabControl1";
             poisonTabControl1.Padding = new Point(6, 8);
             poisonTabControl1.SelectedIndex = 0;
-            poisonTabControl1.Size = new Size(802, 342);
+            poisonTabControl1.Size = new Size(802, 385);
             poisonTabControl1.TabIndex = 29;
             poisonTabControl1.UseSelectable = true;
             poisonTabControl1.UseStyleColors = true;
@@ -142,7 +142,7 @@
             tabPage1.Location = new Point(4, 44);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(794, 294);
+            tabPage1.Size = new Size(794, 337);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Game";
             // 
@@ -158,7 +158,7 @@
             panelTabGame.HorizontalScrollbarSize = 10;
             panelTabGame.Location = new Point(3, 3);
             panelTabGame.Name = "panelTabGame";
-            panelTabGame.Size = new Size(788, 288);
+            panelTabGame.Size = new Size(788, 331);
             panelTabGame.TabIndex = 49;
             panelTabGame.VerticalScrollbarBarColor = true;
             panelTabGame.VerticalScrollbarHighlightOnWheel = false;
@@ -166,13 +166,14 @@
             // 
             // pbQuitLauncher
             // 
+            pbQuitLauncher.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pbQuitLauncher.BackColor = Color.IndianRed;
             pbQuitLauncher.DisplayFocus = true;
             pbQuitLauncher.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
             pbQuitLauncher.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
             pbQuitLauncher.ForeColor = SystemColors.HighlightText;
             pbQuitLauncher.ImeMode = ImeMode.NoControl;
-            pbQuitLauncher.Location = new Point(397, 237);
+            pbQuitLauncher.Location = new Point(397, 276);
             pbQuitLauncher.Name = "pbQuitLauncher";
             pbQuitLauncher.Size = new Size(388, 49);
             pbQuitLauncher.TabIndex = 46;
@@ -257,41 +258,34 @@
             // 
             // poisonPanel3
             // 
+            poisonPanel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             poisonPanel3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            poisonPanel3.Controls.Add(userConfigControl);
             poisonPanel3.Controls.Add(pbStartGame);
             poisonPanel3.Controls.Add(poisonLabel8);
+            poisonPanel3.Controls.Add(userConfigControl);
             poisonPanel3.HorizontalScrollbarBarColor = true;
             poisonPanel3.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel3.HorizontalScrollbarSize = 10;
             poisonPanel3.Location = new Point(3, 3);
             poisonPanel3.Name = "poisonPanel3";
-            poisonPanel3.Size = new Size(388, 292);
+            poisonPanel3.Size = new Size(388, 322);
             poisonPanel3.TabIndex = 48;
             poisonPanel3.VerticalScrollbarBarColor = true;
             poisonPanel3.VerticalScrollbarHighlightOnWheel = false;
             poisonPanel3.VerticalScrollbarSize = 10;
             // 
-            // userConfigControl
-            // 
-            userConfigControl.AutoSize = true;
-            userConfigControl.Location = new Point(0, 28);
-            userConfigControl.Margin = new Padding(2);
-            userConfigControl.Name = "userConfigControl";
-            userConfigControl.Size = new Size(385, 201);
-            userConfigControl.TabIndex = 46;
-            // 
             // pbStartGame
             // 
+            pbStartGame.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             pbStartGame.DisplayFocus = true;
             pbStartGame.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
             pbStartGame.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
             pbStartGame.ImeMode = ImeMode.NoControl;
-            pbStartGame.Location = new Point(2, 234);
+            pbStartGame.Location = new Point(0, 270);
             pbStartGame.Name = "pbStartGame";
             pbStartGame.Size = new Size(383, 49);
             pbStartGame.TabIndex = 45;
-            pbStartGame.Text = "Start Game";
+            pbStartGame.Text = "Launch Game";
             pbStartGame.UseSelectable = true;
             pbStartGame.Click += ButtonLaunchGame_Click;
             // 
@@ -306,6 +300,16 @@
             poisonLabel8.Size = new Size(57, 25);
             poisonLabel8.TabIndex = 13;
             poisonLabel8.Text = "Game";
+            // 
+            // userConfigControl
+            // 
+            userConfigControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            userConfigControl.AutoSize = true;
+            userConfigControl.Location = new Point(0, 27);
+            userConfigControl.Margin = new Padding(2);
+            userConfigControl.Name = "userConfigControl";
+            userConfigControl.Size = new Size(385, 295);
+            userConfigControl.TabIndex = 46;
             // 
             // poisonPanel1
             // 
@@ -335,7 +339,7 @@
             pbStartEnvironment.Name = "pbStartEnvironment";
             pbStartEnvironment.Size = new Size(186, 49);
             pbStartEnvironment.TabIndex = 46;
-            pbStartEnvironment.Text = "Start Environment";
+            pbStartEnvironment.Text = "Launch Environment";
             pbStartEnvironment.UseCustomBackColor = true;
             pbStartEnvironment.UseSelectable = true;
             pbStartEnvironment.UseVisualStyleBackColor = false;
@@ -352,7 +356,7 @@
             pbStartDatabase.Name = "pbStartDatabase";
             pbStartDatabase.Size = new Size(193, 49);
             pbStartDatabase.TabIndex = 45;
-            pbStartDatabase.Text = "Start Database";
+            pbStartDatabase.Text = "Launch Database";
             pbStartDatabase.UseSelectable = true;
             pbStartDatabase.Click += ButtonLaunchDatabase_Click;
             // 
@@ -383,7 +387,7 @@
             tabPage3.Location = new Point(4, 35);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(794, 303);
+            tabPage3.Size = new Size(794, 308);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Logs";
             tabPage3.UseVisualStyleBackColor = true;
@@ -518,7 +522,7 @@
             panelTabLogs.HorizontalScrollbarSize = 10;
             panelTabLogs.Location = new Point(3, 3);
             panelTabLogs.Name = "panelTabLogs";
-            panelTabLogs.Size = new Size(788, 297);
+            panelTabLogs.Size = new Size(788, 302);
             panelTabLogs.TabIndex = 31;
             panelTabLogs.VerticalScrollbarBarColor = true;
             panelTabLogs.VerticalScrollbarHighlightOnWheel = false;
@@ -530,7 +534,7 @@
             flowPanelStatusBar.Controls.Add(poisonLabel2);
             flowPanelStatusBar.Controls.Add(poisonLabel1);
             flowPanelStatusBar.Dock = DockStyle.Bottom;
-            flowPanelStatusBar.Location = new Point(8, 410);
+            flowPanelStatusBar.Location = new Point(8, 451);
             flowPanelStatusBar.Name = "flowPanelStatusBar";
             flowPanelStatusBar.Size = new Size(802, 25);
             flowPanelStatusBar.TabIndex = 32;
@@ -561,7 +565,7 @@
             // 
             // panelStatus
             // 
-            panelStatus.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelStatus.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelStatus.Controls.Add(flowLayoutPanel1);
             panelStatus.HorizontalScrollbarBarColor = true;
             panelStatus.HorizontalScrollbarHighlightOnWheel = false;
@@ -670,7 +674,7 @@
             // MainForm
             // 
             AutoScaleMode = AutoScaleMode.None;
-            ClientSize = new Size(818, 438);
+            ClientSize = new Size(818, 479);
             ControlBox = false;
             Controls.Add(panelStatus);
             Controls.Add(flowPanelStatusBar);
