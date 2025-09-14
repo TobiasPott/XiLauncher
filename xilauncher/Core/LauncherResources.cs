@@ -18,15 +18,14 @@ namespace xilauncher
         private const string lib = "lib";
         private const string plugin = "plugin";
 
-
         private const string xiLauncherDir = "xilauncher";
 
         private const string xiLoaderDir = "xiloader";
         private const string xiLoaderExe = "xiloader.exe";
 
-        private const string xiMariaDBDir = "ximariadb";
-        private const string xiMariaDBMySqlExe = @"mysqld.exe";
-        private const string xiMariaDBMyIni = @"my.ini";
+        private const string xiDBDir = "xidb";
+        private const string xiDBMySqlExe = @"mysqld.exe";
+        private const string xiDBMyIni = @"my.ini";
 
         private const string xiServerDir = "xiserver";
         private const string xiConnectExe = "xi_connect.exe";
@@ -122,9 +121,9 @@ namespace xilauncher
             string worldExe = Path.Combine(serverDir, xiWorldExe);
             string mapExe = Path.Combine(serverDir, xiMapExe);
 
-            string mariadbDir = Path.Combine(xiBasePath, xiMariaDBDir);
-            string mysqldExe = Path.Combine(mariadbDir, bin, xiMariaDBMySqlExe);
-            string myIni = Path.Combine(mariadbDir, data, xiMariaDBMyIni);
+            string mariadbDir = Path.Combine(xiBasePath, xiDBDir);
+            string mysqldExe = Path.Combine(mariadbDir, bin, xiDBMySqlExe);
+            string myIni = Path.Combine(mariadbDir, data, xiDBMyIni);
             string mysqlBinDir = Path.Combine(mariadbDir, data);
             string mysqlPluginsDir = Path.Combine(mariadbDir, lib, plugin);
 
