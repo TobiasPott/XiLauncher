@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace xilauncher
+﻿namespace xilauncher
 {
     public partial class Launcher
     {
+        /// <summary>
+        /// returns whether or not the game/xiloader process started by the launcher was started already
+        /// </summary>
         public bool IsGameProcessActive => _procLoader is not null;
 
+        /// <summary>
+        /// Launches a new instance of the game process (if none was started yet) with the given user
+        /// </summary>
+        /// <param name="config">the xi loader config (user, pass, server) to use for the game</param>
+        /// <returns>true if a process was started, false otherwise</returns>
         public async Task<bool> LaunchGame(XiLoaderUserConfig config)
         {
             if (_procLoader is not null)
@@ -17,7 +19,7 @@ namespace xilauncher
 
             this.OnProcessChanged(LauncherModules.Loader, LauncherState.Starting);
             XiLog.WriteLine("Starting game instance...");
-            _procLoader = await LaunchAsync(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader, 
+            _procLoader = await LaunchAsync(_resources.fileLoaderExe, config.ToArguments(), _resources.dirLoader,
                 true, true, "runas");
             if (_procLoader is not null)
             {
@@ -30,6 +32,10 @@ namespace xilauncher
             return _procLoader is not null;
         }
 
+        /// <summary>
+        /// Stops the active instance of the game process
+        /// </summary>
+        /// <returns>The completed task of killing & resetting the game process instance</returns>
         public async Task StopGame()
         {
             if (_procLoader is not null)
@@ -42,29 +48,10 @@ namespace xilauncher
                 await Task.Delay(16);
                 this.OnProcessChanged(LauncherModules.Loader, LauncherState.Stopped);
             }
-            //if (_procLoader is not null)
-            //{
-            //    XiLog.WriteLine($"Stopped loader instance (PID:{_procLoader.Id}).");
-            //    _procLoader.Kill(true);
-            //}
-            // Remark: Danger Zone: The loader is not meant to be killed as it holds into the running client
-            //          though should work
-            //foreach (Process? process in _processesLoader)
-            //{
-            //    if (process is not null)
-            //    {
-            //        XiLog.WriteLine($"Stopping game instance (PID:{process.Id}).");
-            //        process.Kill(true);
-            //    }
-            //}
         }
 
         private async void LoaderProcess_Exited(object? sender, EventArgs e)
         {
-            // ToDo: add listener to process termination to track external changes to the processes
-            //          (e.g. loader is shut down when exiting game, others may error critically)
-            // ToDo: Add event to Launcher that passes out process exit/kill events to the UI
-            //       Event might signal which process and if started or exited
             if (sender == _procLoader)
             {
                 _procLoader = null;

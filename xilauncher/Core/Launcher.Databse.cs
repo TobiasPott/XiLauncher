@@ -4,6 +4,11 @@ namespace xilauncher
 {
     public partial class Launcher
     {
+        private const string xiMariadbArgs = "--console";
+
+        /// <summary>
+        /// returns whether or not the database process started by the launcher was started already
+        /// </summary>
         public bool IsDatabaseProcessActive => _procDatabase is not null;
 
         private bool EnsureDatabaseConfig()
@@ -43,8 +48,10 @@ namespace xilauncher
             return true;
         }
 
-
-        private Task? logTask = null;
+        /// <summary>
+        /// Launches a new instance of the database process (if none was started yet)
+        /// </summary>
+        /// <returns>true if a process was started, false otherwise</returns>
         public async Task<bool> LaunchDatabase()
         {
             if (_procDatabase is not null)
@@ -71,11 +78,14 @@ namespace xilauncher
             return _procDatabase is not null;
         }
 
+        /// <summary>
+        /// Stops the active instance of the database process
+        /// </summary>
+        /// <returns>The completed task of killing & resetting the database process instance</returns>
         public async Task StopDatabase()
         {
             if (_procDatabase is not null)
             {
-
                 this.OnProcessChanged(LauncherModules.Database, LauncherState.Stopping);
                 await Task.Delay(16);
                 _procDatabase.Kill(true);

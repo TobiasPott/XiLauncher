@@ -36,6 +36,13 @@ namespace xilauncher
         {
         }
 
+        /// <summary>
+        /// Creates a new user config object
+        /// </summary>
+        /// <param name="userName">user name passed as the --user argument</param>
+        /// <param name="unsafePassword">password passed as the --pass argument (this is passed in plain text and is not secured!)</param>
+        /// <param name="server">server ip/host that is passed as the --server argument</param>
+        /// <param name="hairpin">determines whether the --hairpin option is enabled or not</param>
         public XiLoaderUserConfig(string userName, string unsafePassword, string server, bool hairpin)
         {
             Username = userName;
@@ -46,6 +53,10 @@ namespace xilauncher
             UseHairPin = hairpin;
         }
 
+        /// <summary>
+        /// Converts the current user config to a xi loader argument string that can be passed to the process at start
+        /// </summary>
+        /// <returns></returns>
         public string ToArguments()
         {
             StringBuilder sb = new StringBuilder();

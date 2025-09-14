@@ -5,6 +5,9 @@ namespace xilauncher
     public class LauncherResources
     {
         #region Events
+        /// <summary>
+        /// event fired when the resources are refreshed on creation or by user call
+        /// </summary>
         public event Action? Refreshed = null;
 
         #endregion
@@ -79,14 +82,11 @@ namespace xilauncher
         public LauncherResources()
         {
             dirBase = new DirectoryInfo("LauncherResourcesNotInitialised");
-            // ToDo: sample to get cli arguments anywhere in code
-            // --rootDir [...]
-            //foreach (String arg in Environment.GetCommandLineArgs())
-            //{
-            //    Console.Write("Argument: " + arg);
-            //}
         }
 
+        /// <summary>
+        /// Forces the resources to refresh and update availability of the environment, database and game process resources.
+        /// </summary>
         public void RefreshResources()
         {
             string appPath = Application.StartupPath;
@@ -171,8 +171,18 @@ namespace xilauncher
 
     public static class StringExtensions
     {
+        /// <summary>
+        /// Convert the string value to a FileInfo instance
+        /// </summary>
+        /// <param name="value">the value to intepret as the file's path</param>
+        /// <returns>A FileInfo object with the given string value as path, this can be invalid.</returns>
         public static FileInfo ToFileInfo(this string value)
         { return new FileInfo(value); }
+        /// <summary>
+        /// Convert the string value to a DirectoryInfo instance
+        /// </summary>
+        /// <param name="value">the value to intepret as the directories' path</param>
+        /// <returns>A DirectoryInfo object with the given string value as path, this can be invalid.</returns>
         public static DirectoryInfo ToDirectoryInfo(this string value)
         { return new DirectoryInfo(value); }
 

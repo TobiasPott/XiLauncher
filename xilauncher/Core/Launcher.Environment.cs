@@ -1,14 +1,21 @@
-﻿using System.Diagnostics;
-
-namespace xilauncher
+﻿namespace xilauncher
 {
     public partial class Launcher
     {
+        /// <summary>
+        /// returns whether or not the environment processes started by the launcher were started already
+        /// </summary>
         public bool IsEnvironmentActive => _procConnect is not null
                     && _procSearch is not null
                     && _procWorld is not null
                     && _procMap is not null;
 
+        /// <summary>
+        /// Launches a new instances of the each environment process (if none was started yet).
+        /// The launch pauses inbetween processes to allow them to chain up with less chance to error
+        /// </summary>
+        /// <param name="cancellationToken">token to cancel the launch process during startup</param>
+        /// <returns>true if a processes were started, false otherwise</returns>
         public async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Starting);
@@ -50,7 +57,6 @@ namespace xilauncher
                 }
             }
         }
-
         private async Task LaunchWorldServer(CancellationToken cancellationToken)
         {
             if (_procWorld is null)
@@ -71,7 +77,6 @@ namespace xilauncher
                 }
             }
         }
-
         private async Task LaunchSearchServer(CancellationToken cancellationToken)
         {
             if (_procSearch is null)
@@ -92,7 +97,6 @@ namespace xilauncher
                 }
             }
         }
-
         private async Task LaunchConnectServer(CancellationToken cancellationToken)
         {
             if (_procConnect is null)
@@ -114,6 +118,10 @@ namespace xilauncher
             }
         }
 
+        /// <summary>
+        /// Stops the active instances of the environment processes
+        /// </summary>
+        /// <returns>The completed task of killing & resetting the environment process instances</returns>
         public async Task StopEnvironment()
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopping);
@@ -175,6 +183,6 @@ namespace xilauncher
                 XiLog.WriteLine("Stopped xi_map server.");
             }
         }
-  
+
     }
 }

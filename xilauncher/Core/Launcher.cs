@@ -4,6 +4,9 @@ using System.Diagnostics;
 namespace xilauncher
 {
 
+    /// <summary>
+    /// Enumerations of modules the launcher internally works with
+    /// </summary>
     [Flags()]
     public enum LauncherModules
     {
@@ -16,6 +19,9 @@ namespace xilauncher
         Database = 32,
         Loader = 64,
     }
+    /// <summary>
+    /// Enumeration of states the different modules' processes can be in
+    /// </summary>
     public enum LauncherState
     {
         Stopped,
@@ -25,31 +31,36 @@ namespace xilauncher
         Errored
     }
 
+    /// <summary>
+    /// delegate used for signaling state changes of the launcher's internal modules
+    /// </summary>
+    /// <param name="modules">a bitmask of modules that have their state changed</param>
+    /// <param name="state">the state the given modules have changed to</param>
     public delegate void LauncherEvent(LauncherModules modules, LauncherState state);
 
+    /// <summary>
+    /// Class that provides access to subprocesses & resources and internally tracks the running instances
+    /// </summary>
     public partial class Launcher
     {
-        private const string xiMariadbArgs = "--console";
-
-
+        /// <summary>
+        /// event called when a subprocess of the launcher changes it's state
+        /// </summary>
         public event LauncherEvent? ProcessChanged = null;
 
 
         private readonly LauncherResources _resources;
         private Process? _procDatabase;
-        private CancellationTokenSource _cancellationSourceDatabase = new CancellationTokenSource();
-
         private Process? _procConnect;
         private Process? _procSearch;
         private Process? _procMap;
         private Process? _procWorld;
-        private CancellationTokenSource _cancellationSourceEnvironment = new CancellationTokenSource();
-
-        private List<Process?> _processesLoader = new List<Process?>();
         private Process? _procLoader;
-        private CancellationTokenSource _cancellationSourceLoader = new CancellationTokenSource();
 
 
+        /// <summary>
+        /// The current resources used by the launcher.
+        /// </summary>
         public LauncherResources Resources { get { return _resources; } }
 
 
@@ -59,28 +70,23 @@ namespace xilauncher
             ProcessChanged?.Invoke(modules, state);
         }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public Launcher(LauncherResources resources)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
             _resources = resources;
         }
 
+        /// <summary>
+        /// Exit the launcher and all running subprocesses in order
+        /// </summary>
+        /// <param name="stopDatabase">whether or not to stop the database process</param>
+        /// <param name="stopServer">whether or not to stop the environment process</param>
+        /// <param name="stopGame">whether or not to stop the game process</param>
+        /// <returns>A task that represents a exiting function and it's progress</returns>
         public async Task Exit(bool stopDatabase, bool stopServer, bool stopGame)
         {
-            if (stopGame)
-            {
-                await StopGame();
-            }
-            if (stopServer)
-            {
-                await StopEnvironment();
-            }
-            if (stopDatabase)
-            {
-                await StopDatabase();
-            }
-            
+            if (stopGame) await StopGame();
+            if (stopServer) await StopEnvironment();
+            if (stopDatabase) await StopDatabase();
         }
 
         /// <summary>
@@ -126,6 +132,18 @@ namespace xilauncher
             if (enableEvents && process is not null) process.EnableRaisingEvents = enableEvents;
             return process;
         }
+
+        /// <summary>
+        /// Launches the file described by the given info (if present) and sets up and starts the process according to the given arguments
+        /// </summary>
+        /// <param name="fileInfo"></param>
+        /// <param name="arguments"></param>
+        /// <param name="workDir"></param>
+        /// <param name="enableEvents"></param>
+        /// <param name="useShell"></param>
+        /// <param name="verb"></param>
+        /// <param name="redirectStreams"></param>
+        /// <returns>The process started from this call, or null if something went wrong.</returns>
         public static async Task<Process?> LaunchAsync(FileInfo? fileInfo, string arguments, DirectoryInfo? workDir,
     bool enableEvents = true, bool useShell = true, string verb = "", bool redirectStreams = false)
         {
@@ -141,7 +159,7 @@ namespace xilauncher
             //psi.CreateNoWindow = false;
             psi.WindowStyle = ProcessWindowStyle.Normal;
             psi.WorkingDirectory = workDir?.FullName ?? string.Empty;
-            
+
             psi.RedirectStandardOutput = redirectStreams;
             psi.RedirectStandardInput = redirectStreams;
             psi.RedirectStandardError = redirectStreams;

@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace xilauncher.Configuration
 {
+    /// <summary>
+    /// Enumeration of external configuration apps provided via external applications
+    /// </summary>
     public enum ConfigApp
     {
         PlayOnline,
@@ -12,26 +15,37 @@ namespace xilauncher.Configuration
 
     internal class ExternalConfigrations
     {
-
+        /// <summary>
+        /// singleton instance which provides access to the external configuration apps
+        /// </summary>
         public static ExternalConfigrations Instance { get; private set; } = new ExternalConfigrations();
 
 
-        private RegistryKey? regKeyIinstallFolders = Registry.LocalMachine.OpenSubKey("Software", false)?
+        private RegistryKey? regKeyIinstallFolders = Registry.LocalMachine
+            .OpenSubKey("Software", false)?
             .OpenSubKey("WOW6432Node", false)?
-                .OpenSubKey("PlayOnlineUS", false)?
-                .OpenSubKey("InstallFolder", false);
+            .OpenSubKey("PlayOnlineUS", false)?
+            .OpenSubKey("InstallFolder", false);
 
         private FileInfo? ffxiGameConfigExe;
         private FileInfo? ffxiGamepadConfigExe;
         private FileInfo? ffxiPolConfigExe;
 
-
+        /// <summary>
+        /// gets whether the game config can be opened by the caller
+        /// </summary>
         public bool IsGameConfigSupported => ffxiGameConfigExe != null && ffxiGameConfigExe.Exists;
+        /// <summary>
+        /// gets whether the gamepad/controller config can be opened by the caller
+        /// </summary>
         public bool IsGamepadConfigSupported => ffxiGamepadConfigExe != null && ffxiGamepadConfigExe.Exists;
+        /// <summary>
+        /// gets whether the PlayOnline config can be opened by the caller
+        /// </summary>
         public bool IsPlayOnlineConfigSupported => ffxiPolConfigExe != null && ffxiPolConfigExe.Exists;
 
 
-        public ExternalConfigrations()
+        private ExternalConfigrations()
         {
 
             if (regKeyIinstallFolders != null)
@@ -56,31 +70,24 @@ namespace xilauncher.Configuration
             }
         }
 
+        /// <summary>
+        /// Opens the provided externl configuratoin app
+        /// </summary>
+        /// <param name="configApp">the configuration app to open</param>
+        /// <returns>the process for the started config app, or null if app couldn't be started.</returns>
         public Process? OpenConfigFor(ConfigApp configApp)
         {
             switch (configApp)
             {
                 case ConfigApp.PlayOnline:
-                    return OpenConfigForPlayOnline();
+                    return Launcher.Launch(ffxiPolConfigExe, "", null, false, true, "runas");
                 case ConfigApp.FinalFantasyXI:
-                    return OpenConfigForFinalFantasyXI();
+                    return Launcher.Launch(ffxiGameConfigExe, "", null, false, true, "runas");
                 case ConfigApp.Gamepad:
-                    return OpenConfigForGamepad();
+                    return Launcher.Launch(ffxiGamepadConfigExe, "", null, false, true, "runas");
             }
             return null;
         }
-        public Process? OpenConfigForGamepad()
-        {
-            return Launcher.Launch(ffxiGamepadConfigExe, "", null, false, true, "runas");
-        }
 
-        public Process? OpenConfigForFinalFantasyXI()
-        {
-            return Launcher.Launch(ffxiGameConfigExe, "", null, false, true, "runas");
-        }
-        public Process? OpenConfigForPlayOnline()
-        {
-            return Launcher.Launch(ffxiPolConfigExe, "", null, false, true, "runas");
-        }
     }
 }
