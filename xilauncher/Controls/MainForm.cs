@@ -100,7 +100,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Game is running.");
                 // ToDo: @tpott: change to use PoisonMessageBox to stay in style
-                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopGame();
@@ -116,7 +116,7 @@ namespace xilauncher
             if (_launcher.IsEnvironmentActive)
             {
                 string message = String.Format($"Environment is running.");
-                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopEnvironment();
@@ -133,7 +133,7 @@ namespace xilauncher
             if (_launcher.IsDatabaseProcessActive)
             {
                 string message = String.Format($"Database is running.");
-                DialogResult result = MessageBox.Show(message, "Stop processes?", MessageBoxButtons.YesNo);
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopDatabase();
@@ -157,7 +157,7 @@ namespace xilauncher
                     $"Database:\t{(_launcher.IsDatabaseProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"Server:\t\t{(_launcher.IsEnvironmentActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
-                result = MessageBox.Show(message, "Stop processes and Quit?", MessageBoxButtons.YesNo);
+                result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await this.CloseApplication();
