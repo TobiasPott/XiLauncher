@@ -157,7 +157,7 @@ namespace xilauncher
                     $"Database:\t{(_launcher.IsDatabaseProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"Server:\t\t{(_launcher.IsEnvironmentActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
-                result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo);
+                result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await this.CloseApplication();
