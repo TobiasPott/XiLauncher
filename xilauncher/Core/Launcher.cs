@@ -153,12 +153,12 @@ namespace xilauncher
 
             XiLog.WriteLine($"Launching process for '{fileInfo.FullName}' with arguments '{arguments}'");
             ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = fileInfo.FullName;
+            psi.FileName = $"{fileInfo.FullNameWithAltSeparator()}";
             psi.Arguments = arguments;
             psi.UseShellExecute = useShell;
             //psi.CreateNoWindow = false;
             psi.WindowStyle = ProcessWindowStyle.Normal;
-            psi.WorkingDirectory = workDir?.FullName ?? string.Empty;
+            psi.WorkingDirectory = workDir?.FullNameWithAltSeparator() ?? string.Empty;
 
             psi.RedirectStandardOutput = redirectStreams;
             psi.RedirectStandardInput = redirectStreams;

@@ -194,9 +194,9 @@
             poisonPanel2.HorizontalScrollbarBarColor = true;
             poisonPanel2.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel2.HorizontalScrollbarSize = 10;
-            poisonPanel2.Location = new Point(397, 89);
+            poisonPanel2.Location = new Point(397, 168);
             poisonPanel2.Name = "poisonPanel2";
-            poisonPanel2.Size = new Size(388, 142);
+            poisonPanel2.Size = new Size(388, 102);
             poisonPanel2.TabIndex = 47;
             poisonPanel2.VerticalScrollbarBarColor = true;
             poisonPanel2.VerticalScrollbarHighlightOnWheel = false;
@@ -208,9 +208,9 @@
             pbOpenConfigGamepad.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
             pbOpenConfigGamepad.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
             pbOpenConfigGamepad.ImeMode = ImeMode.NoControl;
-            pbOpenConfigGamepad.Location = new Point(199, 28);
+            pbOpenConfigGamepad.Location = new Point(195, 28);
             pbOpenConfigGamepad.Name = "pbOpenConfigGamepad";
-            pbOpenConfigGamepad.Size = new Size(189, 49);
+            pbOpenConfigGamepad.Size = new Size(189, 32);
             pbOpenConfigGamepad.TabIndex = 43;
             pbOpenConfigGamepad.Text = "Gamepad";
             pbOpenConfigGamepad.UseSelectable = true;
@@ -222,9 +222,9 @@
             pbOpenConfigPlayOnline.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Pixel);
             pbOpenConfigPlayOnline.FontSize = ReaLTaiizor.Extension.Poison.PoisonButtonSize.Tall;
             pbOpenConfigPlayOnline.ImeMode = ImeMode.NoControl;
-            pbOpenConfigPlayOnline.Location = new Point(0, 83);
+            pbOpenConfigPlayOnline.Location = new Point(0, 66);
             pbOpenConfigPlayOnline.Name = "pbOpenConfigPlayOnline";
-            pbOpenConfigPlayOnline.Size = new Size(193, 49);
+            pbOpenConfigPlayOnline.Size = new Size(189, 32);
             pbOpenConfigPlayOnline.TabIndex = 44;
             pbOpenConfigPlayOnline.Text = "PlayOnline";
             pbOpenConfigPlayOnline.UseSelectable = true;
@@ -250,7 +250,7 @@
             pbOpenConfigGame.ImeMode = ImeMode.NoControl;
             pbOpenConfigGame.Location = new Point(0, 28);
             pbOpenConfigGame.Name = "pbOpenConfigGame";
-            pbOpenConfigGame.Size = new Size(193, 49);
+            pbOpenConfigGame.Size = new Size(189, 32);
             pbOpenConfigGame.TabIndex = 42;
             pbOpenConfigGame.Text = "Game";
             pbOpenConfigGame.UseSelectable = true;
@@ -322,7 +322,7 @@
             poisonPanel1.HorizontalScrollbarSize = 10;
             poisonPanel1.Location = new Point(397, 3);
             poisonPanel1.Name = "poisonPanel1";
-            poisonPanel1.Size = new Size(388, 80);
+            poisonPanel1.Size = new Size(388, 159);
             poisonPanel1.TabIndex = 39;
             poisonPanel1.VerticalScrollbarBarColor = true;
             poisonPanel1.VerticalScrollbarHighlightOnWheel = false;

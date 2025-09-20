@@ -168,8 +168,11 @@ namespace xilauncher
 
     }
 
-    public static class StringExtensions
+    public static class Extensions
     {
+        public static string FullNameWithAltSeparator(this FileInfo fileInfo) { return fileInfo.FullName.Replace("\\", "/"); }
+        public static string FullNameWithAltSeparator(this DirectoryInfo directoryInfo) { return directoryInfo.FullName.Replace("\\", "/"); }
+
         /// <summary>
         /// Convert the string value to a FileInfo instance
         /// </summary>

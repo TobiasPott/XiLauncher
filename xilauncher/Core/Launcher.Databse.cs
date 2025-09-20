@@ -24,9 +24,9 @@ namespace xilauncher
                 {
                     string line = myIniLines[i];
                     if (line.StartsWith("datadir="))
-                        myIniLines[i] = $"datadir={_resources.dirMysqlData.FullName}";
+                        myIniLines[i] = $"datadir={_resources.dirMysqlData.FullNameWithAltSeparator()}";
                     else if (line.StartsWith("plugin-dir="))
-                        myIniLines[i] = $"plugin-dir={_resources.dirMysqlPlugin.FullName}";
+                        myIniLines[i] = $"plugin-dir={_resources.dirMysqlPlugin.FullNameWithAltSeparator()}";
                 }
 
                 StreamWriter swMyIni = new StreamWriter(_resources.fileMyIni.OpenWrite());
@@ -44,7 +44,7 @@ namespace xilauncher
                 || !_resources.dirMariadb.Exists)
                 return false;
             // setting MYSQL_HOME for current launcher process (should be able to pass them to everything launched from here)
-            System.Environment.SetEnvironmentVariable("MYSQL_HOME", _resources.dirMariadb.FullName, EnvironmentVariableTarget.User);
+            System.Environment.SetEnvironmentVariable("MYSQL_HOME", _resources.dirMariadb.FullNameWithAltSeparator(), EnvironmentVariableTarget.User);
             return true;
         }
 
