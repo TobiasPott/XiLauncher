@@ -10,6 +10,7 @@ namespace xilauncher
         /// returns whether or not the database process started by the launcher was started already
         /// </summary>
         public bool IsDatabaseProcessActive => _procDatabase is not null;
+        public bool IsDatabaseAvailable => _resources.IsDatabaseAvailable;
 
         private bool EnsureDatabaseConfig()
         {
@@ -44,6 +45,7 @@ namespace xilauncher
                 || !_resources.dirMariadb.Exists)
                 return false;
             // setting MYSQL_HOME for current launcher process (should be able to pass them to everything launched from here)
+            // ToDo: check if env scope = 'Process' works as desired as the 'User' scope can cause timeouts on the Win32 send message which can block the caller
             System.Environment.SetEnvironmentVariable("MYSQL_HOME", _resources.dirMariadb.FullNameWithAltSeparator(), EnvironmentVariableTarget.User);
             return true;
         }
@@ -58,14 +60,17 @@ namespace xilauncher
                 return false;
 
             this.OnProcessChanged(LauncherModules.Database, LauncherState.Starting);
-            XiLog.WriteLine("Starting local database...");
-            if (!EnsureDatabaseConfig()
-                || !EnsureDatabaseEnvironmentVariable())
+            XiLog.WriteLine("Starting local database..."); 
+            if (!EnsureDatabaseConfig())
             {
                 this.OnProcessChanged(LauncherModules.Database, LauncherState.Errored);
                 return false;
             }
-
+            if (!EnsureDatabaseEnvironmentVariable())
+            {
+                this.OnProcessChanged(LauncherModules.Database, LauncherState.Errored);
+                return false;
+            }
 
             _procDatabase = await LaunchAsync(_resources.fileMysqldExe, xiMariadbArgs, _resources.dirMariadb,
                 true, false, "", true);

@@ -1,5 +1,6 @@
 using ReaLTaiizor.Forms;
 using xilauncher.Configuration;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace xilauncher
 {
@@ -22,7 +23,7 @@ namespace xilauncher
     public partial class MainForm : PoisonForm
     {
         private readonly Launcher _launcher;
-        private XiLoaderUserConfig _default = new XiLoaderUserConfig("mule", "private", "127.0.0.1", true);
+        private XiLoaderUserConfig _currentAccount = new XiLoaderUserConfig("mule", "", "127.0.0.1", true);
 
 
         public MainForm(Launcher launcher) : base()
@@ -33,6 +34,21 @@ namespace xilauncher
             _launcher.Resources.Refreshed += Resources_Refreshed;
             _launcher.Resources.RefreshResources();
 
+            this.poisonTabControl1.DisableTab(this.tabPageLogs);
+
+            // load previously used account/user
+            XiLoaderUserConfig? lastAccount = LauncherSettings.Default.StoredAccount;
+            if (lastAccount != null)
+            {
+                if (!String.IsNullOrWhiteSpace(lastAccount.Username))
+                    _currentAccount = lastAccount;
+            }
+            this.userConfigControl.SetConfig(_currentAccount);
+            // ToDo: @tpott: Read the DPAPI introduction:
+            // https://learn.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN
+            //var vault = new Windows.Security.Credentials.PasswordVault();
+            //vault.Add(new Windows.Security.Credentials.PasswordCredential(
+            //    "My App", username, password));
         }
 
         private void Resources_Refreshed()
@@ -41,17 +57,17 @@ namespace xilauncher
             XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
 
             // update button states based on availability of resources and external files
-            pbStartGame.Enabled = _launcher.Resources.IsGameLaunchSupported;
-            pbOpenGameLog.Enabled = _launcher.Resources.IsGameLaunchSupported;
+            pbStartGame.Enabled = _launcher.Resources.IsLoaderAvailable;
+            pbOpenGameLog.Enabled = _launcher.Resources.IsLoaderAvailable;
 
-            pbStartEnvironment.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
-            pbOpenConnectLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
-            pbOpenSearchLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
-            pbOpenWorldLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
-            pbOpenMapLog.Enabled = _launcher.Resources.IsEnvironmentLaunchSupported;
+            pbStartEnvironment.Enabled = _launcher.Resources.IsEnvironmentAvailable;
+            pbStartXiConnect.Enabled = pbViewLogXiConnect.Enabled = pbOpenConnectLog.Enabled = _launcher.Resources.IsXiConnectAvailable;
+            pbStartXiSearch.Enabled = pbViewLogXiSearch.Enabled = pbOpenSearchLog.Enabled = _launcher.Resources.IsXiSearchAvailable;
+            pbStartXiWorld.Enabled = pbViewLogXiWorld.Enabled = pbOpenWorldLog.Enabled = _launcher.Resources.IsXiWorldAvailable;
+            pbStartXiMap.Enabled = pbViewLogXiMap.Enabled = pbOpenMapLog.Enabled = _launcher.Resources.IsXiMapAvailable;
 
-            pbStartDatabase.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
-            pbOpenDatabaseLog.Enabled = _launcher.Resources.IsDatabaseLaunchSupported;
+            pbStartDatabase.Enabled = _launcher.Resources.IsDatabaseAvailable;
+            pbOpenDatabaseLog.Enabled = pbViewLogDatabase.Enabled = _launcher.Resources.IsDatabaseAvailable;
 
             pbOpenConfigGame.Enabled = ExternalConfigrations.Instance.IsGameConfigSupported;
             pbOpenConfigGamepad.Enabled = ExternalConfigrations.Instance.IsGamepadConfigSupported;
@@ -75,7 +91,7 @@ namespace xilauncher
             {
                 if (button != null)
                 {
-                    button.Text = string.Format(text, module);
+                    button.SetText(string.Format(text, module), 2);
                     button.Enabled = !isDisabled;
                 }
                 if (pictureBox != null)
@@ -84,52 +100,118 @@ namespace xilauncher
 
             this.Invoke(new Action(() =>
             {
-                if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, pbStatusGame, LauncherModules.Loader);
-                if (modules.HasFlag(LauncherModules.ConnectServer)) applyStatus(null, pbStatusConnect, LauncherModules.ConnectServer);
-                if (modules.HasFlag(LauncherModules.SearchServer)) applyStatus(null, pbStatusSearch, LauncherModules.SearchServer);
-                if (modules.HasFlag(LauncherModules.WorldServer)) applyStatus(null, pbStatusWorld, LauncherModules.WorldServer);
-                if (modules.HasFlag(LauncherModules.MapServer)) applyStatus(null, pbStatusMap, LauncherModules.MapServer);
+                if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, picStatusGame, LauncherModules.Loader);
+                if (modules.HasFlag(LauncherModules.XiConnect)) applyStatus(pbStartXiConnect, picStatusConnect, LauncherModules.XiConnect);
+                if (modules.HasFlag(LauncherModules.XiSearch)) applyStatus(pbStartXiSearch, picStatusSearch, LauncherModules.XiSearch);
+                if (modules.HasFlag(LauncherModules.XiWorld)) applyStatus(pbStartXiWorld, picStatusWorld, LauncherModules.XiWorld);
+                if (modules.HasFlag(LauncherModules.XiMap)) applyStatus(pbStartXiMap, picStatusMap, LauncherModules.XiMap);
                 if (modules.HasFlag(LauncherModules.Environment)) applyStatus(pbStartEnvironment, null, LauncherModules.Environment);
-                if (modules.HasFlag(LauncherModules.Database)) applyStatus(pbStartDatabase, pbStatusDatabase, LauncherModules.Database);
+                if (modules.HasFlag(LauncherModules.Database)) applyStatus(pbStartDatabase, picStatusDatabase, LauncherModules.Database);
             }));
         }
 
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
-            if (_launcher.IsGameProcessActive)
+            if (_launcher.IsLoaderProcessActive)
             {
                 string message = String.Format($"Game is running.");
-                // ToDo: @tpott: change to use PoisonMessageBox to stay in style
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                DialogResult result =
+                    ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?",
+                        MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopGame();
                 }
-                //await _launcher.StopGame(); 
             }
-            else if (await _launcher.LaunchGame(_default))
-            { }
+            else
+            {
+                this.userConfigControl.GetConfig(ref _currentAccount);
+                if (await _launcher.LaunchGame(_currentAccount))
+                {
+                    LauncherSettings.Default.StoredAccount = _currentAccount;
+                    LauncherSettings.Default.Save();
+                }
+            }
             await Task.CompletedTask;
         }
         private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
         {
-            if (_launcher.IsEnvironmentActive)
+            if (_launcher.IsXiConnectActive)
             {
-                string message = String.Format($"Environment is running.");
+                string message = String.Format($"Xi Connect is running.");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopEnvironment();
                 }
-                //await _launcher.StopEnvironment();
             }
             else if (await _launcher.LaunchEnvironment())
             { }
             await Task.CompletedTask;
         }
+        private async void ButtonLaunchXiConnect_Click(object sender, EventArgs e)
+        {
+            if (_launcher.IsEnvironmentActive)
+            {
+                string message = String.Format($"Xi Connect is running.");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopXiConnectServer();
+                }
+            }
+            else if (await _launcher.LaunchXiConnectServer(CancellationToken.None))
+            { }
+            await Task.CompletedTask;
+        }
+        private async void ButtonLaunchXiSearch_Click(object sender, EventArgs e)
+        {
+            if (_launcher.IsEnvironmentActive)
+            {
+                string message = String.Format($"Xi Search is running.");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopXiSearchServer();
+                }
+            }
+            else if (await _launcher.LaunchXiSearchServer(CancellationToken.None))
+            { }
+            await Task.CompletedTask;
+        }
+        private async void ButtonLaunchXiWorld_Click(object sender, EventArgs e)
+        {
+            if (_launcher.IsEnvironmentActive)
+            {
+                string message = String.Format($"Xi World is running.");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopXiWorldServer();
+                }
+            }
+            else if (await _launcher.LaunchXiWorldServer(CancellationToken.None))
+            { }
+            await Task.CompletedTask;
+        }
+        private async void ButtonLaunchXiMap_Click(object sender, EventArgs e)
+        {
+            if (_launcher.IsEnvironmentActive)
+            {
+                string message = String.Format($"Xi Map is running.");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+                    await _launcher.StopXiMapServer();
+                }
+            }
+            else if (await _launcher.LaunchXiMapServer(CancellationToken.None))
+            { }
+            await Task.CompletedTask;
+        }
+
         private async void ButtonLaunchDatabase_Click(object sender, EventArgs e)
         {
-            // Todo: @tpott: add confirm dialog when stopping things
             if (_launcher.IsDatabaseProcessActive)
             {
                 string message = String.Format($"Database is running.");
@@ -138,7 +220,6 @@ namespace xilauncher
                 {
                     await _launcher.StopDatabase();
                 }
-                //await _launcher.StopDatabase();
             }
             else if (await _launcher.LaunchDatabase())
             { }
@@ -148,23 +229,23 @@ namespace xilauncher
         private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
             // check if any processes are active to prompt for confirmation
-            DialogResult result = DialogResult.Yes;
             if (_launcher.IsDatabaseProcessActive || _launcher.IsEnvironmentActive
-                || _launcher.IsGameProcessActive)
+                || _launcher.IsLoaderProcessActive)
             {
                 string message = String.Format($"Processes are still running. {Environment.NewLine}" +
-                    $"Game:\t\t{(_launcher.IsGameProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
+                    $"Game:\t\t{(_launcher.IsLoaderProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"Database:\t{(_launcher.IsDatabaseProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"Server:\t\t{(_launcher.IsEnvironmentActive ? "running" : "stopped")}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
-                result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await this.CloseApplication();
                 }
             }
-            else if (result == System.Windows.Forms.DialogResult.Yes)
+            else
                 await this.CloseApplication();
+
             await Task.CompletedTask;
         }
 

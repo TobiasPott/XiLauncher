@@ -1,10 +1,13 @@
-﻿using System.Security;
+﻿using System.Configuration;
+using System.Security;
 using System.Text;
 
 namespace xilauncher
 {
+
     [Serializable]
-    public struct XiLoaderUserConfig
+    [SettingsSerializeAs(SettingsSerializeAs.String)]
+    public class XiLoaderUserConfig
     {
 
         #region Fields

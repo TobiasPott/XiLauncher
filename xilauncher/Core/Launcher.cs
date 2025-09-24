@@ -12,10 +12,10 @@ namespace xilauncher
     {
         Default = 0,
         Environment = 1,
-        ConnectServer = 2,
-        SearchServer = 4,
-        WorldServer = 8,
-        MapServer = 16,
+        XiConnect = 2,
+        XiSearch = 4,
+        XiWorld = 8,
+        XiMap = 16,
         Database = 32,
         Loader = 64,
     }
@@ -63,8 +63,6 @@ namespace xilauncher
         /// </summary>
         public LauncherResources Resources { get { return _resources; } }
 
-
-        // ToDo: add 'CanLaunch' properties to allow main form to query
         private void OnProcessChanged(LauncherModules modules, LauncherState state)
         {
             ProcessChanged?.Invoke(modules, state);

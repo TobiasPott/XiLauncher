@@ -5,7 +5,8 @@
         /// <summary>
         /// returns whether or not the game/xiloader process started by the launcher was started already
         /// </summary>
-        public bool IsGameProcessActive => _procLoader is not null;
+        public bool IsLoaderProcessActive => _procLoader is not null;
+        public bool IsLoaderAvailable => _resources.IsLoaderAvailable;
 
         /// <summary>
         /// Launches a new instance of the game process (if none was started yet) with the given user

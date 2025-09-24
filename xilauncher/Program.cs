@@ -14,8 +14,9 @@ namespace xilauncher
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
 
+            HighDpiMode dpiMode = HighDpiMode.DpiUnaware;
+            Application.SetHighDpiMode(dpiMode);
             ApplicationConfiguration.Initialize();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Console.WriteLine();
             _launcherResources = new LauncherResources();
             _launcher = new Launcher(_launcherResources);

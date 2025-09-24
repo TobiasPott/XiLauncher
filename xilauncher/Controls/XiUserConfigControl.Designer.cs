@@ -40,7 +40,6 @@
             poisonPanel6 = new ReaLTaiizor.Controls.PoisonPanel();
             toggleHairpin = new ReaLTaiizor.Controls.ForeverToggle();
             poisonPanel8 = new ReaLTaiizor.Controls.PoisonPanel();
-            poisonPanel7 = new ReaLTaiizor.Controls.PoisonPanel();
             poisonPanel4 = new ReaLTaiizor.Controls.PoisonPanel();
             toggleCreateAccount = new ReaLTaiizor.Controls.ForeverToggle();
             poisonPanel3 = new ReaLTaiizor.Controls.PoisonPanel();
@@ -60,7 +59,7 @@
             // 
             // 
             textBoxUsername.CustomButton.Image = null;
-            textBoxUsername.CustomButton.Location = new Point(238, 2);
+            textBoxUsername.CustomButton.Location = new Point(240, 2);
             textBoxUsername.CustomButton.Margin = new Padding(2);
             textBoxUsername.CustomButton.Name = "";
             textBoxUsername.CustomButton.Size = new Size(27, 27);
@@ -74,8 +73,8 @@
     {
     "mule"
     };
-            textBoxUsername.Location = new Point(95, 2);
-            textBoxUsername.Margin = new Padding(2);
+            textBoxUsername.Location = new Point(95, 0);
+            textBoxUsername.Margin = new Padding(2, 2, 0, 2);
             textBoxUsername.MaxLength = 32767;
             textBoxUsername.Name = "textBoxUsername";
             textBoxUsername.PasswordChar = '\0';
@@ -85,8 +84,8 @@
             textBoxUsername.SelectionStart = 0;
             textBoxUsername.ShortcutsEnabled = true;
             textBoxUsername.ShowClearButton = true;
-            textBoxUsername.Size = new Size(268, 32);
-            textBoxUsername.TabIndex = 37;
+            textBoxUsername.Size = new Size(270, 32);
+            textBoxUsername.TabIndex = 1;
             textBoxUsername.Text = "mule";
             textBoxUsername.UseSelectable = true;
             textBoxUsername.WaterMarkColor = Color.FromArgb(109, 109, 109);
@@ -99,7 +98,7 @@
             // 
             // 
             textBoxPassword.CustomButton.Image = null;
-            textBoxPassword.CustomButton.Location = new Point(238, 2);
+            textBoxPassword.CustomButton.Location = new Point(240, 2);
             textBoxPassword.CustomButton.Margin = new Padding(2);
             textBoxPassword.CustomButton.Name = "";
             textBoxPassword.CustomButton.Size = new Size(27, 27);
@@ -113,8 +112,8 @@
     {
     "private"
     };
-            textBoxPassword.Location = new Point(95, 2);
-            textBoxPassword.Margin = new Padding(2);
+            textBoxPassword.Location = new Point(95, 0);
+            textBoxPassword.Margin = new Padding(2, 2, 0, 2);
             textBoxPassword.MaxLength = 32767;
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.PasswordChar = '*';
@@ -124,8 +123,8 @@
             textBoxPassword.SelectionStart = 0;
             textBoxPassword.ShortcutsEnabled = true;
             textBoxPassword.ShowClearButton = true;
-            textBoxPassword.Size = new Size(268, 32);
-            textBoxPassword.TabIndex = 38;
+            textBoxPassword.Size = new Size(270, 32);
+            textBoxPassword.TabIndex = 2;
             textBoxPassword.Text = "private";
             textBoxPassword.UseSelectable = true;
             textBoxPassword.WaterMarkColor = Color.FromArgb(109, 109, 109);
@@ -138,7 +137,7 @@
             // 
             // 
             textBoxServer.CustomButton.Image = null;
-            textBoxServer.CustomButton.Location = new Point(238, 2);
+            textBoxServer.CustomButton.Location = new Point(240, 2);
             textBoxServer.CustomButton.Margin = new Padding(2);
             textBoxServer.CustomButton.Name = "";
             textBoxServer.CustomButton.Size = new Size(27, 27);
@@ -152,8 +151,8 @@
     {
     "127.0.0.1"
     };
-            textBoxServer.Location = new Point(95, 2);
-            textBoxServer.Margin = new Padding(2);
+            textBoxServer.Location = new Point(95, 0);
+            textBoxServer.Margin = new Padding(2, 2, 0, 2);
             textBoxServer.MaxLength = 32767;
             textBoxServer.Name = "textBoxServer";
             textBoxServer.PasswordChar = '\0';
@@ -163,8 +162,8 @@
             textBoxServer.SelectionStart = 0;
             textBoxServer.ShortcutsEnabled = true;
             textBoxServer.ShowClearButton = true;
-            textBoxServer.Size = new Size(268, 32);
-            textBoxServer.TabIndex = 39;
+            textBoxServer.Size = new Size(270, 32);
+            textBoxServer.TabIndex = 4;
             textBoxServer.Text = "127.0.0.1";
             textBoxServer.UseSelectable = true;
             textBoxServer.WaterMarkColor = Color.FromArgb(109, 109, 109);
@@ -174,7 +173,7 @@
             // 
             poisonLabel1.AutoSize = true;
             poisonLabel1.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
-            poisonLabel1.Location = new Point(2, 9);
+            poisonLabel1.Location = new Point(2, 0);
             poisonLabel1.Margin = new Padding(2, 0, 2, 0);
             poisonLabel1.Name = "poisonLabel1";
             poisonLabel1.Size = new Size(67, 25);
@@ -185,7 +184,7 @@
             // 
             poisonLabel2.AutoSize = true;
             poisonLabel2.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
-            poisonLabel2.Location = new Point(2, 9);
+            poisonLabel2.Location = new Point(2, 0);
             poisonLabel2.Margin = new Padding(2, 0, 2, 0);
             poisonLabel2.Name = "poisonLabel2";
             poisonLabel2.Size = new Size(60, 25);
@@ -195,7 +194,7 @@
             // poisonLabel3
             // 
             poisonLabel3.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
-            poisonLabel3.Location = new Point(2, 9);
+            poisonLabel3.Location = new Point(2, 0);
             poisonLabel3.Margin = new Padding(2, 0, 2, 0);
             poisonLabel3.Name = "poisonLabel3";
             poisonLabel3.Size = new Size(89, 25);
@@ -206,7 +205,7 @@
             // 
             poisonLabel4.AutoSize = true;
             poisonLabel4.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
-            poisonLabel4.Location = new Point(2, 9);
+            poisonLabel4.Location = new Point(2, -1);
             poisonLabel4.Margin = new Padding(2, 0, 2, 0);
             poisonLabel4.Name = "poisonLabel4";
             poisonLabel4.Size = new Size(82, 25);
@@ -217,7 +216,7 @@
             // 
             poisonLabel5.AutoSize = true;
             poisonLabel5.FontSize = ReaLTaiizor.Extension.Poison.PoisonLabelSize.Tall;
-            poisonLabel5.Location = new Point(2, 9);
+            poisonLabel5.Location = new Point(2, 0);
             poisonLabel5.Margin = new Padding(2, 0, 2, 0);
             poisonLabel5.Name = "poisonLabel5";
             poisonLabel5.Size = new Size(66, 25);
@@ -226,10 +225,8 @@
             // 
             // poisonPanel1
             // 
-            poisonPanel1.AutoSize = true;
             poisonPanel1.Controls.Add(poisonPanel6);
             poisonPanel1.Controls.Add(poisonPanel8);
-            poisonPanel1.Controls.Add(poisonPanel7);
             poisonPanel1.Controls.Add(poisonPanel4);
             poisonPanel1.Controls.Add(poisonPanel3);
             poisonPanel1.Controls.Add(poisonPanel2);
@@ -238,7 +235,7 @@
             poisonPanel1.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel1.HorizontalScrollbarSize = 6;
             poisonPanel1.Location = new Point(0, 0);
-            poisonPanel1.Margin = new Padding(2);
+            poisonPanel1.Margin = new Padding(0);
             poisonPanel1.Name = "poisonPanel1";
             poisonPanel1.Size = new Size(365, 200);
             poisonPanel1.TabIndex = 47;
@@ -248,9 +245,9 @@
             // 
             // poisonPanel6
             // 
+            poisonPanel6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             poisonPanel6.Controls.Add(toggleHairpin);
             poisonPanel6.Controls.Add(poisonLabel1);
-            poisonPanel6.Dock = DockStyle.Top;
             poisonPanel6.HorizontalScrollbarBarColor = true;
             poisonPanel6.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel6.HorizontalScrollbarSize = 10;
@@ -274,16 +271,16 @@
             toggleHairpin.Name = "toggleHairpin";
             toggleHairpin.Options = ReaLTaiizor.Controls.ForeverToggle._Options.Style2;
             toggleHairpin.Size = new Size(76, 33);
-            toggleHairpin.TabIndex = 50;
+            toggleHairpin.TabIndex = 5;
             toggleHairpin.Text = "foreverToggle1";
             toggleHairpin.TextColor = Color.FromArgb(243, 243, 243);
             toggleHairpin.ToggleColor = Color.FromArgb(45, 47, 49);
             // 
             // poisonPanel8
             // 
+            poisonPanel8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             poisonPanel8.Controls.Add(poisonLabel2);
             poisonPanel8.Controls.Add(textBoxServer);
-            poisonPanel8.Dock = DockStyle.Top;
             poisonPanel8.HorizontalScrollbarBarColor = true;
             poisonPanel8.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel8.HorizontalScrollbarSize = 10;
@@ -295,25 +292,11 @@
             poisonPanel8.VerticalScrollbarHighlightOnWheel = false;
             poisonPanel8.VerticalScrollbarSize = 10;
             // 
-            // poisonPanel7
-            // 
-            poisonPanel7.Dock = DockStyle.Top;
-            poisonPanel7.HorizontalScrollbarBarColor = true;
-            poisonPanel7.HorizontalScrollbarHighlightOnWheel = false;
-            poisonPanel7.HorizontalScrollbarSize = 10;
-            poisonPanel7.Location = new Point(0, 108);
-            poisonPanel7.Name = "poisonPanel7";
-            poisonPanel7.Size = new Size(365, 10);
-            poisonPanel7.TabIndex = 51;
-            poisonPanel7.VerticalScrollbarBarColor = true;
-            poisonPanel7.VerticalScrollbarHighlightOnWheel = false;
-            poisonPanel7.VerticalScrollbarSize = 10;
-            // 
             // poisonPanel4
             // 
+            poisonPanel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             poisonPanel4.Controls.Add(toggleCreateAccount);
             poisonPanel4.Controls.Add(poisonLabel5);
-            poisonPanel4.Dock = DockStyle.Top;
             poisonPanel4.HorizontalScrollbarBarColor = true;
             poisonPanel4.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel4.HorizontalScrollbarSize = 10;
@@ -338,16 +321,16 @@
             toggleCreateAccount.Name = "toggleCreateAccount";
             toggleCreateAccount.Options = ReaLTaiizor.Controls.ForeverToggle._Options.Style2;
             toggleCreateAccount.Size = new Size(76, 33);
-            toggleCreateAccount.TabIndex = 51;
+            toggleCreateAccount.TabIndex = 3;
             toggleCreateAccount.Text = "foreverToggle2";
             toggleCreateAccount.TextColor = Color.FromArgb(243, 243, 243);
             toggleCreateAccount.ToggleColor = Color.FromArgb(45, 47, 49);
             // 
             // poisonPanel3
             // 
+            poisonPanel3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             poisonPanel3.Controls.Add(textBoxPassword);
             poisonPanel3.Controls.Add(poisonLabel4);
-            poisonPanel3.Dock = DockStyle.Top;
             poisonPanel3.HorizontalScrollbarBarColor = true;
             poisonPanel3.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel3.HorizontalScrollbarSize = 10;
@@ -361,9 +344,9 @@
             // 
             // poisonPanel2
             // 
+            poisonPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             poisonPanel2.Controls.Add(textBoxUsername);
             poisonPanel2.Controls.Add(poisonLabel3);
-            poisonPanel2.Dock = DockStyle.Top;
             poisonPanel2.HorizontalScrollbarBarColor = true;
             poisonPanel2.HorizontalScrollbarHighlightOnWheel = false;
             poisonPanel2.HorizontalScrollbarSize = 10;
@@ -395,7 +378,6 @@
             poisonPanel3.PerformLayout();
             poisonPanel2.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -412,7 +394,6 @@
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel3;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel6;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel8;
-        private ReaLTaiizor.Controls.PoisonPanel poisonPanel7;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel4;
         private ReaLTaiizor.Controls.ToggleButton toggleButton1;
         private ReaLTaiizor.Controls.ToggleButton toggleButton2;

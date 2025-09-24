@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace xilauncher
+﻿namespace xilauncher
 {
     public class LauncherResources
     {
@@ -34,8 +32,8 @@ namespace xilauncher
         private const string xiMapExe = "xi_map.exe";
 
 
-        private const string buildDebugDir = "bin/debug"; 
-        private const string buildDebugDirAlt = @"bin\debug"; 
+        private const string buildDebugDir = "bin/debug";
+        private const string buildDebugDirAlt = @"bin\debug";
         private const string buildReleaseDir = "bin/release";
         private const string buildReleaseDirAlt = @"bin\release";
 
@@ -68,13 +66,17 @@ namespace xilauncher
         internal DirectoryInfo? dirMysqlPlugin { get; private set; }
 
 
-        public bool IsDatabaseLaunchSupported => fileMysqldExe != null && fileMysqldExe.Exists;
-        public bool IsEnvironmentLaunchSupported => fileLoaderExe != null && fileLoaderExe.Exists;
-        public bool IsGameLaunchSupported => fileConnectExe != null && fileConnectExe.Exists
-                                            && fileSearchExe != null && fileSearchExe.Exists
-                                            && fileWorldExe != null && fileWorldExe.Exists
-                                            && fileMapExe != null && fileMapExe.Exists;
+        public bool IsDatabaseAvailable => fileMysqldExe.IsValid();
+        public bool IsLoaderAvailable => fileLoaderExe.IsValid();
 
+        public bool IsEnvironmentAvailable => IsXiConnectAvailable
+                                                    && IsXiSearchAvailable
+                                                    && IsXiWorldAvailable
+                                                    && IsXiMapAvailable;
+        public bool IsXiConnectAvailable => fileConnectExe.IsValid();
+        public bool IsXiSearchAvailable => fileSearchExe.IsValid();
+        public bool IsXiWorldAvailable => fileWorldExe.IsValid();
+        public bool IsXiMapAvailable => fileMapExe.IsValid();
         #endregion
 
 
@@ -170,6 +172,7 @@ namespace xilauncher
 
     public static class Extensions
     {
+
         public static string FullNameWithAltSeparator(this FileInfo fileInfo) { return fileInfo.FullName.Replace("\\", "/"); }
         public static string FullNameWithAltSeparator(this DirectoryInfo directoryInfo) { return directoryInfo.FullName.Replace("\\", "/"); }
 
@@ -187,6 +190,10 @@ namespace xilauncher
         /// <returns>A DirectoryInfo object with the given string value as path, this can be invalid.</returns>
         public static DirectoryInfo ToDirectoryInfo(this string value)
         { return new DirectoryInfo(value); }
+
+
+        public static bool IsValid(this DirectoryInfo? dirInfo) => dirInfo != null && dirInfo.Exists;
+        public static bool IsValid(this FileInfo? fileInfo) => fileInfo != null && fileInfo.Exists;
 
     }
 }

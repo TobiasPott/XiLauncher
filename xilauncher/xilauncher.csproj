@@ -12,8 +12,8 @@
 		<FileVersion>0.1.0.0</FileVersion>
 		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 
-		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<ForceDesignerDpiUnaware>False</ForceDesignerDpiUnaware>
+		<ForceDesignerDpiUnaware>True</ForceDesignerDpiUnaware>
+		
 	</PropertyGroup>
 
 	<ItemGroup>
