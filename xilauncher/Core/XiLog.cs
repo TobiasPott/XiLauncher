@@ -2,7 +2,7 @@
 
 namespace xilauncher
 {
-    internal class XiLog
+    public class XiLog
     {
         /// <summary>
         /// Enumeration of log categories used by the launcher application

@@ -1,5 +1,6 @@
 using ReaLTaiizor.Forms;
 using xilauncher.Configuration;
+using xilauncher.Controls;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace xilauncher
@@ -84,7 +85,7 @@ namespace xilauncher
         {
             bool isStopped = state == LauncherState.Stopped || state == LauncherState.Stopping || state == LauncherState.Errored;
             bool isDisabled = state == LauncherState.Starting || state == LauncherState.Stopping;
-            string text = (!isStopped ? UITexts.ButtonLabel_StopFormat : UITexts.ButtonLabel_LaunchFormat) + " {0}";
+            string text = (!isStopped ? UITexts.ButtonLabel_StopFormat : UITexts.ButtonLabel_LaunchFormat) + "{0}";
             Color backColor = (isStopped ? Color.IndianRed : Color.ForestGreen);
 
             Action<Button?, PictureBox?, LauncherModules> applyStatus = (button, pictureBox, module) =>
@@ -100,6 +101,7 @@ namespace xilauncher
 
             this.Invoke(new Action(() =>
             {
+                // ToDo: @tpott: (UI): add case(s) for Xi server launches that also should alter the 'pbStartEnvironment' button (might use additional  '| LauncherModules.Environment' when the processes are started (though not when stopped)
                 if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, picStatusGame, LauncherModules.Loader);
                 if (modules.HasFlag(LauncherModules.XiConnect)) applyStatus(pbStartXiConnect, picStatusConnect, LauncherModules.XiConnect);
                 if (modules.HasFlag(LauncherModules.XiSearch)) applyStatus(pbStartXiSearch, picStatusSearch, LauncherModules.XiSearch);
@@ -114,9 +116,9 @@ namespace xilauncher
         {
             if (_launcher.IsLoaderProcessActive)
             {
-                string message = String.Format($"Game is running.");
+                string message = String.Format($"Game{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result =
-                    ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?",
+                    ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess,
                         MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
@@ -138,8 +140,8 @@ namespace xilauncher
         {
             if (_launcher.IsXiConnectActive)
             {
-                string message = String.Format($"Xi Connect is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Environment{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcesses, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopEnvironment();
@@ -153,8 +155,8 @@ namespace xilauncher
         {
             if (_launcher.IsEnvironmentActive)
             {
-                string message = String.Format($"Xi Connect is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Xi Connect{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopXiConnectServer();
@@ -168,8 +170,8 @@ namespace xilauncher
         {
             if (_launcher.IsEnvironmentActive)
             {
-                string message = String.Format($"Xi Search is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Xi Search{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopXiSearchServer();
@@ -183,8 +185,8 @@ namespace xilauncher
         {
             if (_launcher.IsEnvironmentActive)
             {
-                string message = String.Format($"Xi World is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Xi World{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopXiWorldServer();
@@ -198,8 +200,8 @@ namespace xilauncher
         {
             if (_launcher.IsEnvironmentActive)
             {
-                string message = String.Format($"Xi Map is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Xi Map{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopXiMapServer();
@@ -214,8 +216,8 @@ namespace xilauncher
         {
             if (_launcher.IsDatabaseProcessActive)
             {
-                string message = String.Format($"Database is running.");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes?", MessageBoxButtons.YesNo);
+                string message = String.Format($"Database{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     await _launcher.StopDatabase();
@@ -232,10 +234,10 @@ namespace xilauncher
             if (_launcher.IsDatabaseProcessActive || _launcher.IsEnvironmentActive
                 || _launcher.IsLoaderProcessActive)
             {
-                string message = String.Format($"Processes are still running. {Environment.NewLine}" +
-                    $"Game:\t\t{(_launcher.IsLoaderProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
-                    $"Database:\t{(_launcher.IsDatabaseProcessActive ? "running" : "stopped")}{Environment.NewLine}" +
-                    $"Server:\t\t{(_launcher.IsEnvironmentActive ? "running" : "stopped")}{Environment.NewLine}" +
+                string message = String.Format($"Processes are running. {Environment.NewLine}" +
+                    $"Game:\t\t{(_launcher.IsLoaderProcessActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
+                    $"Database:\t{(_launcher.IsDatabaseProcessActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
+                    $"Server:\t\t{(_launcher.IsEnvironmentActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
                 if (result == System.Windows.Forms.DialogResult.Yes)
@@ -250,51 +252,59 @@ namespace xilauncher
         }
 
 
+        //private Dictionary<XiLog.XiLogCategory, XiLogForm?> logForms = new Dictionary<XiLog.XiLogCategory, XiLogForm?>() {
+        //    { XiLog.XiLogCategory.Database, null },
+        //    { XiLog.XiLogCategory.ConnectServer, null },
+        //    { XiLog.XiLogCategory.SearchServer, null },
+        //    { XiLog.XiLogCategory.WorldServer, null },
+        //    { XiLog.XiLogCategory.MapServer, null }
+
+        //};
 
         private Controls.XiLogForm? logFormXiConnect;
         private void OpenLogXiConnectButton_Click(object sender, EventArgs e) =>
-            OpenLog(ref logFormXiConnect, XiLog.XiLogCategory.ConnectServer, LogFormXiConnect_FormClosed);
+            XiLogForm.Open(ref logFormXiConnect, XiLog.XiLogCategory.ConnectServer, LogFormXiConnect_FormClosed);
         private void LogFormXiConnect_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiConnect = null; this.Focus(); }
 
         private Controls.XiLogForm? logFormXiSearch;
         private void OpenLogXiSearchButton_Click(object sender, EventArgs e) =>
-            OpenLog(ref logFormXiSearch, XiLog.XiLogCategory.SearchServer, LogFormXiSearch_FormClosed);
+            XiLogForm.Open(ref logFormXiSearch, XiLog.XiLogCategory.SearchServer, LogFormXiSearch_FormClosed);
         private void LogFormXiSearch_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiSearch = null; this.Focus(); }
 
         private Controls.XiLogForm? logFormXiWorld;
         private void OpenLogXiWorldButton_Click(object sender, EventArgs e) =>
-            OpenLog(ref logFormXiWorld, XiLog.XiLogCategory.WorldServer, LogFormXiWorld_FormClosed);
+            XiLogForm.Open(ref logFormXiWorld, XiLog.XiLogCategory.WorldServer, LogFormXiWorld_FormClosed);
         private void LogFormXiWorld_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiWorld = null; this.Focus(); }
 
         private Controls.XiLogForm? logFormXiMap;
         private void OpenLogXiMapButton_Click(object sender, EventArgs e) =>
-            OpenLog(ref logFormXiMap, XiLog.XiLogCategory.MapServer, LogFormXiMap_FormClosed);
+            XiLogForm.Open(ref logFormXiMap, XiLog.XiLogCategory.MapServer, LogFormXiMap_FormClosed);
         private void LogFormXiMap_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiMap = null; this.Focus(); }
 
 
         private Controls.XiLogForm? logFormDatabase;
         private void OpenLogDatabaseButton_Click(object sender, EventArgs e) =>
-            OpenLog(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
+            XiLogForm.Open(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
         private void LogFormDatabase_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormDatabase = null; this.Focus(); }
 
 
-        private void OpenLog(ref Controls.XiLogForm? form, XiLog.XiLogCategory category, FormClosedEventHandler? onFormClosed)
-        {
-            if (form == null)
-            {
-                form = new Controls.XiLogForm();
-                form.Text = $"Log - {category}";
-                form.Category = category;
-                // init log form;
-                form.FormClosed += onFormClosed;
-            }
-            form.Show();
-        }
+        //private void OpenLog(ref Controls.XiLogForm? form, XiLog.XiLogCategory category, FormClosedEventHandler? onFormClosed)
+        //{
+        //    if (form == null)
+        //    {
+        //        form = new Controls.XiLogForm();
+        //        form.Text = $"Log - {category}";
+        //        form.Category = category;
+        //        // init log form;
+        //        form.FormClosed += onFormClosed;
+        //    }
+        //    form.Show();
+        //}
 
 
         private void OpenGameConfigButton_Click(object sender, EventArgs e)

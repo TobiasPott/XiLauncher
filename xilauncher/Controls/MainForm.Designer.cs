@@ -231,7 +231,8 @@
             pbOpenConfigGamepad.Location = new Point(0, 69);
             pbOpenConfigGamepad.Name = "pbOpenConfigGamepad";
             pbOpenConfigGamepad.Size = new Size(196, 32);
-            pbOpenConfigGamepad.TabIndex = 43;
+            pbOpenConfigGamepad.TabIndex = 0;
+            pbOpenConfigGamepad.TabStop = false;
             pbOpenConfigGamepad.Text = "  Open Gamepad Config";
             pbOpenConfigGamepad.TextAlign = ContentAlignment.MiddleLeft;
             pbOpenConfigGamepad.UseSelectable = true;
@@ -247,7 +248,8 @@
             pbOpenConfigPlayOnline.Location = new Point(0, 107);
             pbOpenConfigPlayOnline.Name = "pbOpenConfigPlayOnline";
             pbOpenConfigPlayOnline.Size = new Size(196, 32);
-            pbOpenConfigPlayOnline.TabIndex = 44;
+            pbOpenConfigPlayOnline.TabIndex = 0;
+            pbOpenConfigPlayOnline.TabStop = false;
             pbOpenConfigPlayOnline.Text = "  Open PlayOnline Config";
             pbOpenConfigPlayOnline.TextAlign = ContentAlignment.MiddleLeft;
             pbOpenConfigPlayOnline.UseSelectable = true;
@@ -276,7 +278,8 @@
             pbOpenConfigGame.Location = new Point(0, 31);
             pbOpenConfigGame.Name = "pbOpenConfigGame";
             pbOpenConfigGame.Size = new Size(196, 32);
-            pbOpenConfigGame.TabIndex = 42;
+            pbOpenConfigGame.TabIndex = 0;
+            pbOpenConfigGame.TabStop = false;
             pbOpenConfigGame.Text = "  Open Game config";
             pbOpenConfigGame.TextAlign = ContentAlignment.MiddleLeft;
             pbOpenConfigGame.UseSelectable = true;
@@ -376,7 +379,8 @@
             pbViewLogDatabase.Location = new Point(226, 31);
             pbViewLogDatabase.Name = "pbViewLogDatabase";
             pbViewLogDatabase.Size = new Size(44, 42);
-            pbViewLogDatabase.TabIndex = 55;
+            pbViewLogDatabase.TabIndex = 0;
+            pbViewLogDatabase.TabStop = false;
             pbViewLogDatabase.Text = "Log";
             pbViewLogDatabase.UseSelectable = true;
             pbViewLogDatabase.Click += OpenLogDatabaseButton_Click;
@@ -390,7 +394,8 @@
             pbViewLogXiMap.Location = new Point(226, 244);
             pbViewLogXiMap.Name = "pbViewLogXiMap";
             pbViewLogXiMap.Size = new Size(44, 32);
-            pbViewLogXiMap.TabIndex = 54;
+            pbViewLogXiMap.TabIndex = 0;
+            pbViewLogXiMap.TabStop = false;
             pbViewLogXiMap.Text = "Log";
             pbViewLogXiMap.UseSelectable = true;
             pbViewLogXiMap.Click += OpenLogXiMapButton_Click;
@@ -405,7 +410,8 @@
             pbViewLogXiWorld.Margin = new Padding(2, 3, 2, 3);
             pbViewLogXiWorld.Name = "pbViewLogXiWorld";
             pbViewLogXiWorld.Size = new Size(44, 32);
-            pbViewLogXiWorld.TabIndex = 53;
+            pbViewLogXiWorld.TabIndex = 0;
+            pbViewLogXiWorld.TabStop = false;
             pbViewLogXiWorld.Text = "Log";
             pbViewLogXiWorld.UseSelectable = true;
             pbViewLogXiWorld.Click += OpenLogXiWorldButton_Click;
@@ -420,7 +426,8 @@
             pbViewLogXiSearch.Margin = new Padding(2, 3, 2, 3);
             pbViewLogXiSearch.Name = "pbViewLogXiSearch";
             pbViewLogXiSearch.Size = new Size(44, 32);
-            pbViewLogXiSearch.TabIndex = 52;
+            pbViewLogXiSearch.TabIndex = 0;
+            pbViewLogXiSearch.TabStop = false;
             pbViewLogXiSearch.Text = "Log";
             pbViewLogXiSearch.UseSelectable = true;
             pbViewLogXiSearch.Click += OpenLogXiSearchButton_Click;
@@ -434,7 +441,8 @@
             pbViewLogXiConnect.Location = new Point(226, 130);
             pbViewLogXiConnect.Name = "pbViewLogXiConnect";
             pbViewLogXiConnect.Size = new Size(44, 32);
-            pbViewLogXiConnect.TabIndex = 51;
+            pbViewLogXiConnect.TabIndex = 0;
+            pbViewLogXiConnect.TabStop = false;
             pbViewLogXiConnect.Text = "Log";
             pbViewLogXiConnect.UseSelectable = true;
             pbViewLogXiConnect.Click += OpenLogXiConnectButton_Click;
@@ -450,7 +458,8 @@
             pbStartXiMap.Name = "pbStartXiMap";
             pbStartXiMap.Padding = new Padding(32, 0, 0, 0);
             pbStartXiMap.Size = new Size(196, 32);
-            pbStartXiMap.TabIndex = 50;
+            pbStartXiMap.TabIndex = 0;
+            pbStartXiMap.TabStop = false;
             pbStartXiMap.Text = "  Launch Xi Map";
             pbStartXiMap.TextAlign = ContentAlignment.MiddleLeft;
             pbStartXiMap.UseSelectable = true;
@@ -468,7 +477,8 @@
             pbStartXiWorld.Name = "pbStartXiWorld";
             pbStartXiWorld.Padding = new Padding(32, 0, 0, 0);
             pbStartXiWorld.Size = new Size(196, 32);
-            pbStartXiWorld.TabIndex = 49;
+            pbStartXiWorld.TabIndex = 0;
+            pbStartXiWorld.TabStop = false;
             pbStartXiWorld.Text = "  Launch Xi World";
             pbStartXiWorld.TextAlign = ContentAlignment.MiddleLeft;
             pbStartXiWorld.UseSelectable = true;
@@ -486,7 +496,8 @@
             pbStartXiSearch.Name = "pbStartXiSearch";
             pbStartXiSearch.Padding = new Padding(32, 0, 0, 0);
             pbStartXiSearch.Size = new Size(196, 32);
-            pbStartXiSearch.TabIndex = 48;
+            pbStartXiSearch.TabIndex = 0;
+            pbStartXiSearch.TabStop = false;
             pbStartXiSearch.Text = "  Launch XI Search";
             pbStartXiSearch.TextAlign = ContentAlignment.MiddleLeft;
             pbStartXiSearch.UseSelectable = true;
@@ -504,7 +515,8 @@
             pbStartXiConnect.Name = "pbStartXiConnect";
             pbStartXiConnect.Padding = new Padding(32, 0, 0, 0);
             pbStartXiConnect.Size = new Size(196, 32);
-            pbStartXiConnect.TabIndex = 47;
+            pbStartXiConnect.TabIndex = 0;
+            pbStartXiConnect.TabStop = false;
             pbStartXiConnect.Text = "  Launch XI Connect";
             pbStartXiConnect.TextAlign = ContentAlignment.MiddleLeft;
             pbStartXiConnect.UseSelectable = true;

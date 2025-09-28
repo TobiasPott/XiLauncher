@@ -64,5 +64,21 @@ namespace xilauncher.Controls
                 ptIn.Clear();
             }
         }
+
+
+
+        public static void Open(ref Controls.XiLogForm? form, XiLog.XiLogCategory category, FormClosedEventHandler? onFormClosed)
+        {
+            if (form == null)
+            {
+                form = new Controls.XiLogForm();
+                form.Text = $"Log - {category}";
+                form.Category = category;
+                // init log form;
+                form.FormClosed += onFormClosed;
+            }
+            form.Show();
+        }
+
     }
 }
