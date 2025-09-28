@@ -60,7 +60,7 @@
                     {
                         XiLog.WriteLine("...xi_map is running.");
                         XiLogProcessRedirector.XiMapRedirector.Attach(_procMap);
-                        this.OnProcessChanged(LauncherModules.XiMap, LauncherState.Running);
+                        this.OnProcessChanged(LauncherModules.XiMap | LauncherModules.Environment, LauncherState.Running);
                         return true;
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -82,7 +82,7 @@
                     {
                         XiLog.WriteLine("...xi_world is running.");
                         XiLogProcessRedirector.XiWorldRedirector.Attach(_procWorld);
-                        this.OnProcessChanged(LauncherModules.XiWorld, LauncherState.Running);
+                        this.OnProcessChanged(LauncherModules.XiWorld | LauncherModules.Environment, LauncherState.Running);
                         return true;
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -104,7 +104,7 @@
                     {
                         XiLog.WriteLine("...xi_search is running.");
                         XiLogProcessRedirector.XiSearchRedirector.Attach(_procSearch);
-                        this.OnProcessChanged(LauncherModules.XiSearch, LauncherState.Running);
+                        this.OnProcessChanged(LauncherModules.XiSearch | LauncherModules.Environment, LauncherState.Running);
                         return true;
                     }
                     else XiLog.WriteLine("...failed to start!");
@@ -126,7 +126,8 @@
                     {
                         XiLog.WriteLine("...xi_connect is running.");
                         XiLogProcessRedirector.XiConnectRedirector.Attach(_procConnect);
-                        this.OnProcessChanged(LauncherModules.XiConnect, LauncherState.Running);
+                        // ToDo: @tpott: ponder if it makes sense to remove 'Environment' or change it to a combination of the Xi modules
+                        this.OnProcessChanged(LauncherModules.XiConnect | LauncherModules.Environment, LauncherState.Running);
                         return true;
                     }
                     else XiLog.WriteLine("...failed to start!");
