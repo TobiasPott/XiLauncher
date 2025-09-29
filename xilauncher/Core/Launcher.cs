@@ -87,6 +87,27 @@ namespace xilauncher
             if (stopDatabase) await StopDatabase();
         }
 
+        private async void Start(LauncherModules module, IWin32Window? owner = null)
+        {
+            if (this.IsEnvironmentActive)
+            {
+                string message = String.Format($"Xi Map{UITexts.MsgBox_Msg_IsRunning}");
+                DialogResult result = DialogResult.Yes;
+                if (owner != null)
+                {
+                    result = ReaLTaiizor.Controls.PoisonMessageBox.Show(owner, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
+                }
+                if (result == DialogResult.Yes)
+                {
+                    await this.StopXiMapServer();
+                }
+            }
+            else if (await this.LaunchXiMapServer(CancellationToken.None))
+            { }
+            await Task.CompletedTask;
+        }
+
+
         /// <summary>
         /// Launches the file described by the given info (if present) and sets up and starts the process according to the given arguments
         /// </summary>

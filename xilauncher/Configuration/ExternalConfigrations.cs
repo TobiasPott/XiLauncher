@@ -50,8 +50,6 @@ namespace xilauncher.Configuration
 
             if (regKeyIinstallFolders != null)
             {
-                // ToDo: change to use .ToDirectoryInfo/ToFileInfo extensions and cleanup constant strings
-
                 string ffxiBasePath = regKeyIinstallFolders.GetValue("0001")?.ToString() ?? string.Empty;
                 string polBasePath = regKeyIinstallFolders.GetValue("1000")?.ToString() ?? string.Empty;
                 XiLog.WriteLine(ffxiBasePath);

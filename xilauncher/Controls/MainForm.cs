@@ -23,7 +23,13 @@ namespace xilauncher
         */
     public partial class MainForm : PoisonForm
     {
+        /// <summary>
+        /// reference to the internal launcher instance used to handle environment processes
+        /// </summary>
         private readonly Launcher _launcher;
+        /// <summary>
+        /// the 'default' mule account used in the development environment data sample
+        /// </summary>
         private XiLoaderUserConfig _currentAccount = new XiLoaderUserConfig("mule", "", "127.0.0.1", true);
 
 
@@ -45,13 +51,11 @@ namespace xilauncher
                     _currentAccount = lastAccount;
             }
             this.userConfigControl.SetConfig(_currentAccount);
-            // ToDo: @tpott: Read the DPAPI introduction:
-            // https://learn.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)?redirectedfrom=MSDN
-            //var vault = new Windows.Security.Credentials.PasswordVault();
-            //vault.Add(new Windows.Security.Credentials.PasswordCredential(
-            //    "My App", username, password));
         }
 
+        /// <summary>
+        /// refreshes the resources the launcher use (don't use while processes are running)
+        /// </summary>
         private void Resources_Refreshed()
         {
             poisonLabel1.Text = _launcher.Resources.dirBase.FullName;
@@ -75,12 +79,17 @@ namespace xilauncher
             pbOpenConfigPlayOnline.Enabled = ExternalConfigrations.Instance.IsPlayOnlineConfigSupported;
         }
 
+        /// <summary>
+        /// called when close is requested, stops all environment processes and shuts down the application
+        /// </summary>
+        /// <returns></returns>
         private async Task CloseApplication()
         {
             _launcher.ProcessChanged -= Launcher_ProcessChanged;
             await _launcher.Exit(true, true, true);
             this.Close();
         }
+
         private void Launcher_ProcessChanged(LauncherModules modules, LauncherState state)
         {
             bool isStopped = state == LauncherState.Stopped || state == LauncherState.Stopping || state == LauncherState.Errored;
@@ -101,7 +110,6 @@ namespace xilauncher
 
             this.Invoke(new Action(() =>
             {
-                // ToDo: @tpott: (UI): add case(s) for Xi server launches that also should alter the 'pbStartEnvironment' button (might use additional  '| LauncherModules.Environment' when the processes are started (though not when stopped)
                 if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, picStatusGame, LauncherModules.Loader);
                 if (modules.HasFlag(LauncherModules.XiConnect)) applyStatus(pbStartXiConnect, picStatusConnect, LauncherModules.XiConnect);
                 if (modules.HasFlag(LauncherModules.XiSearch)) applyStatus(pbStartXiSearch, picStatusSearch, LauncherModules.XiSearch);
@@ -117,10 +125,9 @@ namespace xilauncher
             if (_launcher.IsLoaderProcessActive)
             {
                 string message = String.Format($"Game{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result =
-                    ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess,
+                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess,
                         MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopGame();
                 }
@@ -142,8 +149,12 @@ namespace xilauncher
             {
                 string message = String.Format($"Environment{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcesses, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
+                    // ToDo: @tpott: introduce a launcher module type that is interfaced with "Start/Stop" 
+                    //              this should allow to generalise these UI functions and identify what process to call by the flags provided
+                    //          -> might instead add Strat/Stop with a LauncherModules argument to the Launcher type that internally directy to the correct module
+                    //              this would be way less change with same result (and keeping it inside Launcher class)
                     await _launcher.StopEnvironment();
                 }
             }
@@ -157,7 +168,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Xi Connect{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopXiConnectServer();
                 }
@@ -172,7 +183,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Xi Search{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopXiSearchServer();
                 }
@@ -187,7 +198,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Xi World{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopXiWorldServer();
                 }
@@ -202,7 +213,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Xi Map{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopXiMapServer();
                 }
@@ -218,7 +229,7 @@ namespace xilauncher
             {
                 string message = String.Format($"Database{UITexts.MsgBox_Msg_IsRunning}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await _launcher.StopDatabase();
                 }
@@ -240,7 +251,7 @@ namespace xilauncher
                     $"Server:\t\t{(_launcher.IsEnvironmentActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
-                if (result == System.Windows.Forms.DialogResult.Yes)
+                if (result == DialogResult.Yes)
                 {
                     await this.CloseApplication();
                 }
@@ -258,7 +269,6 @@ namespace xilauncher
         //    { XiLog.XiLogCategory.SearchServer, null },
         //    { XiLog.XiLogCategory.WorldServer, null },
         //    { XiLog.XiLogCategory.MapServer, null }
-
         //};
 
         private Controls.XiLogForm? logFormXiConnect;
@@ -291,20 +301,6 @@ namespace xilauncher
             XiLogForm.Open(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
         private void LogFormDatabase_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormDatabase = null; this.Focus(); }
-
-
-        //private void OpenLog(ref Controls.XiLogForm? form, XiLog.XiLogCategory category, FormClosedEventHandler? onFormClosed)
-        //{
-        //    if (form == null)
-        //    {
-        //        form = new Controls.XiLogForm();
-        //        form.Text = $"Log - {category}";
-        //        form.Category = category;
-        //        // init log form;
-        //        form.FormClosed += onFormClosed;
-        //    }
-        //    form.Show();
-        //}
 
 
         private void OpenGameConfigButton_Click(object sender, EventArgs e)
