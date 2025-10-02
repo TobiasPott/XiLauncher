@@ -45,17 +45,17 @@ namespace xilauncher
             XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
 
             // update button states based on availability of resources and external files
-            pbStartGame.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Loader);
-            pbOpenGameLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Loader);
+            pbStartGame.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.Loader);
+            pbOpenGameLog.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.Loader);
 
-            pbStartEnvironment.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Environment);
-            pbStartXiConnect.Enabled = pbViewLogXiConnect.Enabled = pbOpenConnectLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiConnect);
-            pbStartXiSearch.Enabled = pbViewLogXiSearch.Enabled = pbOpenSearchLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiSearch);
-            pbStartXiWorld.Enabled = pbViewLogXiWorld.Enabled = pbOpenWorldLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiWorld);
-            pbStartXiMap.Enabled = pbViewLogXiMap.Enabled = pbOpenMapLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiMap);
+            pbStartEnvironment.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.Environment);
+            pbStartXiConnect.Enabled = pbViewLogXiConnect.Enabled = pbOpenConnectLog.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.XiConnect);
+            pbStartXiSearch.Enabled = pbViewLogXiSearch.Enabled = pbOpenSearchLog.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.XiSearch);
+            pbStartXiWorld.Enabled = pbViewLogXiWorld.Enabled = pbOpenWorldLog.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.XiWorld);
+            pbStartXiMap.Enabled = pbViewLogXiMap.Enabled = pbOpenMapLog.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.XiMap);
 
-            pbStartDatabase.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Database);
-            pbOpenDatabaseLog.Enabled = pbViewLogDatabase.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Database);
+            pbStartDatabase.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.Database);
+            pbOpenDatabaseLog.Enabled = pbViewLogDatabase.Enabled = _launcher.Resources.IsAvailable(Launcher.Modules.Database);
 
             pbOpenConfigGame.Enabled = ExternalConfigurations.Instance.IsGameConfigSupported;
             pbOpenConfigGamepad.Enabled = ExternalConfigurations.Instance.IsGamepadConfigSupported;
@@ -73,14 +73,14 @@ namespace xilauncher
             this.Close();
         }
 
-        private void Launcher_ProcessChanged(LauncherModules modules, LauncherState state)
+        private void Launcher_ProcessChanged(Launcher.Modules modules, LauncherState state)
         {
             bool isStopped = state == LauncherState.Stopped || state == LauncherState.Stopping || state == LauncherState.Errored;
             bool isDisabled = state == LauncherState.Starting || state == LauncherState.Stopping;
             string text = (!isStopped ? UITexts.ButtonLabel_StopFormat : UITexts.ButtonLabel_LaunchFormat) + "{0}";
             Color backColor = (isStopped ? Color.IndianRed : Color.ForestGreen);
 
-            Action<Button?, PictureBox?, LauncherModules> applyStatus = (button, pictureBox, module) =>
+            Action<Button?, PictureBox?, Launcher.Modules> applyStatus = (button, pictureBox, module) =>
             {
                 if (button != null)
                 {
@@ -93,36 +93,36 @@ namespace xilauncher
 
             this.Invoke(new Action(() =>
             {
-                if (modules.HasFlag(LauncherModules.Loader)) applyStatus(pbStartGame, picStatusGame, LauncherModules.Loader);
-                if (modules.HasFlag(LauncherModules.XiConnect)) applyStatus(pbStartXiConnect, picStatusConnect, LauncherModules.XiConnect);
-                if (modules.HasFlag(LauncherModules.XiSearch)) applyStatus(pbStartXiSearch, picStatusSearch, LauncherModules.XiSearch);
-                if (modules.HasFlag(LauncherModules.XiWorld)) applyStatus(pbStartXiWorld, picStatusWorld, LauncherModules.XiWorld);
-                if (modules.HasFlag(LauncherModules.XiMap)) applyStatus(pbStartXiMap, picStatusMap, LauncherModules.XiMap);
-                if (modules.HasFlag(LauncherModules.Environment)) applyStatus(pbStartEnvironment, null, LauncherModules.Environment);
-                if (modules.HasFlag(LauncherModules.Database)) applyStatus(pbStartDatabase, picStatusDatabase, LauncherModules.Database);
+                if (modules.HasFlag(Launcher.Modules.Loader)) applyStatus(pbStartGame, picStatusGame, Launcher.Modules.Loader);
+                if (modules.HasFlag(Launcher.Modules.XiConnect)) applyStatus(pbStartXiConnect, picStatusConnect, Launcher.Modules.XiConnect);
+                if (modules.HasFlag(Launcher.Modules.XiSearch)) applyStatus(pbStartXiSearch, picStatusSearch, Launcher.Modules.XiSearch);
+                if (modules.HasFlag(Launcher.Modules.XiWorld)) applyStatus(pbStartXiWorld, picStatusWorld, Launcher.Modules.XiWorld);
+                if (modules.HasFlag(Launcher.Modules.XiMap)) applyStatus(pbStartXiMap, picStatusMap, Launcher.Modules.XiMap);
+                if (modules.HasFlag(Launcher.Modules.Environment)) applyStatus(pbStartEnvironment, null, Launcher.Modules.Environment);
+                if (modules.HasFlag(Launcher.Modules.Database)) applyStatus(pbStartDatabase, picStatusDatabase, Launcher.Modules.Database);
             }));
         }
 
 
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
-            if (await _launcher.StartModule(LauncherModules.Database))
+            if (await _launcher.StartModule(Launcher.Modules.Database))
             {
                 // save changes to launcher settings (e.g. stored account)
                 LauncherSettings.Default.Save();
             }
         }
-        private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.Environment);
-        private async void ButtonLaunchXiConnect_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiConnect);
-        private async void ButtonLaunchXiSearch_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiSearch);
-        private async void ButtonLaunchXiWorld_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiWorld);
-        private async void ButtonLaunchXiMap_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiMap);
-        private async void ButtonLaunchDatabase_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.Database);
+        private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.Environment);
+        private async void ButtonLaunchXiConnect_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.XiConnect);
+        private async void ButtonLaunchXiSearch_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.XiSearch);
+        private async void ButtonLaunchXiWorld_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.XiWorld);
+        private async void ButtonLaunchXiMap_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.XiMap);
+        private async void ButtonLaunchDatabase_Click(object sender, EventArgs e) => await _launcher.StartModule(Launcher.Modules.Database);
         private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
-            bool activeDatabase = _launcher.IsProcessActive(LauncherModules.Database);
-            bool activeEnvironment = _launcher.IsProcessActive(LauncherModules.Environment);
-            bool activeLoader = _launcher.IsProcessActive(LauncherModules.Loader);
+            bool activeDatabase = _launcher.IsProcessActive(Launcher.Modules.Database);
+            bool activeEnvironment = _launcher.IsProcessActive(Launcher.Modules.Environment);
+            bool activeLoader = _launcher.IsProcessActive(Launcher.Modules.Loader);
             // check if any processes are active to prompt for confirmation
             if (activeDatabase || activeEnvironment || activeLoader)
             {

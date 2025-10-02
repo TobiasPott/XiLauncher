@@ -6,21 +6,6 @@ namespace xilauncher
 {
 
     /// <summary>
-    /// Enumerations of modules the launcher internally works with
-    /// </summary>
-    [Flags()]
-    public enum LauncherModules
-    {
-        Default = 0,
-        Environment = 1,
-        XiConnect = 2,
-        XiSearch = 4,
-        XiWorld = 8,
-        XiMap = 16,
-        Database = 32,
-        Loader = 64,
-    }
-    /// <summary>
     /// Enumeration of states the different modules' processes can be in
     /// </summary>
     public enum LauncherState
@@ -37,13 +22,30 @@ namespace xilauncher
     /// </summary>
     /// <param name="modules">a bitmask of modules that have their state changed</param>
     /// <param name="state">the state the given modules have changed to</param>
-    public delegate void LauncherEvent(LauncherModules modules, LauncherState state);
+    public delegate void LauncherEvent(Launcher.Modules modules, LauncherState state);
 
     /// <summary>
     /// Class that provides access to subprocesses & resources and internally tracks the running instances
     /// </summary>
     public partial class Launcher
     {
+
+        /// <summary>
+        /// Enumerations of modules the launcher internally works with
+        /// </summary>
+        [Flags()]
+        public enum Modules
+        {
+            Default = 0,
+            Environment = 1,
+            XiConnect = 2,
+            XiSearch = 4,
+            XiWorld = 8,
+            XiMap = 16,
+            Database = 32,
+            Loader = 64,
+        }
+
         /// <summary>
         /// event called when a subprocess of the launcher changes it's state
         /// </summary>
@@ -64,7 +66,7 @@ namespace xilauncher
         /// </summary>
         public LauncherResources Resources { get { return _resources; } }
 
-        private void OnProcessChanged(LauncherModules modules, LauncherState state)
+        private void OnProcessChanged(Modules modules, LauncherState state)
         {
             ProcessChanged?.Invoke(modules, state);
         }
@@ -83,12 +85,12 @@ namespace xilauncher
         /// <returns>A task that represents a exiting function and it's progress</returns>
         public async Task Exit(bool stopDatabase, bool stopServer, bool stopGame)
         {
-            if (stopGame) await StopModule(LauncherModules.Loader);
-            if (stopServer) await StopModule(LauncherModules.Environment);
-            if (stopDatabase) await StopModule(LauncherModules.Database);
+            if (stopGame) await StopModule(Modules.Loader);
+            if (stopServer) await StopModule(Modules.Environment);
+            if (stopDatabase) await StopModule(Modules.Database);
         }
 
-        public async Task<bool> StartModule(LauncherModules module, IWin32Window? owner = null)
+        public async Task<bool> StartModule(Modules module, IWin32Window? owner = null)
         {
             if (this.IsProcessActive(module))
             {
@@ -106,47 +108,47 @@ namespace xilauncher
 
             return false;
         }
-        private async Task StopModule(LauncherModules module)
+        private async Task StopModule(Modules module)
         {
             switch (module)
             {
-                case LauncherModules.Default: break;
-                case LauncherModules.Environment:
+                case Modules.Default: break;
+                case Modules.Environment:
                     await this.StopEnvironment(); break;
-                case LauncherModules.XiConnect:
+                case Modules.XiConnect:
                     await StopXiConnectServer(); break;
-                case LauncherModules.XiSearch:
+                case Modules.XiSearch:
                     await StopXiSearchServer(); break;
-                case LauncherModules.XiWorld:
+                case Modules.XiWorld:
                     await StopXiWorldServer(); break;
-                case LauncherModules.XiMap:
+                case Modules.XiMap:
                     await StopXiMapServer(); break;
-                case LauncherModules.Database:
+                case Modules.Database:
                     await StopDatabase(); break;
-                case LauncherModules.Loader:
+                case Modules.Loader:
                     await this.StopGame(); break;
             }
         }
 
-        private async Task<bool> LaunchModule(LauncherModules module)
+        private async Task<bool> LaunchModule(Modules module)
         {
             switch (module)
             {
-                case LauncherModules.Default:
+                case Modules.Default:
                     return false;
-                case LauncherModules.Environment:
+                case Modules.Environment:
                     return await this.LaunchEnvironment(CancellationToken.None);
-                case LauncherModules.XiConnect:
+                case Modules.XiConnect:
                     return await this.LaunchXiConnectServer(CancellationToken.None);
-                case LauncherModules.XiSearch:
+                case Modules.XiSearch:
                     return await this.LaunchXiSearchServer(CancellationToken.None);
-                case LauncherModules.XiWorld:
+                case Modules.XiWorld:
                     return await this.LaunchXiWorldServer(CancellationToken.None);
-                case LauncherModules.XiMap:
+                case Modules.XiMap:
                     return await this.LaunchXiMapServer(CancellationToken.None);
-                case LauncherModules.Database:
+                case Modules.Database:
                     return await this.LaunchDatabase();
-                case LauncherModules.Loader:
+                case Modules.Loader:
                     if (LauncherSettings.Default.StoredAccount != null)
                         return await this.LaunchGame(LauncherSettings.Default.StoredAccount);
                     return false;
@@ -175,8 +177,8 @@ namespace xilauncher
         //}
 
 
-        private async Task<Process?> StartProcess(Process? proc, LauncherModules module,
-            XiLogProcessRedirector? redirector = null, FileInfo? file = null, DirectoryInfo? workingDir = null, ProcessLaunchParams launchParams = default)
+        private async Task<Process?> StartProcess(Process? proc, Modules module,
+            XiLogProcessRedirector? redirector = null, FileInfo? file = null, DirectoryInfo? workingDir = null, ProcessParams launchParams = default)
         {
             if (proc is not null)
                 return null; // return to indicate no new process was started
@@ -192,12 +194,12 @@ namespace xilauncher
             }
             else XiLog.WriteLine("Loader failed to start!");
 
-            this.OnProcessChanged(LauncherModules.Loader, _procLoader is not null ? LauncherState.Running : LauncherState.Errored);
+            this.OnProcessChanged(Modules.Loader, _procLoader is not null ? LauncherState.Running : LauncherState.Errored);
 
             return proc;
         }
 
-        private async Task<bool> StopProcess(Process? proc, LauncherModules module, XiLogProcessRedirector? redirector = null)
+        private async Task<bool> StopProcess(Process? proc, Modules module, XiLogProcessRedirector? redirector = null)
         {
             // check if process is null reference
             if (proc is null)
@@ -228,7 +230,7 @@ namespace xilauncher
         /// <param name="useShell"></param>
         /// <param name="verb"></param>
         /// <returns>The process started from this call, or null if something went wrong.</returns>
-        internal static Process? Launch(FileInfo? fileInfo, DirectoryInfo? workDir, ProcessLaunchParams launchParams
+        internal static Process? Launch(FileInfo? fileInfo, DirectoryInfo? workDir, ProcessParams launchParams
             /*, bool enableEvents = true, bool useShell = false, string verb = ""*/)
         {
             if (fileInfo is null
@@ -274,7 +276,7 @@ namespace xilauncher
         /// <param name="verb"></param>
         /// <param name="redirectStreams"></param>
         /// <returns>The process started from this call, or null if something went wrong.</returns>
-        internal static async Task<Process?> LaunchAsync(FileInfo? fileInfo, DirectoryInfo? workDir, ProcessLaunchParams launchParams
+        internal static async Task<Process?> LaunchAsync(FileInfo? fileInfo, DirectoryInfo? workDir, ProcessParams launchParams
             /*, bool enableEvents = true, bool useShell = true, string verb = "", bool redirectStreams = false*/)
         {
             if (fileInfo is null
@@ -319,54 +321,6 @@ namespace xilauncher
 
 
 
-    }
-
-    public struct ProcessLaunchParams
-    {
-        public static readonly ProcessLaunchParams Default = new ProcessLaunchParams();
-        public static readonly ProcessLaunchParams DefaultUseShell = new ProcessLaunchParams(useShell: true);
-
-
-        public string Args;
-        public bool EnableEvents;
-        public bool UseShell;
-        public string Verb;
-        public bool RedirectStreams;
-
-        public ProcessLaunchParams()
-        {
-            this.Args = string.Empty;
-            this.EnableEvents = true;
-            this.UseShell = false;
-            this.Verb = string.Empty;
-            this.RedirectStreams = true;
-        }
-        public ProcessLaunchParams(string args = "", bool enableEvents = true, bool useShell = false, string verb = "", bool redirectStreams = true)
-        {
-            this.Args = args;
-            this.EnableEvents = enableEvents;
-            this.UseShell = useShell;
-            this.Verb = verb;
-            this.RedirectStreams = redirectStreams;
-        }
-        public static  ProcessLaunchParams DefaultWithArgs(string args = "", bool redirectStreams = true)
-        {
-            ProcessLaunchParams result = Default;
-            result.Args = args;
-            result.RedirectStreams = redirectStreams;
-            return result;
-        }
-        public static ProcessLaunchParams Shell(string args = "", bool enableEvents = true, string verb = "", bool redirectStreams = true)
-        {
-            ProcessLaunchParams result = DefaultUseShell;
-            result.Args = args;
-            result.EnableEvents = enableEvents;
-            result.Verb = verb;
-            result.RedirectStreams = redirectStreams;
-            return result;
-        }
-
-        // "", true, false, "", true
     }
 
 }

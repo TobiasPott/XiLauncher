@@ -78,11 +78,11 @@ namespace xilauncher.Configuration
             switch (configApp)
             {
                 case ConfigApp.PlayOnline:
-                    return Launcher.Launch(ffxiPolConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
+                    return Launcher.Launch(ffxiPolConfigExe, null, ProcessParams.Shell(enableEvents: false, verb: "runas"));
                 case ConfigApp.FinalFantasyXI:
-                    return Launcher.Launch(ffxiGameConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
+                    return Launcher.Launch(ffxiGameConfigExe, null, ProcessParams.Shell(enableEvents: false, verb: "runas"));
                 case ConfigApp.Gamepad:
-                    return Launcher.Launch(ffxiGamepadConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
+                    return Launcher.Launch(ffxiGamepadConfigExe, null, ProcessParams.Shell(enableEvents: false, verb: "runas"));
             }
             return null;
         }

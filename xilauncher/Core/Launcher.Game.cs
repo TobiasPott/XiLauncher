@@ -13,10 +13,10 @@
             if (_procLoader is not null)
                 return false;
 
-            this.OnProcessChanged(LauncherModules.Loader, LauncherState.Starting);
+            this.OnProcessChanged(Modules.Loader, LauncherState.Starting);
             XiLog.WriteLine("Starting game instance...");
             _procLoader = await LaunchAsync(_resources.fileLoaderExe, _resources.dirLoader,
-                ProcessLaunchParams.Shell(config.ToArguments(), verb: "runas"));
+                ProcessParams.Shell(config.ToArguments(), verb: "runas"));
             //true, true, "runas");
             if (_procLoader is not null)
             {
@@ -25,7 +25,7 @@
             }
             else XiLog.WriteLine("Loader failed to start!");
 
-            this.OnProcessChanged(LauncherModules.Loader, _procLoader is not null ? LauncherState.Running : LauncherState.Errored);
+            this.OnProcessChanged(Modules.Loader, _procLoader is not null ? LauncherState.Running : LauncherState.Errored);
             return _procLoader is not null;
         }
 
@@ -36,7 +36,7 @@
         /// <returns>The completed task of killing & resetting the game process instance</returns>
         private async Task StopGame()
         {
-            if (await this.StopProcess(_procLoader, LauncherModules.Loader))
+            if (await this.StopProcess(_procLoader, Modules.Loader))
                 _procLoader = null;
         }
 
@@ -48,7 +48,7 @@
 
                 XiLog.WriteLine("Xi loader process was exited.");
                 await Task.Delay(16);
-                this.OnProcessChanged(LauncherModules.Loader, LauncherState.Stopped);
+                this.OnProcessChanged(Modules.Loader, LauncherState.Stopped);
             }
         }
 

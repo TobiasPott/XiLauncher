@@ -50,29 +50,29 @@
         {
             if (!EnsureDatabaseConfig())
             {
-                this.OnProcessChanged(LauncherModules.Database, LauncherState.Errored);
+                this.OnProcessChanged(Modules.Database, LauncherState.Errored);
                 return false;
             }
             if (!EnsureDatabaseEnvironmentVariable())
             {
-                this.OnProcessChanged(LauncherModules.Database, LauncherState.Errored);
+                this.OnProcessChanged(Modules.Database, LauncherState.Errored);
                 return false;
             }
 
             if (_procDatabase is not null)
                 return false;
 
-            this.OnProcessChanged(LauncherModules.Database, LauncherState.Starting);
+            this.OnProcessChanged(Modules.Database, LauncherState.Starting);
             XiLog.WriteLine("Starting local database...");
             _procDatabase = await LaunchAsync(_resources.fileMysqldExe, _resources.dirMariadb,
-                ProcessLaunchParams.DefaultWithArgs(xiMariadbArgs, redirectStreams: true));
+                ProcessParams.DefaultWithArgs(xiMariadbArgs, redirectStreams: true));
             //true, false, "", true);
 
             if (_procDatabase is not null) XiLog.WriteLine("Started local database.");
             else XiLog.WriteLine("Database failed to start!");
             XiLogProcessRedirector.DatabaseRedirector.Attach(_procDatabase);
 
-            this.OnProcessChanged(LauncherModules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
+            this.OnProcessChanged(Modules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
             return _procDatabase is not null;
         }
 
@@ -82,7 +82,7 @@
         /// <returns>The completed task of killing & resetting the database process instance</returns>
         private async Task StopDatabase()
         {
-            if (await this.StopProcess(_procDatabase, LauncherModules.Database, XiLogProcessRedirector.DatabaseRedirector))
+            if (await this.StopProcess(_procDatabase, Modules.Database, XiLogProcessRedirector.DatabaseRedirector))
                 _procDatabase = null;
         }
 
