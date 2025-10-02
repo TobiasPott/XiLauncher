@@ -8,7 +8,7 @@ namespace xilauncher
     /// <summary>
     /// Enumeration of states the different modules' processes can be in
     /// </summary>
-    public enum LauncherState
+    public enum ELauncherState
     {
         Stopped,
         Starting,
@@ -22,7 +22,7 @@ namespace xilauncher
     /// </summary>
     /// <param name="modules">a bitmask of modules that have their state changed</param>
     /// <param name="state">the state the given modules have changed to</param>
-    public delegate void LauncherEvent(Launcher.Modules modules, LauncherState state);
+    public delegate void LauncherEvent(Launcher.EModules modules, ELauncherState state);
 
     /// <summary>
     /// Class that provides access to subprocesses & resources and internally tracks the running instances
@@ -34,9 +34,32 @@ namespace xilauncher
         /// Enumerations of modules the launcher internally works with
         /// </summary>
         [Flags()]
-        public enum Modules
+        public enum EModules
         {
             Default = 0,
+            Environment = 1,
+            XiConnect = 2,
+            XiSearch = 4,
+            XiWorld = 8,
+            XiMap = 16,
+            Database = 32,
+            Loader = 64,
+        }
+
+        public static readonly Dictionary<EModules, string> ModuleNames = new Dictionary<EModules, string>() {
+            { EModules.Default, "Default" },
+            { EModules.Environment, "&Environment" },
+            { EModules.XiConnect, "Xi &Connect" },
+            { EModules.XiSearch, "Xi &Search" },
+            { EModules.XiWorld, "Xi &World" },
+            { EModules.XiMap, "Xi &Map" },
+            { EModules.Database, "&Database" },
+            { EModules.Loader, "&Game" },
+
+        };
+        public enum EModuleNames
+        {
+            Default,
             Environment = 1,
             XiConnect = 2,
             XiSearch = 4,
@@ -66,7 +89,7 @@ namespace xilauncher
         /// </summary>
         public LauncherResources Resources { get { return _resources; } }
 
-        private void OnProcessChanged(Modules modules, LauncherState state)
+        private void OnProcessChanged(EModules modules, ELauncherState state)
         {
             ProcessChanged?.Invoke(modules, state);
         }
@@ -85,12 +108,12 @@ namespace xilauncher
         /// <returns>A task that represents a exiting function and it's progress</returns>
         public async Task Exit(bool stopDatabase, bool stopServer, bool stopGame)
         {
-            if (stopGame) await StopModule(Modules.Loader);
-            if (stopServer) await StopModule(Modules.Environment);
-            if (stopDatabase) await StopModule(Modules.Database);
+            if (stopGame) await StopModule(EModules.Loader);
+            if (stopServer) await StopModule(EModules.Environment);
+            if (stopDatabase) await StopModule(EModules.Database);
         }
 
-        public async Task<bool> StartModule(Modules module, IWin32Window? owner = null)
+        public async Task<bool> StartModule(EModules module, IWin32Window? owner = null)
         {
             if (this.IsProcessActive(module))
             {
@@ -108,47 +131,47 @@ namespace xilauncher
 
             return false;
         }
-        private async Task StopModule(Modules module)
+        private async Task StopModule(EModules module)
         {
             switch (module)
             {
-                case Modules.Default: break;
-                case Modules.Environment:
+                case EModules.Default: break;
+                case EModules.Environment:
                     await this.StopEnvironment(); break;
-                case Modules.XiConnect:
+                case EModules.XiConnect:
                     await StopXiConnectServer(); break;
-                case Modules.XiSearch:
+                case EModules.XiSearch:
                     await StopXiSearchServer(); break;
-                case Modules.XiWorld:
+                case EModules.XiWorld:
                     await StopXiWorldServer(); break;
-                case Modules.XiMap:
+                case EModules.XiMap:
                     await StopXiMapServer(); break;
-                case Modules.Database:
+                case EModules.Database:
                     await StopDatabase(); break;
-                case Modules.Loader:
+                case EModules.Loader:
                     await this.StopGame(); break;
             }
         }
 
-        private async Task<bool> LaunchModule(Modules module)
+        private async Task<bool> LaunchModule(EModules module)
         {
             switch (module)
             {
-                case Modules.Default:
+                case EModules.Default:
                     return false;
-                case Modules.Environment:
+                case EModules.Environment:
                     return await this.LaunchEnvironment(CancellationToken.None);
-                case Modules.XiConnect:
+                case EModules.XiConnect:
                     return await this.LaunchXiConnectServer(CancellationToken.None);
-                case Modules.XiSearch:
+                case EModules.XiSearch:
                     return await this.LaunchXiSearchServer(CancellationToken.None);
-                case Modules.XiWorld:
+                case EModules.XiWorld:
                     return await this.LaunchXiWorldServer(CancellationToken.None);
-                case Modules.XiMap:
+                case EModules.XiMap:
                     return await this.LaunchXiMapServer(CancellationToken.None);
-                case Modules.Database:
+                case EModules.Database:
                     return await this.LaunchDatabase();
-                case Modules.Loader:
+                case EModules.Loader:
                     if (LauncherSettings.Default.StoredAccount != null)
                         return await this.LaunchGame(LauncherSettings.Default.StoredAccount);
                     return false;
@@ -177,13 +200,13 @@ namespace xilauncher
         //}
 
 
-        private async Task<Process?> StartProcess(Process? proc, Modules module,
+        private async Task<Process?> StartProcess(Process? proc, EModules module,
             XiLogProcessRedirector? redirector = null, FileInfo? file = null, DirectoryInfo? workingDir = null, ProcessParams launchParams = default)
         {
             if (proc is not null)
                 return null; // return to indicate no new process was started
 
-            this.OnProcessChanged(module, LauncherState.Starting);
+            this.OnProcessChanged(module, ELauncherState.Starting);
             XiLog.WriteLine($"Starting {module} instance...");
 
             _procLoader = await LaunchAsync(file, workingDir, launchParams);
@@ -194,18 +217,18 @@ namespace xilauncher
             }
             else XiLog.WriteLine("Loader failed to start!");
 
-            this.OnProcessChanged(Modules.Loader, _procLoader is not null ? LauncherState.Running : LauncherState.Errored);
+            this.OnProcessChanged(EModules.Loader, _procLoader is not null ? ELauncherState.Running : ELauncherState.Errored);
 
             return proc;
         }
 
-        private async Task<bool> StopProcess(Process? proc, Modules module, XiLogProcessRedirector? redirector = null)
+        private async Task<bool> StopProcess(Process? proc, EModules module, XiLogProcessRedirector? redirector = null)
         {
             // check if process is null reference
             if (proc is null)
                 return false;
 
-            this.OnProcessChanged(module, LauncherState.Stopping);
+            this.OnProcessChanged(module, ELauncherState.Stopping);
             await Task.Delay(16);
             proc.Kill(true);
             // detach log redirector
@@ -214,7 +237,7 @@ namespace xilauncher
             XiLog.WriteLine($"Stopped {module}.");
             proc = null;
             await Task.Delay(16);
-            this.OnProcessChanged(module, LauncherState.Stopped);
+            this.OnProcessChanged(module, ELauncherState.Stopped);
             return true;
         }
 

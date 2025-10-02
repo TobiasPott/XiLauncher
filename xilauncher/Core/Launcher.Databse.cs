@@ -50,19 +50,19 @@
         {
             if (!EnsureDatabaseConfig())
             {
-                this.OnProcessChanged(Modules.Database, LauncherState.Errored);
+                this.OnProcessChanged(EModules.Database, ELauncherState.Errored);
                 return false;
             }
             if (!EnsureDatabaseEnvironmentVariable())
             {
-                this.OnProcessChanged(Modules.Database, LauncherState.Errored);
+                this.OnProcessChanged(EModules.Database, ELauncherState.Errored);
                 return false;
             }
 
             if (_procDatabase is not null)
                 return false;
 
-            this.OnProcessChanged(Modules.Database, LauncherState.Starting);
+            this.OnProcessChanged(EModules.Database, ELauncherState.Starting);
             XiLog.WriteLine("Starting local database...");
             _procDatabase = await LaunchAsync(_resources.fileMysqldExe, _resources.dirMariadb,
                 ProcessParams.DefaultWithArgs(xiMariadbArgs, redirectStreams: true));
@@ -72,7 +72,7 @@
             else XiLog.WriteLine("Database failed to start!");
             XiLogProcessRedirector.DatabaseRedirector.Attach(_procDatabase);
 
-            this.OnProcessChanged(Modules.Database, _procDatabase is not null ? LauncherState.Running : LauncherState.Errored);
+            this.OnProcessChanged(EModules.Database, _procDatabase is not null ? ELauncherState.Running : ELauncherState.Errored);
             return _procDatabase is not null;
         }
 
@@ -82,7 +82,7 @@
         /// <returns>The completed task of killing & resetting the database process instance</returns>
         private async Task StopDatabase()
         {
-            if (await this.StopProcess(_procDatabase, Modules.Database, XiLogProcessRedirector.DatabaseRedirector))
+            if (await this.StopProcess(_procDatabase, EModules.Database, XiLogProcessRedirector.DatabaseRedirector))
                 _procDatabase = null;
         }
 

@@ -67,25 +67,25 @@
         #endregion
 
 
-        public bool IsAvailable(Launcher.Modules module)
+        public bool IsAvailable(Launcher.EModules module)
         {
             switch (module)
             {
-                case Launcher.Modules.Default:
+                case Launcher.EModules.Default:
                     return false;
-                case Launcher.Modules.Environment:
+                case Launcher.EModules.Environment:
                     return fileConnectExe.IsValid() && fileSearchExe.IsValid() && fileWorldExe.IsValid() && fileMapExe.IsValid();
-                case Launcher.Modules.XiConnect:
+                case Launcher.EModules.XiConnect:
                     return fileConnectExe.IsValid();
-                case Launcher.Modules.XiSearch:
+                case Launcher.EModules.XiSearch:
                     return fileSearchExe.IsValid();
-                case Launcher.Modules.XiWorld:
+                case Launcher.EModules.XiWorld:
                     return fileWorldExe.IsValid();
-                case Launcher.Modules.XiMap:
+                case Launcher.EModules.XiMap:
                     return fileMapExe.IsValid();
-                case Launcher.Modules.Database:
+                case Launcher.EModules.Database:
                     return fileMysqldExe.IsValid();
-                case Launcher.Modules.Loader:
+                case Launcher.EModules.Loader:
                     return fileLoaderExe.IsValid();
             }
             return false;
