@@ -64,20 +64,34 @@
         internal FileInfo? fileMyIni { get; private set; }
         internal DirectoryInfo? dirMysqlData { get; private set; }
         internal DirectoryInfo? dirMysqlPlugin { get; private set; }
-
-
-        public bool IsDatabaseAvailable => fileMysqldExe.IsValid();
-        public bool IsLoaderAvailable => fileLoaderExe.IsValid();
-
-        public bool IsEnvironmentAvailable => IsXiConnectAvailable
-                                                    && IsXiSearchAvailable
-                                                    && IsXiWorldAvailable
-                                                    && IsXiMapAvailable;
-        public bool IsXiConnectAvailable => fileConnectExe.IsValid();
-        public bool IsXiSearchAvailable => fileSearchExe.IsValid();
-        public bool IsXiWorldAvailable => fileWorldExe.IsValid();
-        public bool IsXiMapAvailable => fileMapExe.IsValid();
         #endregion
+
+
+        public bool IsAvailable(LauncherModules module)
+        {
+            switch (module)
+            {
+                case LauncherModules.Default:
+                    return false;
+                case LauncherModules.Environment:
+                    return fileConnectExe.IsValid() && fileSearchExe.IsValid() && fileWorldExe.IsValid() && fileMapExe.IsValid();
+                case LauncherModules.XiConnect:
+                    return fileConnectExe.IsValid();
+                case LauncherModules.XiSearch:
+                    return fileSearchExe.IsValid();
+                case LauncherModules.XiWorld:
+                    return fileWorldExe.IsValid();
+                case LauncherModules.XiMap:
+                    return fileMapExe.IsValid();
+                case LauncherModules.Database:
+                    return fileMysqldExe.IsValid();
+                case LauncherModules.Loader:
+                    return fileLoaderExe.IsValid();
+            }
+            return false;
+        }
+
+
 
 
         public LauncherResources()

@@ -2,22 +2,31 @@
 {
     public partial class Launcher
     {
-        /// <summary>
-        /// returns whether or not the environment processes started by the launcher were started already
-        /// </summary>
-        public bool IsEnvironmentActive => _procConnect is not null
-                    && _procSearch is not null
-                    && _procWorld is not null
-                    && _procMap is not null;
 
-        public bool IsXiConnectActive => _procConnect is not null;
-        public bool IsXiSearchActive => _procSearch is not null;
-        public bool IsXiWorldActive => _procWorld is not null;
-        public bool IsXiMapActive => _procMap is not null;
-        public bool IsXiConnectAvailable => _resources.IsXiConnectAvailable;
-        public bool IsXiSearchAvailable => _resources.IsXiSearchAvailable;
-        public bool IsXiWorldAvailable => _resources.IsXiWorldAvailable;
-        public bool IsXiMapAvailable => _resources.IsXiMapAvailable;
+        public bool IsProcessActive(LauncherModules module)
+        {
+            switch (module)
+            {
+                case LauncherModules.Default:
+                    return false;
+                case LauncherModules.Environment:
+                    return _procConnect is not null && _procSearch is not null && _procWorld is not null && _procMap is not null;
+                case LauncherModules.XiConnect:
+                    return _procConnect is not null;
+                case LauncherModules.XiSearch:
+                    return _procSearch is not null;
+                case LauncherModules.XiWorld:
+                    return _procWorld is not null;
+                case LauncherModules.XiMap:
+                    return _procMap is not null;
+                case LauncherModules.Database:
+                    return _procDatabase is not null;
+                case LauncherModules.Loader:
+                    return _procLoader is not null; break;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 
         /// Launches a new instances of each environment process (if none was started yet).
@@ -25,7 +34,7 @@
         /// </summary>
         /// <param name="cancellationToken">token to cancel the launch process during startup</param>
         /// <returns>true if a processes were started, false otherwise</returns>
-        public async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
+        private async Task<bool> LaunchEnvironment(CancellationToken cancellationToken = default)
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Starting);
             await LaunchXiConnectServer(cancellationToken);
@@ -43,10 +52,11 @@
                 await StopEnvironment();
             }
 
-            return IsDatabaseProcessActive;
+            await Task.Delay(100, cancellationToken);
+            return IsProcessActive(LauncherModules.Environment);
         }
 
-        public async Task<bool> LaunchXiMapServer(CancellationToken cancellationToken)
+        private async Task<bool> LaunchXiMapServer(CancellationToken cancellationToken)
         {
             if (_procMap is null)
             {
@@ -54,8 +64,8 @@
                 XiLog.WriteLine("Starting server's xi_map...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procMap = await LaunchAsync(_resources.fileMapExe, "", _resources.dirServer,
-                        true, false, "", true);
+                    _procMap = await LaunchAsync(_resources.fileMapExe, _resources.dirServer, ProcessLaunchParams.Default);
+                    //true, false, "", true);
                     if (_procMap is not null)
                     {
                         XiLog.WriteLine("...xi_map is running.");
@@ -68,7 +78,7 @@
             }
             return false;
         }
-        public async Task<bool> LaunchXiWorldServer(CancellationToken cancellationToken)
+        private async Task<bool> LaunchXiWorldServer(CancellationToken cancellationToken)
         {
             if (_procWorld is null)
             {
@@ -76,8 +86,8 @@
                 XiLog.WriteLine("Starting server's xi_world...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procWorld = await LaunchAsync(_resources.fileWorldExe, "", _resources.dirServer,
-                        true, false, "", true);
+                    _procWorld = await LaunchAsync(_resources.fileWorldExe, _resources.dirServer, ProcessLaunchParams.Default);
+                    //true, false, "", true);
                     if (_procWorld is not null)
                     {
                         XiLog.WriteLine("...xi_world is running.");
@@ -90,7 +100,7 @@
             }
             return false;
         }
-        public async Task<bool> LaunchXiSearchServer(CancellationToken cancellationToken)
+        private async Task<bool> LaunchXiSearchServer(CancellationToken cancellationToken)
         {
             if (_procSearch is null)
             {
@@ -98,8 +108,8 @@
                 XiLog.WriteLine("Starting server's xi_search...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procSearch = await LaunchAsync(_resources.fileSearchExe, "", _resources.dirServer,
-                        true, false, "", true);
+                    _procSearch = await LaunchAsync(_resources.fileSearchExe, _resources.dirServer, ProcessLaunchParams.Default);
+                        //true, false, "", true);
                     if (_procSearch is not null)
                     {
                         XiLog.WriteLine("...xi_search is running.");
@@ -112,7 +122,7 @@
             }
             return false;
         }
-        public async Task<bool> LaunchXiConnectServer(CancellationToken cancellationToken)
+        private async Task<bool> LaunchXiConnectServer(CancellationToken cancellationToken)
         {
             if (_procConnect is null)
             {
@@ -120,13 +130,12 @@
                 XiLog.WriteLine("Starting server's xi_connect...");
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    _procConnect = await LaunchAsync(_resources.fileConnectExe, "", _resources.dirServer,
-                        true, false, "", true);
+                    _procConnect = await LaunchAsync(_resources.fileConnectExe, _resources.dirServer, ProcessLaunchParams.Default);
+                        //true, false, "", true);
                     if (_procConnect is not null)
                     {
                         XiLog.WriteLine("...xi_connect is running.");
                         XiLogProcessRedirector.XiConnectRedirector.Attach(_procConnect);
-                        // ToDo: @tpott: ponder if it makes sense to remove 'Environment' or change it to a combination of the Xi modules
                         this.OnProcessChanged(LauncherModules.XiConnect | LauncherModules.Environment, LauncherState.Running);
                         return true;
                     }
@@ -140,7 +149,7 @@
         /// Stops the active instances of the environment processes
         /// </summary>
         /// <returns>The completed task of killing & resetting the environment process instances</returns>
-        public async Task StopEnvironment()
+        private async Task StopEnvironment()
         {
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopping);
             await StopXiMapServer();
@@ -153,53 +162,25 @@
             this.OnProcessChanged(LauncherModules.Environment, LauncherState.Stopped);
         }
 
-        public async Task StopXiConnectServer()
+        private async Task StopXiConnectServer()
         {
-            if (_procConnect is not null)
-            {
-                _procConnect.Kill(true);
+            if (await this.StopProcess(_procConnect, LauncherModules.XiConnect, XiLogProcessRedirector.XiConnectRedirector))
                 _procConnect = null;
-                XiLogProcessRedirector.XiConnectRedirector.Detach();
-                await Task.Delay(33);
-                this.OnProcessChanged(LauncherModules.XiConnect, LauncherState.Stopped);
-                XiLog.WriteLine("Stopped xi_connect server.");
-            }
         }
-        public async Task StopXiSearchServer()
+        private async Task StopXiSearchServer()
         {
-            if (_procSearch is not null)
-            {
-                _procSearch.Kill(true);
+            if (await this.StopProcess(_procSearch, LauncherModules.XiSearch, XiLogProcessRedirector.XiSearchRedirector))
                 _procSearch = null;
-                XiLogProcessRedirector.XiSearchRedirector.Detach();
-                await Task.Delay(33);
-                this.OnProcessChanged(LauncherModules.XiSearch, LauncherState.Stopped);
-                XiLog.WriteLine("Stopped xi_search server.");
-            }
         }
-        public async Task StopXiWorldServer()
+        private async Task StopXiWorldServer()
         {
-            if (_procWorld is not null)
-            {
-                _procWorld.Kill(true);
+            if (await this.StopProcess(_procWorld, LauncherModules.XiWorld, XiLogProcessRedirector.XiWorldRedirector))
                 _procWorld = null;
-                XiLogProcessRedirector.XiWorldRedirector.Detach();
-                await Task.Delay(33);
-                this.OnProcessChanged(LauncherModules.XiWorld, LauncherState.Stopped);
-                XiLog.WriteLine("Stopped xi_world server.");
-            }
         }
-        public async Task StopXiMapServer()
+        private async Task StopXiMapServer()
         {
-            if (_procMap is not null)
-            {
-                _procMap.Kill(true);
+            if (await this.StopProcess(_procMap, LauncherModules.XiMap, XiLogProcessRedirector.XiMapRedirector))
                 _procMap = null;
-                XiLogProcessRedirector.XiMapRedirector.Detach();
-                await Task.Delay(33);
-                this.OnProcessChanged(LauncherModules.XiMap, LauncherState.Stopped);
-                XiLog.WriteLine("Stopped xi_map server.");
-            }
         }
 
     }

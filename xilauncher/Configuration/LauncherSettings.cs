@@ -2,9 +2,7 @@
 {
     internal sealed class LauncherSettings : global::System.Configuration.ApplicationSettingsBase
     {
-
-        private static LauncherSettings defaultInstance = ((LauncherSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new LauncherSettings())));
-        public static LauncherSettings Default => defaultInstance;
+        public static LauncherSettings Default { get; } = ((LauncherSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new LauncherSettings())));
 
 
         [global::System.Configuration.UserScopedSettingAttribute()]

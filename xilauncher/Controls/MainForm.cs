@@ -1,26 +1,9 @@
 using ReaLTaiizor.Forms;
 using xilauncher.Configuration;
 using xilauncher.Controls;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace xilauncher
 {
-    /*
-    HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer
-    HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\PlayOnlineUS\SquareEnix\PlayOnlineViewer\Settings
-
-    FullScreen 			0   (?? 0 or 1) 
-    Language			1   (?? unclear)
-    PlayAudio			1   (?? 0 or 1)
-    PlayOpeningMovie	1   (?? 0 or 1)
-    ResetSettings		0   (?? 0 or 1)
-    SupportLanguage		1   (?? unclear)
-    UseGameController	0   (?? 0 or 1)
-    WindowH				480 (?? width in pixel)
-    WindowW				640 (?? height in pixel)
-    WindowX				256 (?? x position on screen)
-    WindowY				256 (?? x position on screen)
-        */
     public partial class MainForm : PoisonForm
     {
         /// <summary>
@@ -62,21 +45,21 @@ namespace xilauncher
             XiLog.WriteLine("Refreshed to: " + _launcher.Resources.dirBase.FullName);
 
             // update button states based on availability of resources and external files
-            pbStartGame.Enabled = _launcher.Resources.IsLoaderAvailable;
-            pbOpenGameLog.Enabled = _launcher.Resources.IsLoaderAvailable;
+            pbStartGame.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Loader);
+            pbOpenGameLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Loader);
 
-            pbStartEnvironment.Enabled = _launcher.Resources.IsEnvironmentAvailable;
-            pbStartXiConnect.Enabled = pbViewLogXiConnect.Enabled = pbOpenConnectLog.Enabled = _launcher.Resources.IsXiConnectAvailable;
-            pbStartXiSearch.Enabled = pbViewLogXiSearch.Enabled = pbOpenSearchLog.Enabled = _launcher.Resources.IsXiSearchAvailable;
-            pbStartXiWorld.Enabled = pbViewLogXiWorld.Enabled = pbOpenWorldLog.Enabled = _launcher.Resources.IsXiWorldAvailable;
-            pbStartXiMap.Enabled = pbViewLogXiMap.Enabled = pbOpenMapLog.Enabled = _launcher.Resources.IsXiMapAvailable;
+            pbStartEnvironment.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Environment);
+            pbStartXiConnect.Enabled = pbViewLogXiConnect.Enabled = pbOpenConnectLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiConnect);
+            pbStartXiSearch.Enabled = pbViewLogXiSearch.Enabled = pbOpenSearchLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiSearch);
+            pbStartXiWorld.Enabled = pbViewLogXiWorld.Enabled = pbOpenWorldLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiWorld);
+            pbStartXiMap.Enabled = pbViewLogXiMap.Enabled = pbOpenMapLog.Enabled = _launcher.Resources.IsAvailable(LauncherModules.XiMap);
 
-            pbStartDatabase.Enabled = _launcher.Resources.IsDatabaseAvailable;
-            pbOpenDatabaseLog.Enabled = pbViewLogDatabase.Enabled = _launcher.Resources.IsDatabaseAvailable;
+            pbStartDatabase.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Database);
+            pbOpenDatabaseLog.Enabled = pbViewLogDatabase.Enabled = _launcher.Resources.IsAvailable(LauncherModules.Database);
 
-            pbOpenConfigGame.Enabled = ExternalConfigrations.Instance.IsGameConfigSupported;
-            pbOpenConfigGamepad.Enabled = ExternalConfigrations.Instance.IsGamepadConfigSupported;
-            pbOpenConfigPlayOnline.Enabled = ExternalConfigrations.Instance.IsPlayOnlineConfigSupported;
+            pbOpenConfigGame.Enabled = ExternalConfigurations.Instance.IsGameConfigSupported;
+            pbOpenConfigGamepad.Enabled = ExternalConfigurations.Instance.IsGamepadConfigSupported;
+            pbOpenConfigPlayOnline.Enabled = ExternalConfigurations.Instance.IsPlayOnlineConfigSupported;
         }
 
         /// <summary>
@@ -120,135 +103,33 @@ namespace xilauncher
             }));
         }
 
+
         private async void ButtonLaunchGame_Click(object sender, EventArgs e)
         {
-            if (_launcher.IsLoaderProcessActive)
+            if (await _launcher.StartModule(LauncherModules.Database))
             {
-                string message = String.Format($"Game{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess,
-                        MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopGame();
-                }
+                // save changes to launcher settings (e.g. stored account)
+                LauncherSettings.Default.Save();
             }
-            else
-            {
-                this.userConfigControl.GetConfig(ref _currentAccount);
-                if (await _launcher.LaunchGame(_currentAccount))
-                {
-                    LauncherSettings.Default.StoredAccount = _currentAccount;
-                    LauncherSettings.Default.Save();
-                }
-            }
-            await Task.CompletedTask;
         }
-        private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsXiConnectActive)
-            {
-                string message = String.Format($"Environment{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcesses, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    // ToDo: @tpott: introduce a launcher module type that is interfaced with "Start/Stop" 
-                    //              this should allow to generalise these UI functions and identify what process to call by the flags provided
-                    //          -> might instead add Strat/Stop with a LauncherModules argument to the Launcher type that internally directy to the correct module
-                    //              this would be way less change with same result (and keeping it inside Launcher class)
-                    await _launcher.StopEnvironment();
-                }
-            }
-            else if (await _launcher.LaunchEnvironment())
-            { }
-            await Task.CompletedTask;
-        }
-        private async void ButtonLaunchXiConnect_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsEnvironmentActive)
-            {
-                string message = String.Format($"Xi Connect{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopXiConnectServer();
-                }
-            }
-            else if (await _launcher.LaunchXiConnectServer(CancellationToken.None))
-            { }
-            await Task.CompletedTask;
-        }
-        private async void ButtonLaunchXiSearch_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsEnvironmentActive)
-            {
-                string message = String.Format($"Xi Search{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopXiSearchServer();
-                }
-            }
-            else if (await _launcher.LaunchXiSearchServer(CancellationToken.None))
-            { }
-            await Task.CompletedTask;
-        }
-        private async void ButtonLaunchXiWorld_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsEnvironmentActive)
-            {
-                string message = String.Format($"Xi World{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopXiWorldServer();
-                }
-            }
-            else if (await _launcher.LaunchXiWorldServer(CancellationToken.None))
-            { }
-            await Task.CompletedTask;
-        }
-        private async void ButtonLaunchXiMap_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsEnvironmentActive)
-            {
-                string message = String.Format($"Xi Map{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopXiMapServer();
-                }
-            }
-            else if (await _launcher.LaunchXiMapServer(CancellationToken.None))
-            { }
-            await Task.CompletedTask;
-        }
-
-        private async void ButtonLaunchDatabase_Click(object sender, EventArgs e)
-        {
-            if (_launcher.IsDatabaseProcessActive)
-            {
-                string message = String.Format($"Database{UITexts.MsgBox_Msg_IsRunning}");
-                DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, UITexts.MsgBox_Title_StopProcess, MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
-                {
-                    await _launcher.StopDatabase();
-                }
-            }
-            else if (await _launcher.LaunchDatabase())
-            { }
-            await Task.CompletedTask;
-        }
-
+        private async void ButtonLaunchEnvironment_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.Environment);
+        private async void ButtonLaunchXiConnect_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiConnect);
+        private async void ButtonLaunchXiSearch_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiSearch);
+        private async void ButtonLaunchXiWorld_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiWorld);
+        private async void ButtonLaunchXiMap_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.XiMap);
+        private async void ButtonLaunchDatabase_Click(object sender, EventArgs e) => await _launcher.StartModule(LauncherModules.Database);
         private async void ButtonQuitLauncher_Click(object sender, EventArgs e)
         {
+            bool activeDatabase = _launcher.IsProcessActive(LauncherModules.Database);
+            bool activeEnvironment = _launcher.IsProcessActive(LauncherModules.Environment);
+            bool activeLoader = _launcher.IsProcessActive(LauncherModules.Loader);
             // check if any processes are active to prompt for confirmation
-            if (_launcher.IsDatabaseProcessActive || _launcher.IsEnvironmentActive
-                || _launcher.IsLoaderProcessActive)
+            if (activeDatabase || activeEnvironment || activeLoader)
             {
                 string message = String.Format($"Processes are running. {Environment.NewLine}" +
-                    $"Game:\t\t{(_launcher.IsLoaderProcessActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
-                    $"Database:\t{(_launcher.IsDatabaseProcessActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
-                    $"Server:\t\t{(_launcher.IsEnvironmentActive ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
+                    $"Game:\t\t{(activeLoader ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
+                    $"Database:\t{(activeDatabase ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
+                    $"Server:\t\t{(activeEnvironment ? UITexts.Word_Running : UITexts.Word_Stopped)}{Environment.NewLine}" +
                     $"{Environment.NewLine}");
                 DialogResult result = ReaLTaiizor.Controls.PoisonMessageBox.Show(this, message, "Stop processes and Quit?", MessageBoxButtons.YesNo, this.Height);
                 if (result == DialogResult.Yes)
@@ -263,60 +144,39 @@ namespace xilauncher
         }
 
 
-        //private Dictionary<XiLog.XiLogCategory, XiLogForm?> logForms = new Dictionary<XiLog.XiLogCategory, XiLogForm?>() {
-        //    { XiLog.XiLogCategory.Database, null },
-        //    { XiLog.XiLogCategory.ConnectServer, null },
-        //    { XiLog.XiLogCategory.SearchServer, null },
-        //    { XiLog.XiLogCategory.WorldServer, null },
-        //    { XiLog.XiLogCategory.MapServer, null }
-        //};
-
-        private Controls.XiLogForm? logFormXiConnect;
-        private void OpenLogXiConnectButton_Click(object sender, EventArgs e) =>
-            XiLogForm.Open(ref logFormXiConnect, XiLog.XiLogCategory.ConnectServer, LogFormXiConnect_FormClosed);
+        private XiLogForm? logFormXiConnect;
+        private void OpenLogXiConnectButton_Click(object sender, EventArgs e) => XiLogForm.Open(ref logFormXiConnect, XiLog.XiLogCategory.ConnectServer, LogFormXiConnect_FormClosed);
         private void LogFormXiConnect_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiConnect = null; this.Focus(); }
 
-        private Controls.XiLogForm? logFormXiSearch;
-        private void OpenLogXiSearchButton_Click(object sender, EventArgs e) =>
-            XiLogForm.Open(ref logFormXiSearch, XiLog.XiLogCategory.SearchServer, LogFormXiSearch_FormClosed);
+
+        private XiLogForm? logFormXiSearch;
+        private void OpenLogXiSearchButton_Click(object sender, EventArgs e) => XiLogForm.Open(ref logFormXiSearch, XiLog.XiLogCategory.SearchServer, LogFormXiSearch_FormClosed);
         private void LogFormXiSearch_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiSearch = null; this.Focus(); }
 
-        private Controls.XiLogForm? logFormXiWorld;
-        private void OpenLogXiWorldButton_Click(object sender, EventArgs e) =>
-            XiLogForm.Open(ref logFormXiWorld, XiLog.XiLogCategory.WorldServer, LogFormXiWorld_FormClosed);
+
+        private XiLogForm? logFormXiWorld;
+        private void OpenLogXiWorldButton_Click(object sender, EventArgs e) => XiLogForm.Open(ref logFormXiWorld, XiLog.XiLogCategory.WorldServer, LogFormXiWorld_FormClosed);
         private void LogFormXiWorld_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiWorld = null; this.Focus(); }
 
-        private Controls.XiLogForm? logFormXiMap;
-        private void OpenLogXiMapButton_Click(object sender, EventArgs e) =>
-            XiLogForm.Open(ref logFormXiMap, XiLog.XiLogCategory.MapServer, LogFormXiMap_FormClosed);
+
+        private XiLogForm? logFormXiMap;
+        private void OpenLogXiMapButton_Click(object sender, EventArgs e) => XiLogForm.Open(ref logFormXiMap, XiLog.XiLogCategory.MapServer, LogFormXiMap_FormClosed);
         private void LogFormXiMap_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormXiMap = null; this.Focus(); }
 
 
-        private Controls.XiLogForm? logFormDatabase;
-        private void OpenLogDatabaseButton_Click(object sender, EventArgs e) =>
-            XiLogForm.Open(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
+        private XiLogForm? logFormDatabase;
+        private void OpenLogDatabaseButton_Click(object sender, EventArgs e) => XiLogForm.Open(ref logFormDatabase, XiLog.XiLogCategory.Database, LogFormDatabase_FormClosed);
         private void LogFormDatabase_FormClosed(object? sender, FormClosedEventArgs e)
         { logFormDatabase = null; this.Focus(); }
 
 
-        private void OpenGameConfigButton_Click(object sender, EventArgs e)
-        {
-            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.FinalFantasyXI);
-        }
-
-        private void OpenGamepadConfigButton_Click(object sender, EventArgs e)
-        {
-            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.Gamepad);
-        }
-
-        private void OpenPlayOnlineConfigButton_Click(object sender, EventArgs e)
-        {
-            ExternalConfigrations.Instance.OpenConfigFor(ConfigApp.PlayOnline);
-        }
+        private void OpenGameConfigButton_Click(object sender, EventArgs e) => ExternalConfigurations.Instance.OpenConfigFor(ConfigApp.FinalFantasyXI);
+        private void OpenGamepadConfigButton_Click(object sender, EventArgs e) => ExternalConfigurations.Instance.OpenConfigFor(ConfigApp.Gamepad);
+        private void OpenPlayOnlineConfigButton_Click(object sender, EventArgs e) => ExternalConfigurations.Instance.OpenConfigFor(ConfigApp.PlayOnline);
 
     }
 }

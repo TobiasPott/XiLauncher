@@ -13,12 +13,12 @@ namespace xilauncher.Configuration
         Gamepad
     }
 
-    internal class ExternalConfigrations
+    internal class ExternalConfigurations
     {
         /// <summary>
         /// singleton instance which provides access to the external configuration apps
         /// </summary>
-        public static ExternalConfigrations Instance { get; private set; } = new ExternalConfigrations();
+        public static ExternalConfigurations Instance { get; private set; } = new ExternalConfigurations();
 
 
         private RegistryKey? regKeyIinstallFolders = Registry.LocalMachine
@@ -45,7 +45,7 @@ namespace xilauncher.Configuration
         public bool IsPlayOnlineConfigSupported => ffxiPolConfigExe != null && ffxiPolConfigExe.Exists;
 
 
-        private ExternalConfigrations()
+        private ExternalConfigurations()
         {
 
             if (regKeyIinstallFolders != null)
@@ -69,7 +69,7 @@ namespace xilauncher.Configuration
         }
 
         /// <summary>
-        /// Opens the provided externl configuratoin app
+        /// Opens the provided external configuration app
         /// </summary>
         /// <param name="configApp">the configuration app to open</param>
         /// <returns>the process for the started config app, or null if app couldn't be started.</returns>
@@ -78,11 +78,11 @@ namespace xilauncher.Configuration
             switch (configApp)
             {
                 case ConfigApp.PlayOnline:
-                    return Launcher.Launch(ffxiPolConfigExe, "", null, false, true, "runas");
+                    return Launcher.Launch(ffxiPolConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
                 case ConfigApp.FinalFantasyXI:
-                    return Launcher.Launch(ffxiGameConfigExe, "", null, false, true, "runas");
+                    return Launcher.Launch(ffxiGameConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
                 case ConfigApp.Gamepad:
-                    return Launcher.Launch(ffxiGamepadConfigExe, "", null, false, true, "runas");
+                    return Launcher.Launch(ffxiGamepadConfigExe, null, ProcessLaunchParams.Shell(enableEvents: false, verb: "runas"));
             }
             return null;
         }

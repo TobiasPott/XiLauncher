@@ -4,8 +4,6 @@
     {
         public const string ButtonLabel_StopFormat = "Stop ";
         public const string ButtonLabel_LaunchFormat = "Launch ";
-        //public const string ButtonLabel_StopFormatSpaced = "  Stop ";
-        //public const string ButtonLabel_LaunchFormatSpaced = "  Launch ";
 
 
         public const string MsgBox_Msg_IsRunning = " is running.";

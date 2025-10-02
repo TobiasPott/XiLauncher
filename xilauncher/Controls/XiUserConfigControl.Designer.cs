@@ -395,8 +395,6 @@
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel6;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel8;
         private ReaLTaiizor.Controls.PoisonPanel poisonPanel4;
-        private ReaLTaiizor.Controls.ToggleButton toggleButton1;
-        private ReaLTaiizor.Controls.ToggleButton toggleButton2;
         private ReaLTaiizor.Controls.ForeverToggle toggleHairpin;
         private ReaLTaiizor.Controls.ForeverToggle toggleCreateAccount;
     }
